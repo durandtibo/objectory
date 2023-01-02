@@ -28,7 +28,7 @@ def factory(_target_: str, *args, _init_: str = "__init__", **kwargs) -> Any:
 
     .. code-block:: python
 
-        >>> from objectory.universal import factory
+        >>> from objectory import factory
         >>> factory("collections.Counter", [1, 2, 1, 3])
         Counter({1: 2, 2: 1, 3: 1})
     """

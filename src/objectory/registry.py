@@ -73,8 +73,8 @@ class Registry:
             >>> registry = Registry()
             # Clear the main registry.
             >>> registry.clear()
-            # Clear only the sub-registry model.
-            >>> registry.model.clear()
+            # Clear only the sub-registry other.
+            >>> registry.other.clear()
             # Clear the main registry and its sub-registries.
             >>> registry.clear(nested=True)
         """
@@ -100,8 +100,8 @@ class Registry:
             >>> registry = Registry()
             # Clear the filters of the main registry.
             >>> registry.clear_filters()
-            # Clear the filters of the sub-registry model.
-            >>> registry.model.clear_filters()
+            # Clear the filters of the sub-registry other.
+            >>> registry.other.clear_filters()
             # Clear the filters of the main registry and all its sub-registries.
             >>> registry.clear_filters(nested=True)
         """
