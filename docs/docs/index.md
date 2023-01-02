@@ -78,42 +78,6 @@ print(obj)
 <__main__.MyClass object at 0x123456789>
 ```
 
-Please read the [documentation](https://durandtibo.github.io/objectory/) to learn more about these
-approaches.
-
-- [Documentation](https://durandtibo.github.io/objectory/)
-- [Installation](#installation)
-- [Contributing](#contributing)
-- [API stability](#api-stability)
-- [License](#license)
-
-## Installation
-
-We highly recommend installing
-a [virtual environment](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/).
-`objectory` can be installed from pip using the following command:
-
-```shell
-pip install objectory
-```
-
-Please check the [get started page](https://durandtibo.github.io/objectory/get_started) to see other
-alternatives to install the library.
-
-## Contributing
-
-Please let us know if you encounter a bug by filing an issue.
-
-We welcome contributions from anyone, even if you are new to open source.
-
-- If you are planning to contribute back bug-fixes, please do so without any further discussion.
-- If you plan to contribute new features, utility functions, or extensions to the core, please first
-  open an issue and discuss the feature with us.
-
-Once you implement and test your feature or bug-fix, please submit a Pull Request.
-
-Please feel free to open an issue to share your feedback or to request new features.
-
 ## API stability
 
 :warning: While `objectory` is in development stage, no API is guaranteed to be stable from one
