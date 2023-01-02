@@ -1,4 +1,4 @@
-# objectory = object + factory
+# Home
 
 <p align="center">
    <a href="https://github.com/durandtibo/objectory/actions">
@@ -126,5 +126,4 @@ was using the old version of `objectory`.
 ## License
 
 `objectory` is licensed under BSD 3-Clause "New" or "Revised" license available
-in [LICENSE](LICENSE)
-file.
+in [LICENSE](https://github.com/durandtibo/objectory/blob/main/LICENSE) file.
