@@ -526,6 +526,7 @@ def test_set_class_filter_register_invalid_object():
 def test_clear_filters(nested: bool):
     registry = Registry()
     registry.set_class_filter(ClassToRegister)
+    registry.register_object(ClassToRegister)
     assert registry._filters == {"class_filter": ClassToRegister}
     registry.clear_filters(nested)
     assert registry._filters == {}
