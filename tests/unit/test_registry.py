@@ -518,7 +518,7 @@ def test_set_class_filter_register_invalid_object():
     registry = Registry()
     registry.set_class_filter(dict)
     with raises(IncorrectObjectFactoryError):
-        # Should raise an error because ClassToRegister is not a child class of torch.nn.Module.
+        # Should raise an error because ClassToRegister is not a child class of dict.
         registry.register_object(int)
 
 

@@ -3,8 +3,8 @@ from collections import Counter
 
 from pytest import raises
 
+from objectory import factory
 from objectory.errors import AbstractClassFactoryError
-from objectory.universal import factory
 
 
 class BaseFakeClass(ABC):
