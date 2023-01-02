@@ -61,7 +61,3 @@ install it. Finally, you can test the installation with the following command:
 ```shell
 make unit-test-cov
 ```
-
-## Testing
-
-This repository is tested on Python 3.9, 3.10, 3.11 and Linux system.
