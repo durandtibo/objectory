@@ -57,7 +57,7 @@ print(obj)
 <__main__.MyClass object at 0x123456789>
 ```
 
-**registry**
+**[registry](registry.md)**
 
 ```python
 from objectory import Registry

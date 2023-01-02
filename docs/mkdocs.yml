@@ -20,6 +20,7 @@ nav:
   - Home: index.md
   - get_started.md
   - User Guide:
+      - registry.md
       - name_resolution.md
   - GitHub: https://github.com/durandtibo/objectory
 
