@@ -31,12 +31,55 @@ A light Python library for general purpose object factories.
 In particular, it focuses on dynamic object factory implementations where objects can be registered
 dynamically without changing the code of the factory.
 An object factory can be used to instantiate an object from its configuration.
-The current implementation contains the following approaches:
+The current implementation contains both abstract factory and and registry approaches.
 
-- abstract factory
-- registry
+**abstract factory**
 
-Please read the [documentation](https://durandtibo.github.io/objectory/) to learn more about these approaches.
+```python
+from objectory import AbstractFactory
+
+
+class BaseClass(metaclass=AbstractFactory):
+    pass
+
+
+class MyClass(BaseClass):
+    pass
+
+
+obj = BaseClass.factory("MyClass")
+print(obj)
+```
+
+*Output*:
+
+```textmate
+<__main__.MyClass object at 0x123456789>
+```
+
+**registry**
+
+```python
+from objectory import Registry
+
+registry = Registry()
+
+
+@registry.register()
+class MyClass:
+    pass
+
+
+obj = registry.factory("MyClass")
+print(obj)
+```
+
+```textmate
+<__main__.MyClass object at 0x123456789>
+```
+
+Please read the [documentation](https://durandtibo.github.io/objectory/) to learn more about these
+approaches.
 
 - [Documentation](https://durandtibo.github.io/objectory/)
 - [Installation](#installation)
