@@ -33,7 +33,21 @@ dynamically without changing the code of the factory.
 An object factory can be used to instantiate an object from its configuration.
 The current implementation contains both abstract factory and registry approaches.
 
-**abstract factory**
+**factory**
+
+```python
+from objectory import factory
+
+
+class MyClass:
+    pass
+
+
+obj = factory("MyClass")
+print(obj)
+```
+
+**[abstract factory](abstract_factory.md)**
 
 ```python
 from objectory import AbstractFactory
