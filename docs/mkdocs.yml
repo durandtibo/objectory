@@ -19,6 +19,8 @@ theme:
 nav:
   - Home: index.md
   - get_started.md
+  - User Guide:
+      - name_resolution.md
   - GitHub: https://github.com/durandtibo/objectory
 
 repo_url: https://github.com/durandtibo/objectory
