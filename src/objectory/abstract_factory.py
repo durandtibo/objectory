@@ -97,7 +97,7 @@ class AbstractFactory(ABCMeta):  # noqa: B024
             ...     pass
             >>> class MyClass(BaseClass):
             ...     pass
-            >>> BaseClass.factory(_target_="MyClass")
+            >>> BaseClass.factory("MyClass")
             <__main__.MyClass object at 0x123456789>
         """
         return instantiate_object(

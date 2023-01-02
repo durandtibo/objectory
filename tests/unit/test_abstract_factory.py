@@ -233,7 +233,7 @@ def test_factory_unregistered_class():
 
 def test_factory_unregistered_incorrect_class_name():
     with pytest.raises(UnregisteredObjectFactoryError):
-        Class1.factory("torch.nn.NotALinear", in_features=8, out_features=6)
+        Class1.factory("collections.NotACounter")
 
 
 def test_factory_unregistered_incorrect_package():
