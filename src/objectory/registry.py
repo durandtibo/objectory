@@ -298,11 +298,13 @@ class Registry:
         r"""Removes a registered object.
 
         Args:
-            name (string): Specifies the name of the object to remove. This function uses the name resolution
-                mechanism to find the full name if only the short name is given.
+            name (string): Specifies the name of the object to remove.
+                This function uses the name resolution mechanism to
+                find the full name if only the short name is given.
 
         Raises:
-            ``UnregisteredObjectFactoryError`` if the name does not exist in the registry.
+            ``UnregisteredObjectFactoryError`` if the name does not
+                exist in the registry.
 
         Example usage:
 
