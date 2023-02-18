@@ -72,4 +72,4 @@ jobs:
 
       - name: Run short experiment
         run: |
-          python -c "import objectory; print(objectory.factory("collections.Counter", [1, 2, 1, 3]))"
+          python -c "import objectory; print(objectory.factory(\"collections.Counter\", [1, 2, 1, 3]))"
