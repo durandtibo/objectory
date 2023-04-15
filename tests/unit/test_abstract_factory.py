@@ -1,7 +1,8 @@
 import collections
 import logging
 from abc import ABC, abstractmethod
-from typing import NoReturn
+from collections.abc import Callable
+from typing import NoReturn, TypeVar
 
 import pytest
 from pytest import LogCaptureFixture, fixture
@@ -19,6 +20,8 @@ from objectory.errors import (
     UnregisteredObjectFactoryError,
 )
 
+T = TypeVar("T")
+
 # Define some classes to register them in the AbstractFactory metaclass.
 
 
@@ -27,7 +30,7 @@ class BaseClass(metaclass=AbstractFactory):
 
 
 class BaseClassWithArgument(metaclass=AbstractFactory):  # noqa: B903
-    def __init__(self, arg1: int):
+    def __init__(self, arg1: int) -> None:
         self.arg1 = arg1
 
 
@@ -39,12 +42,12 @@ class AbstractChildClass(ABC, BaseClassWithArgument):
     """Abstract child class."""
 
     @abstractmethod
-    def method(self):
+    def method(self) -> None:
         """Abstract method."""
 
 
 class Class1(metaclass=AbstractFactory):  # noqa: B903
-    def __init__(self, arg2: int, arg3: int = 0):
+    def __init__(self, arg2: int, arg3: int = 0) -> None:
         self.arg2 = arg2
         self.arg3 = arg3
 
@@ -55,17 +58,17 @@ class Class2(Class1):
 
 class Class3(Class2):
     @classmethod
-    def class_method(cls):
+    def class_method(cls) -> "Class3":
         return cls(arg2=111, arg3=222)
 
     @classmethod
-    def class_method_with_arg(cls, arg3: int):
+    def class_method_with_arg(cls, arg3: int) -> "Class3":
         return cls(arg2=333, arg3=arg3)
 
 
 class Foo(ABC):
     @abstractmethod
-    def my_function(self):
+    def my_function(self) -> None:
         """Abstract method."""
 
 
@@ -74,12 +77,12 @@ class Bar(Foo):
 
 
 class Baz(Foo):
-    def my_function(self):
+    def my_function(self) -> None:
         """Implemented empty method."""
 
 
 class Bing(Bar):
-    def my_function(self):
+    def my_function(self) -> None:
         """Implemented empty method."""
 
 
@@ -91,8 +94,8 @@ def function_to_register(arg2: int, arg3: int) -> Class1:
     return Class1(arg2, arg3)
 
 
-def func_decor():
-    def inner(obj):
+def func_decor() -> Callable:
+    def inner(obj: T) -> T:
         obj._my_value = 1
         return obj
 
@@ -128,7 +131,7 @@ def reset_factory() -> None:
     reset_class1()
 
 
-def test_inheritors():
+def test_inheritors() -> None:
     assert len(BaseClassWithArgument.inheritors) == 3
     assert BaseClassWithArgument.inheritors == {
         "unit.test_abstract_factory.BaseClassWithArgument": BaseClassWithArgument,
@@ -143,26 +146,26 @@ def test_inheritors():
 
 
 @pytest.mark.parametrize("target", ["BaseClass", "unit.test_abstract_factory.BaseClass"])
-def test_factory_target(target):
+def test_factory_target(target: str) -> None:
     obj = BaseClass.factory(target)
     assert isinstance(obj, BaseClass)
 
 
-def test_factory_args():
+def test_factory_args() -> None:
     obj = BaseClassWithArgument.factory("ChildClass", 42)
     assert obj.arg1 == 42
     assert isinstance(obj, BaseClassWithArgument)
     assert isinstance(obj, ChildClass)
 
 
-def test_factory_kwargs():
+def test_factory_kwargs() -> None:
     obj = BaseClassWithArgument.factory("ChildClass", arg1=42)
     assert obj.arg1 == 42
     assert isinstance(obj, BaseClassWithArgument)
     assert isinstance(obj, ChildClass)
 
 
-def test_factory_grand_child():
+def test_factory_grand_child() -> None:
     obj = Class1.factory("Class3", 42)
     assert obj.arg2 == 42
     assert obj.arg3 == 0
@@ -171,7 +174,7 @@ def test_factory_grand_child():
     assert isinstance(obj, Class3)
 
 
-def test_factory_grand_parent():
+def test_factory_grand_parent() -> None:
     obj = Class3.factory("Class1", 42)
     assert obj.arg2 == 42
     assert obj.arg3 == 0
@@ -180,40 +183,40 @@ def test_factory_grand_parent():
     assert not isinstance(obj, Class3)
 
 
-def test_factory_init_class_method():
+def test_factory_init_class_method() -> None:
     obj = Class1.factory("Class3", _init_="class_method")
     assert obj.arg2 == 111
     assert obj.arg3 == 222
     assert isinstance(obj, Class3)
 
 
-def test_factory_init_class_method_with_arg():
+def test_factory_init_class_method_with_arg() -> None:
     obj = Class1.factory("Class3", 1, _init_="class_method_with_arg")
     assert obj.arg2 == 333
     assert obj.arg3 == 1
     assert isinstance(obj, Class3)
 
 
-def test_factory_init_class_method_with_kwarg():
+def test_factory_init_class_method_with_kwarg() -> None:
     obj = Class1.factory("Class3", _init_="class_method_with_arg", arg3=2)
     assert obj.arg2 == 333
     assert obj.arg3 == 2
     assert isinstance(obj, Class3)
 
 
-def test_factory_init_not_exist():
+def test_factory_init_not_exist() -> None:
     with pytest.raises(IncorrectObjectFactoryError):
         # Should fail because the init function does not exist.
         Class1.factory("Class3", _init_="incorrect_init_function")
 
 
-def test_factory_init_missing():
+def test_factory_init_missing() -> None:
     with pytest.raises(IncorrectObjectFactoryError):
         # Should fail because the attribute arg2 is not initialized.
         Class1.factory("Class3", _init_="arg2")
 
 
-def test_factory_duplicate_class_name():
+def test_factory_duplicate_class_name() -> None:
     BaseClass.register_object(collections.Counter)
 
     class Counter:
@@ -225,18 +228,18 @@ def test_factory_duplicate_class_name():
         BaseClass.factory("Counter")
 
 
-def test_factory_unregistered_class():
+def test_factory_unregistered_class() -> None:
     obj = Class1.factory("collections.Counter")
     assert isinstance(obj, collections.Counter)
     assert "collections.Counter" in Class1.inheritors
 
 
-def test_factory_unregistered_incorrect_class_name():
+def test_factory_unregistered_incorrect_class_name() -> None:
     with pytest.raises(UnregisteredObjectFactoryError):
         Class1.factory("collections.NotACounter")
 
 
-def test_factory_unregistered_incorrect_package():
+def test_factory_unregistered_incorrect_package() -> None:
     with pytest.raises(UnregisteredObjectFactoryError):
         Class1.factory("my_incorrect_package.MyClass")
 
@@ -244,7 +247,7 @@ def test_factory_unregistered_incorrect_package():
 @pytest.mark.parametrize(
     "target", ["function_to_register", "unit.test_abstract_factory.function_to_register"]
 )
-def test_factory_function_target(target):
+def test_factory_function_target(target: str) -> None:
     Class1.register_object(function_to_register)
     obj = Class1.factory(target, 42, 11)
     assert isinstance(obj, Class1)
@@ -257,7 +260,7 @@ def test_factory_function_target(target):
 ####################
 
 
-def test_register_object_class():
+def test_register_object_class() -> None:
     Class1.register_object(ClassToRegister)
     assert Class1.inheritors == {
         "unit.test_abstract_factory.Class1": Class1,
@@ -267,7 +270,7 @@ def test_register_object_class():
     }
 
 
-def test_register_object_duplicate_class(caplog: LogCaptureFixture):
+def test_register_object_duplicate_class(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(level=logging.INFO):
         Class1.register_object(Class2)
         assert Class1.inheritors == {
@@ -278,7 +281,7 @@ def test_register_object_duplicate_class(caplog: LogCaptureFixture):
         assert caplog.messages == []
 
 
-def test_register_object_function():
+def test_register_object_function() -> None:
     Class1.register_object(function_to_register)
     assert Class1.inheritors == {
         "unit.test_abstract_factory.Class1": Class1,
@@ -292,34 +295,34 @@ def test_register_object_function():
     assert isinstance(obj, Class1)
 
 
-def test_register_object_function_duplicate(caplog: LogCaptureFixture):
+def test_register_object_function_duplicate(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(level=logging.INFO):
 
-        def function_to_register2():
+        def function_to_register2() -> None:
             return 1
 
         Class1.register_object(function_to_register2)
 
-        def function_to_register2():
+        def function_to_register2() -> None:
             return 2
 
         Class1.register_object(function_to_register2)
         assert len(caplog.messages) == 1
 
 
-def test_register_object_lambda_function():
+def test_register_object_lambda_function() -> None:
     with pytest.raises(IncorrectObjectFactoryError):
         # Should fail because it is not possible to register a lambda function.
         Class1.register_object(lambda x: x)
 
 
-def test_register_object_incorrect_type():
+def test_register_object_incorrect_type() -> None:
     with pytest.raises(IncorrectObjectFactoryError):
         # Should fail because it is only possible to register a class or a function.
         Class1.register_object("abc")
 
 
-def test_decorator_register_function():
+def test_decorator_register_function() -> None:
     @register(Class1)
     def my_function_to_register(arg1: int, arg2: int) -> Class1:
         return Class1(arg1, arg2)
@@ -338,10 +341,10 @@ def test_decorator_register_function():
     assert isinstance(obj, Class1)
 
 
-def test_decorator_register_class():
+def test_decorator_register_class() -> None:
     @register(BaseClass)
     class MyClass:  # noqa: B903
-        def __init__(self, arg: int):
+        def __init__(self, arg: int) -> None:
             self.arg = arg
 
     assert (
@@ -354,11 +357,11 @@ def test_decorator_register_class():
     assert obj.arg == 42
 
 
-def test_register_object_multiple_decorators_1():
+def test_register_object_multiple_decorators_1() -> None:
     # The goal is to tests that the decorator `register` does not mask the decorator `func_decor`.
     @register(BaseClass)
     @func_decor()
-    def my_func():
+    def my_func() -> None:
         """Do nothing."""
 
     assert (
@@ -368,11 +371,11 @@ def test_register_object_multiple_decorators_1():
     assert my_func._my_value == 1
 
 
-def test_register_object_multiple_decorators_2():
+def test_register_object_multiple_decorators_2() -> None:
     # The goal is to tests that the decorator `register` does not mask the decorator `func_decor`.
     @func_decor()
     @register(BaseClass)
-    def my_func():
+    def my_func() -> None:
         """Do nothing."""
 
     assert (
@@ -382,22 +385,22 @@ def test_register_object_multiple_decorators_2():
     assert my_func._my_value == 1
 
 
-def test_factory_fails_to_instantiate_abstract_class():
+def test_factory_fails_to_instantiate_abstract_class() -> None:
     with pytest.raises(AbstractClassFactoryError):
         BaseClassWithArgument.factory("AbstractChildClass")
 
 
-def test_factory_fails_to_instantiate_unregistered_class():
+def test_factory_fails_to_instantiate_unregistered_class() -> None:
     with pytest.raises(UnregisteredObjectFactoryError):
         BaseClassWithArgument.factory("Class1")
 
 
-def test_register_incorrect_object():
+def test_register_incorrect_object() -> None:
     with pytest.raises(IncorrectObjectFactoryError):
         Class1.register_object(None)
 
 
-def test_multiple_register():
+def test_multiple_register() -> None:
     @register(Class1)
     @register(BaseClassWithArgument)
     class MyClass(BaseClass):
@@ -418,23 +421,23 @@ def test_multiple_register():
 #################################
 
 
-def test_register_child_classes_ignore_abstract_foo():
+def test_register_child_classes_ignore_abstract_foo() -> None:
     register_child_classes(BaseClass, Foo)
     assert "unit.test_abstract_factory.Baz" in BaseClass.inheritors
     assert "unit.test_abstract_factory.Bing" in BaseClass.inheritors
 
 
-def test_register_child_classes_ignore_abstract_bar():
+def test_register_child_classes_ignore_abstract_bar() -> None:
     register_child_classes(BaseClass, Bar)
     assert "unit.test_abstract_factory.Bing" in BaseClass.inheritors
 
 
-def test_register_child_classes_ignore_abstract_bing():
+def test_register_child_classes_ignore_abstract_bing() -> None:
     register_child_classes(BaseClass, Bing)
     assert "unit.test_abstract_factory.Bing" in BaseClass.inheritors
 
 
-def test_register_child_classes_with_abstract_foo():
+def test_register_child_classes_with_abstract_foo() -> None:
     register_child_classes(BaseClass, Foo, ignore_abstract_class=False)
     assert "unit.test_abstract_factory.Bar" in BaseClass.inheritors
     assert "unit.test_abstract_factory.Baz" in BaseClass.inheritors
@@ -442,18 +445,18 @@ def test_register_child_classes_with_abstract_foo():
     assert "unit.test_abstract_factory.Foo" in BaseClass.inheritors
 
 
-def test_register_child_classes_with_abstract_bar():
+def test_register_child_classes_with_abstract_bar() -> None:
     register_child_classes(BaseClass, Bar, ignore_abstract_class=False)
     assert "unit.test_abstract_factory.Bar" in BaseClass.inheritors
     assert "unit.test_abstract_factory.Bing" in BaseClass.inheritors
 
 
-def test_register_child_classes_with_abstract_bing():
+def test_register_child_classes_with_abstract_bing() -> None:
     register_child_classes(BaseClass, Bing, ignore_abstract_class=False)
     assert "unit.test_abstract_factory.Bing" in BaseClass.inheritors
 
 
-def test_register_child_classes_incorrect_factory_class():
+def test_register_child_classes_incorrect_factory_class() -> None:
     with pytest.raises(AbstractFactoryTypeError):
         register_child_classes(ClassToRegister, ClassToRegister)
 
@@ -463,7 +466,7 @@ def test_register_child_classes_incorrect_factory_class():
 ######################
 
 
-def test_unregister_exact_name():
+def test_unregister_exact_name() -> None:
     Class1.unregister("unit.test_abstract_factory.Class3")
     assert Class1.inheritors == {
         "unit.test_abstract_factory.Class1": Class1,
@@ -471,7 +474,7 @@ def test_unregister_exact_name():
     }
 
 
-def test_unregister_short_name():
+def test_unregister_short_name() -> None:
     Class1.unregister("Class3")
     assert Class1.inheritors == {
         "unit.test_abstract_factory.Class1": Class1,
@@ -479,25 +482,25 @@ def test_unregister_short_name():
     }
 
 
-def test_unregister_missing_object():
+def test_unregister_missing_object() -> None:
     with pytest.raises(UnregisteredObjectFactoryError):
         Class1.unregister("Class4")
 
 
-####################################
+###############################
 #     is_abstract_factory     #
-####################################
+###############################
 
 
-def test_is_abstract_factory_true():
+def test_is_abstract_factory_true() -> None:
     assert is_abstract_factory(Class1)
     assert is_abstract_factory(Class2)
     assert is_abstract_factory(Class3)
 
 
-def test_is_abstract_factory_false():
+def test_is_abstract_factory_false() -> None:
     assert not is_abstract_factory(ClassToRegister)
 
 
-def test_is_abstract_factory_false_function():
+def test_is_abstract_factory_false_function() -> None:
     assert not is_abstract_factory(function_to_register)

@@ -4,7 +4,7 @@ __all__ = ["Registry"]
 
 import inspect
 import logging
-from typing import Any, Callable, Optional
+from typing import Any, Callable, Optional, TypeVar, Union
 
 from objectory.errors import (
     IncorrectObjectFactoryError,
@@ -23,6 +23,8 @@ from objectory.utils import (
 
 logger = logging.getLogger(__name__)
 
+T = TypeVar("T")
+
 
 class Registry:
     r"""Implementation of the registry class.
@@ -33,11 +35,11 @@ class Registry:
 
     _CLASS_FILTER = "class_filter"
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._state = {}
         self._filters = {}
 
-    def __getattr__(self, key):
+    def __getattr__(self, key: str) -> Union["Registry", type]:
         if key not in self._state:
             self._state[key] = Registry()
         if self._is_registry(key):
@@ -181,13 +183,13 @@ class Registry:
             {'__main__.ClassToRegister', '__main__.function_to_register'}
         """
 
-        def function_wrapper(obj):
+        def function_wrapper(obj: T) -> T:
             self.register_object(obj=obj, name=name)
             return obj
 
         return function_wrapper
 
-    def register_child_classes(self, cls, ignore_abstract_class: bool = True) -> None:
+    def register_child_classes(self, cls: type, ignore_abstract_class: bool = True) -> None:
         r"""Registers a given class and its child classes of a given class.
 
         This function registers all the child classes including the
@@ -218,7 +220,7 @@ class Registry:
                 continue
             self.register_object(class_to_register)
 
-    def register_object(self, obj, name: Optional[str] = None) -> None:
+    def register_object(self, obj: Union[type, Callable], name: Optional[str] = None) -> None:
         r"""Registers an object.
 
         Please read the documentation for more information.
@@ -359,7 +361,7 @@ class Registry:
             raise TypeError(f"The class filter has to be a class (received: {cls})")
         self._filters[self._CLASS_FILTER] = cls
 
-    def _check_object(self, obj) -> None:
+    def _check_object(self, obj: Union[type, Callable]) -> None:
         r"""Checks if the object is valid for this registry before to register
         it.
 
