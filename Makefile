@@ -19,7 +19,7 @@ update :
 
 .PHONY : lint
 lint :
-	flake8 .
+	ruff check --format=github .
 
 .PHONY : format
 format :

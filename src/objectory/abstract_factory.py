@@ -49,22 +49,22 @@ class AbstractFactory(ABCMeta):  # noqa: B024
             This becomes the ``__dict__`` attribute of the class.
     """
 
-    def __init__(self, name: str, bases: tuple, dct: dict):
-        if not hasattr(self, "_abstractfactory_inheritors"):
-            self._abstractfactory_inheritors = {}
-        self.register_object(self)
+    def __init__(cls, name: str, bases: tuple, dct: dict) -> None:
+        if not hasattr(cls, "_abstractfactory_inheritors"):
+            cls._abstractfactory_inheritors = {}
+        cls.register_object(cls)
         super().__init__(name, bases, dct)
 
     @property
-    def inheritors(self) -> dict[str, Any]:
+    def inheritors(cls) -> dict[str, Any]:
         r"""Gets the inheritors.
 
         Returns:
             dict: The inheritors.
         """
-        return self._abstractfactory_inheritors
+        return cls._abstractfactory_inheritors
 
-    def factory(self, _target_: str, *args, _init_: str = "__init__", **kwargs) -> Any:
+    def factory(cls, _target_: str, *args, _init_: str = "__init__", **kwargs) -> Any:
         r"""Creates dynamically an object given its configuration.
 
         Please read the documentation for more information.
@@ -101,10 +101,10 @@ class AbstractFactory(ABCMeta):  # noqa: B024
             <__main__.MyClass object at 0x123456789>
         """
         return instantiate_object(
-            self._abstractfactory_get_target_from_name(_target_), *args, _init_=_init_, **kwargs
+            cls._abstractfactory_get_target_from_name(_target_), *args, _init_=_init_, **kwargs
         )
 
-    def register_object(self, obj: Union[type, Callable]) -> None:
+    def register_object(cls, obj: Union[type, Callable]) -> None:
         r"""Registers a class or function to the factory. It is useful if you
         are using a 3rd party library.
 
@@ -135,17 +135,17 @@ class AbstractFactory(ABCMeta):  # noqa: B024
             {'__main__.BaseClass': <class '__main__.BaseClass'>,
              '__main__.MyClass': <class '__main__.MyClass'>}
         """
-        self._abstractfactory_check_object(obj)
+        cls._abstractfactory_check_object(obj)
         name = full_object_name(obj)
         if (
-            self._abstractfactory_is_name_registered(name)
-            and self._abstractfactory_inheritors[name] != obj
+            cls._abstractfactory_is_name_registered(name)
+            and cls._abstractfactory_inheritors[name] != obj
         ):
             logger.warning(f"The class {name} already exists. The new class replaces the old one")
 
-        self._abstractfactory_inheritors[name] = obj
+        cls._abstractfactory_inheritors[name] = obj
 
-    def unregister(self, name: str) -> None:
+    def unregister(cls, name: str) -> None:
         r"""Removes a registered object from the factory.
 
         This is an experimental function and may change in the future.
@@ -169,14 +169,14 @@ class AbstractFactory(ABCMeta):  # noqa: B024
             >>> BaseClass.inheritors
             {'__main__.BaseClass': <class '__main__.BaseClass'>}
         """
-        resolved_name = self._abstractfactory_resolve_name(name)
-        if resolved_name is None or not self._abstractfactory_is_name_registered(resolved_name):
+        resolved_name = cls._abstractfactory_resolve_name(name)
+        if resolved_name is None or not cls._abstractfactory_is_name_registered(resolved_name):
             raise UnregisteredObjectFactoryError(
                 f"It is not possible to remove an object which is not registered (received: {name})"
             )
-        self._abstractfactory_inheritors.pop(resolved_name)
+        cls._abstractfactory_inheritors.pop(resolved_name)
 
-    def _abstractfactory_get_target_from_name(self, name: str) -> Any:
+    def _abstractfactory_get_target_from_name(cls, name: str) -> Union[type, Callable]:
         """Gets the class or function to used given its name.
 
         Args:
@@ -189,17 +189,17 @@ class AbstractFactory(ABCMeta):  # noqa: B024
             ``UnregisteredObjectFactoryError`` if it is not possible
                 to find the target.
         """
-        resolved_name = self._abstractfactory_resolve_name(name)
+        resolved_name = cls._abstractfactory_resolve_name(name)
         if resolved_name is None:
             raise UnregisteredObjectFactoryError(
-                f"Unable to create the object {name}. Registered objects of {self.__qualname__} "
-                f"are {set(self._abstractfactory_inheritors.keys())}"
+                f"Unable to create the object {name}. Registered objects of {cls.__qualname__} "
+                f"are {set(cls._abstractfactory_inheritors.keys())}"
             )
-        if not self._abstractfactory_is_name_registered(resolved_name):
-            self.register_object(import_object(resolved_name))
-        return self._abstractfactory_inheritors[resolved_name]
+        if not cls._abstractfactory_is_name_registered(resolved_name):
+            cls.register_object(import_object(resolved_name))
+        return cls._abstractfactory_inheritors[resolved_name]
 
-    def _abstractfactory_resolve_name(self, name: str) -> Optional[str]:
+    def _abstractfactory_resolve_name(cls, name: str) -> Optional[str]:
         r"""Tries to resolve the name.
 
         This function will look at if it can find an object which
@@ -218,9 +218,9 @@ class AbstractFactory(ABCMeta):  # noqa: B024
                 the object if the resolution was successful,
                 otherwise ``None``.
         """
-        return resolve_name(name, set(self._abstractfactory_inheritors.keys()))
+        return resolve_name(name, set(cls._abstractfactory_inheritors.keys()))
 
-    def _abstractfactory_is_name_registered(self, name: str) -> bool:
+    def _abstractfactory_is_name_registered(cls, name: str) -> bool:
         r"""Indicates if the name exists or not in the factory .
 
         Args:
@@ -229,9 +229,9 @@ class AbstractFactory(ABCMeta):  # noqa: B024
         Returns:
             bool: ``True`` if the name exists otherwise ``False``.
         """
-        return name in self._abstractfactory_inheritors
+        return name in cls._abstractfactory_inheritors
 
-    def _abstractfactory_check_object(self, obj: type) -> None:  # pylint: disable=no-self-use
+    def _abstractfactory_check_object(cls, obj: type) -> None:
         r"""Checks if the object is valid for this factory before to register
         it.
 
@@ -256,7 +256,7 @@ class AbstractFactory(ABCMeta):  # noqa: B024
             )
 
 
-def register(cls: AbstractFactory):
+def register(cls: AbstractFactory) -> Callable:
     r"""Defines a decorator to register a function to a factory.
 
     This decorator is designed to register functions that returns
@@ -280,7 +280,7 @@ def register(cls: AbstractFactory):
         42
     """
 
-    def wrapped(func):
+    def wrapped(func: Callable) -> Callable:
         cls.register_object(func)
         return func
 

@@ -19,11 +19,11 @@ from objectory.utils import (
 class FakeClass:
     """Fake class to tests some functions."""
 
-    def __init__(self, arg1: int, arg2: str = "abc"):
+    def __init__(self, arg1: int, arg2: str = "abc") -> None:
         self.arg1 = arg1
         self.arg2 = arg2
 
-    def method(self):
+    def method(self) -> None:
         """Do nothing."""
 
     @staticmethod
@@ -35,11 +35,11 @@ class FakeClass:
         return cls(arg1=35, arg2="bac")
 
     @classmethod
-    def class_method_with_arg(cls, arg2: str):
+    def class_method_with_arg(cls, arg2: str) -> "FakeClass":
         return cls(arg1=333, arg2=arg2)
 
 
-def fake_function(arg1: int, arg2: str = "abc"):
+def fake_function(arg1: int, arg2: str = "abc") -> FakeClass:
     """Fake function to tests some functions."""
     return FakeClass(arg1=arg1, arg2=arg2)
 
@@ -49,7 +49,7 @@ def fake_function(arg1: int, arg2: str = "abc"):
 #############################
 
 
-def test_all_child_classes():
+def test_all_child_classes() -> None:
     class Foo:
         ...
 
@@ -76,15 +76,15 @@ def test_all_child_classes():
 ############################
 
 
-def test_full_object_name_builtin():
+def test_full_object_name_builtin() -> None:
     assert full_object_name(int) == "builtins.int"
 
 
-def test_full_object_name_class():
+def test_full_object_name_class() -> None:
     assert full_object_name(FakeClass) == "unit.utils.test_object_helpers.FakeClass"
 
 
-def test_full_object_name_local_class():
+def test_full_object_name_local_class() -> None:
     class FakeClass:
         ...
 
@@ -94,17 +94,17 @@ def test_full_object_name_local_class():
     )
 
 
-def test_full_object_name_function():
+def test_full_object_name_function() -> None:
     assert full_object_name(fake_function) == "unit.utils.test_object_helpers.fake_function"
 
 
-def test_full_object_name_builtin_module():
+def test_full_object_name_builtin_module() -> None:
     assert (
         full_object_name(Mock(spec=type, __qualname__="name", __module__="__builtin__")) == "name"
     )
 
 
-def test_full_object_name_incorrect_type():
+def test_full_object_name_incorrect_type() -> None:
     with raises(TypeError):
         full_object_name(1)
 
@@ -114,19 +114,19 @@ def test_full_object_name_incorrect_type():
 #########################
 
 
-def test_import_object_class():
+def test_import_object_class() -> None:
     assert import_object("collections.Counter") == Counter
 
 
-def test_import_object_function():
+def test_import_object_function() -> None:
     assert import_object("math.isclose") == isclose
 
 
-def test_import_object_incorrect():
+def test_import_object_incorrect() -> None:
     assert import_object("collections.NotACounter") is None
 
 
-def test_import_object_incorrect_type():
+def test_import_object_incorrect_type() -> None:
     with raises(TypeError):
         import_object(1)
 
@@ -138,7 +138,7 @@ def test_import_object_incorrect_type():
 
 @mark.parametrize("arg1", (-1, 1))
 @mark.parametrize("arg2", ("arg2", "cba"))
-def test_instantiate_object_class_args(arg1, arg2):
+def test_instantiate_object_class_args(arg1: int, arg2: str) -> None:
     obj = instantiate_object(FakeClass, arg1, arg2)
     assert isinstance(obj, FakeClass)
     assert obj.arg1 == arg1
@@ -147,21 +147,21 @@ def test_instantiate_object_class_args(arg1, arg2):
 
 @mark.parametrize("arg1", (-1, 1))
 @mark.parametrize("arg2", ("arg2", "cba"))
-def test_instantiate_object_class_kwargs(arg1: int, arg2: str):
+def test_instantiate_object_class_kwargs(arg1: int, arg2: str) -> None:
     obj = instantiate_object(FakeClass, arg1=arg1, arg2=arg2)
     assert isinstance(obj, FakeClass)
     assert obj.arg1 == arg1
     assert obj.arg2 == arg2
 
 
-def test_instantiate_object_class_init_classmethod():
+def test_instantiate_object_class_init_classmethod() -> None:
     obj = instantiate_object(FakeClass, _init_="class_method")
     assert isinstance(obj, FakeClass)
     assert obj.arg1 == 35
     assert obj.arg2 == "bac"
 
 
-def test_instantiate_object_class_init_classmethod_with_arg():
+def test_instantiate_object_class_init_classmethod_with_arg() -> None:
     obj = instantiate_object(
         FakeClass,
         "meow",
@@ -172,7 +172,7 @@ def test_instantiate_object_class_init_classmethod_with_arg():
     assert obj.arg2 == "meow"
 
 
-def test_instantiate_object_class_init_classmethod_with_kwarg():
+def test_instantiate_object_class_init_classmethod_with_kwarg() -> None:
     obj = instantiate_object(
         FakeClass,
         _init_="class_method_with_arg",
@@ -183,54 +183,54 @@ def test_instantiate_object_class_init_classmethod_with_kwarg():
     assert obj.arg2 == "meow"
 
 
-def test_instantiate_object_class_init_new():
+def test_instantiate_object_class_init_new() -> None:
     assert isinstance(instantiate_object(FakeClass, _init_="__new__"), FakeClass)
 
 
-def test_instantiate_object_class_init_static_method():
+def test_instantiate_object_class_init_static_method() -> None:
     obj = instantiate_object(FakeClass, _init_="static_method")
     assert isinstance(obj, FakeClass)
     assert obj.arg1 == 1
     assert obj.arg2 == "qwerty"
 
 
-def test_instantiate_object_init_not_exist():
+def test_instantiate_object_init_not_exist() -> None:
     with raises(IncorrectObjectFactoryError):
         # Should fail because the init function does not exist.
         instantiate_object(FakeClass, _init_="incorrect_init_function")
 
 
-def test_instantiate_object_init_regular_method():
+def test_instantiate_object_init_regular_method() -> None:
     with raises(TypeError):
         # Should fail because self is not defined.
         instantiate_object(FakeClass, _init_="method")
 
 
-def test_instantiate_object_init_not_method():
+def test_instantiate_object_init_not_method() -> None:
     with raises(IncorrectObjectFactoryError):
         FakeClass.not_a_method = None
         # Should fail because the attribute not_a_method is not a method.
         instantiate_object(FakeClass, _init_="not_a_method")
 
 
-def test_instantiate_object_abstract_class():
+def test_instantiate_object_abstract_class() -> None:
     class FakeAbstractClass(ABC):
         @abstractmethod
-        def my_method(self):
+        def my_method(self) -> None:
             """Abstract method."""
 
     with raises(AbstractClassFactoryError):
         instantiate_object(FakeAbstractClass, 42)
 
 
-def test_instantiate_object_function():
+def test_instantiate_object_function() -> None:
     obj = instantiate_object(fake_function, 42)
     assert isinstance(obj, FakeClass)
     assert obj.arg1 == 42
     assert obj.arg2 == "abc"
 
 
-def test_instantiate_object_function_init():
+def test_instantiate_object_function_init() -> None:
     obj = instantiate_object(fake_function, 42, _init_="my_init_function")
     assert isinstance(obj, FakeClass)
     assert obj.arg1 == 42
@@ -239,7 +239,7 @@ def test_instantiate_object_function_init():
 
 @mark.parametrize("arg1", (-1, 1))
 @mark.parametrize("arg2", ("arg2", "cba"))
-def test_instantiate_object_function_args(arg1: int, arg2: str):
+def test_instantiate_object_function_args(arg1: int, arg2: str) -> None:
     obj = instantiate_object(fake_function, arg1, arg2)
     assert isinstance(obj, FakeClass)
     assert obj.arg1 == arg1
@@ -248,14 +248,14 @@ def test_instantiate_object_function_args(arg1: int, arg2: str):
 
 @mark.parametrize("arg1", (-1, 1))
 @mark.parametrize("arg2", ("arg2", "cba"))
-def test_instantiate_object_function_kwargs(arg1: int, arg2: str):
+def test_instantiate_object_function_kwargs(arg1: int, arg2: str) -> None:
     obj = instantiate_object(fake_function, arg1=arg1, arg2=arg2)
     assert isinstance(obj, FakeClass)
     assert obj.arg1 == arg1
     assert obj.arg2 == arg2
 
 
-def test_instantiate_object_incorrect_type():
+def test_instantiate_object_incorrect_type() -> None:
     with raises(TypeError):
         instantiate_object(FakeClass(12))
 
@@ -265,14 +265,14 @@ def test_instantiate_object_incorrect_type():
 ########################################
 
 
-def test_is_lambda_function_lambda():
+def test_is_lambda_function_lambda() -> None:
     assert is_lambda_function(lambda x: x)
 
 
-def test_is_lambda_function_regular_function():
+def test_is_lambda_function_regular_function() -> None:
     assert not is_lambda_function(fake_function)
 
 
 @mark.parametrize("obj", (-1, "abc", FakeClass))
-def test_is_lambda_function_non_function(obj: Any):
+def test_is_lambda_function_non_function(obj: Any) -> None:
     assert not is_lambda_function(obj)
