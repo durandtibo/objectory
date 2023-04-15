@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "objectory"
-version = "0.0.2a4"
+version = "0.0.2"
 description = "A light library for general purpose object factories"
 readme = "README.md"
 authors = ["Thibaut Durand <durand.tibo+gh@gmail.com>"]
