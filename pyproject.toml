@@ -37,7 +37,7 @@ mkdocstrings = "^0.21"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.3"
-coverage = { extras = ["toml"], version = "^6.5" }
+coverage = { extras = ["toml"], version = ">=6.5,<8.0" }
 docformatter = "^1.5"
 pre-commit = ">=2.20,<4.0"
 pylint = "^2.17"
