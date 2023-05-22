@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "objectory"
-version = "0.0.2"
+version = "0.0.3a0"
 description = "A light library for general purpose object factories"
 readme = "README.md"
 authors = ["Thibaut Durand <durand.tibo+gh@gmail.com>"]
@@ -37,14 +37,14 @@ mkdocstrings = "^0.21"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.3"
-coverage = { extras = ["toml"], version = ">=6.5,<8.0" }
-docformatter = "^1.5"
-pre-commit = ">=2.20,<4.0"
+coverage = { extras = ["toml"], version = "^7.2" }
+docformatter = { extras = ["tomli"], version = "^1.7" }
+pre-commit = "^3.3"
 pylint = "^2.17"
 pytest = "^7.3"
 pytest-cov = "^4.0"
 pytest-timeout = "^2.1"
-ruff = ">=0.0.261,<0.0.270"
+ruff = "^0.0,>=0.0.269"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -153,7 +153,3 @@ max-doc-length = 72
 force-sort-within-sections = true
 combine-as-imports = true
 known-first-party = ["src"]
-
-[tool.ruff.flake8-import-conventions]
-[tool.ruff.flake8-import-conventions.aliases]
-numpy = "np"

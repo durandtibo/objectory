@@ -1,4 +1,5 @@
-r"""This module defines the main errors of the object factory package."""
+r"""This module defines the main errors of the object factory
+package."""
 
 __all__ = [
     "AbstractClassFactoryError",
@@ -16,22 +17,23 @@ class FactoryError(Exception):
 
 
 class UnregisteredObjectFactoryError(FactoryError):
-    r"""This error is raised when you try to initialize or unregister an object
-    which is not registered to the factory."""
+    r"""This error is raised when you try to initialize or unregister an
+    object which is not registered to the factory."""
 
 
 class IncorrectObjectFactoryError(FactoryError):
-    r"""This error is raised when you try to register an object which cannot be
-    registered."""
+    r"""This error is raised when you try to register an object which
+    cannot be registered."""
 
 
 class AbstractClassFactoryError(FactoryError):
-    r"""This error is raised when you try to initialize an abstract class."""
+    r"""This error is raised when you try to initialize an abstract
+    class."""
 
 
 class InvalidNameFactoryError(FactoryError):
-    r"""This error is raised when you try to use an invalid name to register an
-    object to a factory."""
+    r"""This error is raised when you try to use an invalid name to
+    register an object to a factory."""
 
 
 ###########################
@@ -50,5 +52,5 @@ class AbstractFactoryTypeError(FactoryError):
 
 
 class InvalidAttributeRegistryError(FactoryError):
-    r"""This error is raised when you try to access a non Registry object in
-    the registry."""
+    r"""This error is raised when you try to access a non Registry
+    object in the registry."""

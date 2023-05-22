@@ -105,8 +105,8 @@ class AbstractFactory(ABCMeta):  # noqa: B024
         )
 
     def register_object(cls, obj: Union[type, Callable]) -> None:
-        r"""Registers a class or function to the factory. It is useful if you
-        are using a 3rd party library.
+        r"""Registers a class or function to the factory. It is useful if
+        you are using a 3rd party library.
 
         For example, you use a 3rd party library, and you cannot
         modify the classes to add ``AbstractFactory``. You can use
@@ -232,8 +232,8 @@ class AbstractFactory(ABCMeta):  # noqa: B024
         return name in cls._abstractfactory_inheritors
 
     def _abstractfactory_check_object(cls, obj: type) -> None:
-        r"""Checks if the object is valid for this factory before to register
-        it.
+        r"""Checks if the object is valid for this factory before to
+        register it.
 
         This function will raise an exception if the object is not
         valid.

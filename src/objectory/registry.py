@@ -155,7 +155,8 @@ class Registry:
         )
 
     def register(self, name: Optional[str] = None) -> Callable:
-        r"""Defines a decorator to add a class or a function to the registry.
+        r"""Defines a decorator to add a class or a function to the
+        registry.
 
         Args:
             name (str, optional): Specifies the name to use to
@@ -190,7 +191,8 @@ class Registry:
         return function_wrapper
 
     def register_child_classes(self, cls: type, ignore_abstract_class: bool = True) -> None:
-        r"""Registers a given class and its child classes of a given class.
+        r"""Registers a given class and its child classes of a given
+        class.
 
         This function registers all the child classes including the
         child classes of the child classes, etc. If you use this
@@ -324,8 +326,8 @@ class Registry:
         self._state.pop(resolved_name)
 
     def set_class_filter(self, cls: Optional[type]) -> None:
-        r"""Sets the class filter so only the child classes of this class can be
-        registered.
+        r"""Sets the class filter so only the child classes of this class
+        can be registered.
 
         If you set this filter, you cannot register functions.
         To unset this filter, you can use ``set_class_filter(None)``.
@@ -362,8 +364,8 @@ class Registry:
         self._filters[self._CLASS_FILTER] = cls
 
     def _check_object(self, obj: Union[type, Callable]) -> None:
-        r"""Checks if the object is valid for this registry before to register
-        it.
+        r"""Checks if the object is valid for this registry before to
+        register it.
 
         This function will raise an exception if the object is not
         valid.
