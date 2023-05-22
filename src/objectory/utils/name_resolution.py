@@ -8,7 +8,8 @@ from objectory.utils.object_helpers import full_object_name, import_object
 
 
 def resolve_name(name: str, object_names: set[str], allow_import: bool = True) -> Optional[str]:
-    r"""Tries to find a match of the query name in the set of object names.
+    r"""Tries to find a match of the query name in the set of object
+    names.
 
     The resolution is successful only if there is only one object
     name that can match with the query name.
