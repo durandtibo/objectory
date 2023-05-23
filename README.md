@@ -4,6 +4,19 @@
     <a href="https://github.com/durandtibo/objectory/actions">
         <img alt="CI" src="https://github.com/durandtibo/objectory/workflows/CI/badge.svg?event=push&branch=main">
     </a>
+    <a href="https://durandtibo.github.io/objectory/">
+        <img alt="CI" src="https://github.com/durandtibo/objectory/workflows/Documentation/badge.svg?event=push&branch=main">
+    </a>
+    <a href="https://codecov.io/gh/durandtibo/objectory">
+        <img alt="Codecov" src="https://codecov.io/gh/durandtibo/objectory/branch/main/graph/badge.svg">
+    </a>
+    <a href="https://codeclimate.com/github/durandtibo/objectory/maintainability">
+        <img src="https://api.codeclimate.com/v1/badges/1fad6e22f2d38335c26d/maintainability" />
+    </a>
+    <a href="https://codeclimate.com/github/durandtibo/objectory/test_coverage">
+        <img src="https://api.codeclimate.com/v1/badges/1fad6e22f2d38335c26d/test_coverage" />
+    </a>
+    <br/>
     <a href="https://pypi.org/project/objectory/">
         <img alt="PYPI version" src="https://img.shields.io/pypi/v/objectory">
     </a>
@@ -12,9 +25,6 @@
     </a>
     <a href="https://opensource.org/licenses/BSD-3-Clause">
         <img alt="BSD-3-Clause" src="https://img.shields.io/pypi/l/objectory">
-    </a>
-    <a href="https://codecov.io/gh/durandtibo/objectory">
-        <img alt="Codecov" src="https://codecov.io/gh/durandtibo/objectory/branch/main/graph/badge.svg">
     </a>
     <a href="https://github.com/psf/black">
         <img  alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg">
