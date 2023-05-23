@@ -59,7 +59,7 @@ jobs:
 
       - name: Install tornado
         run: |
-          poetry run pip install tornado==${{ matrix.tornado-version }}
+          pip install tornado==${{ matrix.tornado-version }}
 
       - name: Run short experiment
         run: |
