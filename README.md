@@ -44,7 +44,7 @@
 
 ## Overview
 
-A light Python library for general purpose object factories.
+A Python library for general purpose object factories.
 In particular, it focuses on dynamic object factory implementations where objects can be registered
 dynamically without changing the code of the factory.
 An object factory can be used to instantiate an object from its configuration.
