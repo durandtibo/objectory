@@ -69,7 +69,7 @@ class Registry:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from objectory import Registry
             >>> registry = Registry()
@@ -96,7 +96,7 @@ class Registry:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from objectory import Registry
             >>> registry = Registry()
@@ -140,13 +140,14 @@ class Registry:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from objectory import Registry
             >>> registry = Registry()
             >>> @registry.register()
             ... class MyClass:
             ...     ...
+            ...
             >>> registry.factory("MyClass")
             <__main__.MyClass object at 0x123456789>
         """
@@ -168,18 +169,20 @@ class Registry:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from objectory import Registry
             >>> registry = Registry()
             >>> @registry.register()
             ... class ClassToRegister:
             ...     ...
+            ...
             >>> registry.registered_names()
             {'__main__.ClassToRegister'}
             >>> @registry.register()
             ... def function_to_register(*args, **kwargs):
             ...     ...
+            ...
             >>> registry.registered_names()
             {'__main__.ClassToRegister', '__main__.function_to_register'}
         """
@@ -208,7 +211,7 @@ class Registry:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from objectory import Registry
             >>> registry = Registry()
@@ -236,17 +239,19 @@ class Registry:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from objectory import Registry
             >>> registry = Registry()
             >>> class ClassToRegister:
             ...     ...
+            ...
             >>> registry.registered_names()
             {'__main__.ClassToRegister'}
             >>> registry.register_object(ClassToRegister)
             >>> def function_to_register(*args, **kwargs):
             ...     ...
+            ...
             >>> registry.register_object(function_to_register)
             >>> registry.registered_names()
             {'__main__.ClassToRegister', '__main__.function_to_register'}
@@ -281,7 +286,7 @@ class Registry:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from objectory import Registry
             >>> registry = Registry()
@@ -312,11 +317,11 @@ class Registry:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from objectory import Registry
             >>> registry = Registry()
-            >>> registry.unregister('my_package.my_module.ClassToUnregister')
+            >>> registry.unregister("my_package.my_module.ClassToUnregister")
         """
         resolved_name = self._resolve_name(name)
         if resolved_name is None or not self._is_name_registered(resolved_name):
@@ -342,7 +347,7 @@ class Registry:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from collections import Counter, OrderedDict
             >>> from objectory import Registry

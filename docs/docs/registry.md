@@ -249,14 +249,14 @@ from objectory import Registry
 registry = Registry()
 
 
-@registry.register('my_class')
+@registry.register("my_class")
 class ClassToRegister:
     pass
 
 
-registry.register_object(ClassToRegister, 'my_class')
+registry.register_object(ClassToRegister, "my_class")
 # or
-registry.register_object(ClassToRegister, name='my_class')
+registry.register_object(ClassToRegister, name="my_class")
 ```
 
 One of the advantage of using customizable names is that you can define shorter name: `my_class` is
@@ -412,7 +412,7 @@ class ClassToRegister2:
 
 
 print(registry.registered_names())
-registry.unregister('my_package.my_module.ClassToRegister1')
+registry.unregister("my_package.my_module.ClassToRegister1")
 print(registry.registered_names())
 ```
 
@@ -430,9 +430,9 @@ from objectory import Registry
 
 registry = Registry()
 
-registry.unregister('ClassToRegister')
+registry.unregister("ClassToRegister")
 # is equivalent to
-registry.unregister('my_package.my_module.ClassToRegister')
+registry.unregister("my_package.my_module.ClassToRegister")
 ```
 
 Please read the [name resolution](name_resolution.md) documentation to learn more about this

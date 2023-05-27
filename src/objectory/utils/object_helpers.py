@@ -32,15 +32,17 @@ def all_child_classes(cls: type) -> set[type]:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from objectory.utils import all_child_classes
         >>> class Foo:
         ...     pass
+        ...
         >>> all_child_classes(Foo)
         set()
         >>> class Bar(Foo):
         ...     pass
+        ...
         >>> all_child_classes(Foo)
         {<class '__main__.Bar'>}
     """
@@ -66,15 +68,17 @@ def full_object_name(obj: Any) -> str:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from objectory.utils import full_object_name
         >>> class MyClass:
         ...     pass
+        ...
         >>> full_object_name(MyClass)
         '__main__.MyClass'
         >>> def my_function():
         ...     pass
+        ...
         >>> full_object_name(my_function)
         '__main__.my_function'
     """
@@ -117,13 +121,13 @@ def import_object(object_path: str) -> Any:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from objectory.utils import import_object
-        >>> obj = import_object('collections.Counter')
+        >>> obj = import_object("collections.Counter")
         >>> obj()
         Counter()
-        >>> fn = import_object('math.isclose')
+        >>> fn = import_object("math.isclose")
         >>> fn(1, 1)
         True
     """
@@ -159,7 +163,7 @@ def instantiate_object(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from collections import Counter
         >>> from objectory.utils import instantiate_object
@@ -230,13 +234,14 @@ def is_lambda_function(obj: Any) -> bool:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from objectory.utils import is_lambda_function
         >>> is_lambda_function(lambda value: value + 1)
         True
         >>> def my_function(value: int) -> int:
         ...     return value + 1
+        ...
         >>> is_lambda_function(my_function)
         False
         >>> is_lambda_function(1)
