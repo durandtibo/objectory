@@ -69,7 +69,6 @@ For example, you can define the `Child2Class` class with the following implement
 
 ```python
 class Child2Class(BaseClass):
-
     def __init__(self, dim: int):
         self.dim = dim
 ```
@@ -82,7 +81,6 @@ added to the `BaseClass` factory:
 ```python
 class Child3Class(Child1Class):
     pass
-
 ```
 
 ### `register_object` function
@@ -283,6 +281,7 @@ The signature of the`factory` function is:
 
 ```python
 def factory(cls, _target_: str, *args, _init_: str = "__init__", **kwargs):
+    ...
 ```
 
 where `*args` and `**kwargs` are the parameters of the object to instantiate.
@@ -369,7 +368,7 @@ Similarly to class, it is possible to specify the name of the function to call.
 For example if you want to call the `my_nodule` function previously defined, you can write:
 
 ```python
-net = BaseModule.factory('my_package.nodule.my_nodule', input_size=4, output_size=12)
+net = BaseModule.factory("my_package.nodule.my_nodule", input_size=4, output_size=12)
 ```
 
 Finally, you can call the `factory` function with any class that inherits from the base factory
@@ -398,7 +397,6 @@ Let's define a new class that has a class method to create an object:
 ```python
 # file: my_package/child4.py
 class Child4Class(BaseClass):
-
     def __init__(self, dim: int):
         self.dim = dim
 
@@ -425,7 +423,7 @@ It is useful to instantiate an object which is not defined in a third party pack
 For example if you want to load the class `torch.nn.GRU`, you can use the following line:
 
 ```python
-net = BaseClass.factory('torch.nn.GRU', input_size=4, hidden_size=12)
+net = BaseClass.factory("torch.nn.GRU", input_size=4, hidden_size=12)
 ```
 
 It is not necessary to register this class to instantiate it.
@@ -437,8 +435,8 @@ Due to some imports in the `__init__.py` of some packages, some objects have sev
 For example, a GRU object in PyTorch can be created by using the two approaches below:
 
 ```python
-net = BaseClass.factory('torch.nn.GRU', input_size=4, hidden_size=12)
-net = BaseClass.factory('torch.nn.modules.rnn.GRU', input_size=4, hidden_size=12)
+net = BaseClass.factory("torch.nn.GRU", input_size=4, hidden_size=12)
+net = BaseClass.factory("torch.nn.modules.rnn.GRU", input_size=4, hidden_size=12)
 ```
 
 Please read the [name resolution mechanism](name_resolution.md) documentation to learn more about

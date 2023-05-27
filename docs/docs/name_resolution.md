@@ -106,7 +106,7 @@ To use the name resolution mechanism, you can write the following code:
 ```python
 from objectory.utils import resolve_name
 
-print(resolve_name('Linear', {'torch.nn.modules.linear.Linear', 'my_package.MyClass'}))
+print(resolve_name("Linear", {"torch.nn.modules.linear.Linear", "my_package.MyClass"}))
 ```
 
 *Output*:
@@ -172,7 +172,11 @@ If we use the example presented above on `torch.nn.Linear`, we can write somethi
 ```python
 from objectory.utils import resolve_name
 
-print(resolve_name("torch.nn.Linear", {"torch.nn.modules.linear.Linear"}, allow_import=False))
+print(
+    resolve_name(
+        "torch.nn.Linear", {"torch.nn.modules.linear.Linear"}, allow_import=False
+    )
+)
 ```
 
 *Output*:

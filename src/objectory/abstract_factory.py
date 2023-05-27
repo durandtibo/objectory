@@ -90,13 +90,15 @@ class AbstractFactory(ABCMeta):  # noqa: B024
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from objectory import AbstractFactory
             >>> class BaseClass(metaclass=AbstractFactory):
             ...     pass
+            ...
             >>> class MyClass(BaseClass):
             ...     pass
+            ...
             >>> BaseClass.factory("MyClass")
             <__main__.MyClass object at 0x123456789>
         """
@@ -123,13 +125,15 @@ class AbstractFactory(ABCMeta):  # noqa: B024
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from objectory import AbstractFactory
             >>> class BaseClass(metaclass=AbstractFactory):
             ...     pass
+            ...
             >>> class MyClass:
             ...     pass
+            ...
             >>> BaseClass.register_object(MyClass)
             >>> BaseClass.inheritors
             {'__main__.BaseClass': <class '__main__.BaseClass'>,
@@ -157,13 +161,15 @@ class AbstractFactory(ABCMeta):  # noqa: B024
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from objectory import AbstractFactory
             >>> class BaseClass(metaclass=AbstractFactory):
             ...     pass
+            ...
             >>> class MyClass:
             ...     pass
+            ...
             >>> BaseClass.register_object(MyClass)
             >>> BaseClass.unregister("MyClass")
             >>> BaseClass.inheritors
@@ -268,15 +274,17 @@ def register(cls: AbstractFactory) -> Callable:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from objectory.abstract_factory import AbstractFactory, register
         >>> class BaseClass(metaclass=AbstractFactory):
         ...     pass
+        ...
         >>> @register(BaseClass)
         ... def function_to_register(value: int) -> int:
         ...     return value + 2
-        >>> BaseClass.factory('function_to_register', 40)
+        ...
+        >>> BaseClass.factory("function_to_register", 40)
         42
     """
 
@@ -309,11 +317,12 @@ def register_child_classes(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from objectory.abstract_factory import AbstractFactory, register_child_classes
         >>> class BaseClass(metaclass=AbstractFactory):
-        >>>     pass
+        ...     pass
+        ...
         >>> register_child_classes(BaseClass, dict)
         {'__main__.BaseClass': <class '__main__.BaseClass'>,
          'builtins.dict': <class 'dict'>,
@@ -347,11 +356,12 @@ def is_abstract_factory(cls: Any) -> bool:
 
         Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from objectory.abstract_factory import AbstractFactory, is_abstract_factory
         >>> class BaseClass(metaclass=AbstractFactory):
-        >>>     pass
+        ...     pass
+        ...
         >>> is_abstract_factory(BaseClass)
         True
         >>> is_abstract_factory(int)
