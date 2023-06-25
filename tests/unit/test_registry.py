@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from collections import OrderedDict
 from collections.abc import Callable
@@ -22,11 +24,11 @@ class ClassToRegister:
         self.arg2 = arg2
 
     @classmethod
-    def class_method(cls) -> "ClassToRegister":
+    def class_method(cls) -> ClassToRegister:
         return cls(arg1=35, arg2="bac")
 
     @classmethod
-    def class_method_with_arg(cls, arg2: str) -> "ClassToRegister":
+    def class_method_with_arg(cls, arg2: str) -> ClassToRegister:
         return cls(arg1=333, arg2=arg2)
 
 

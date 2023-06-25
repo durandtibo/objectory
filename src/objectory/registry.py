@@ -1,10 +1,12 @@
 r"""This module implements a registry class."""
 
+from __future__ import annotations
+
 __all__ = ["Registry"]
 
 import inspect
 import logging
-from typing import Any, Callable, Optional, TypeVar, Union
+from typing import Any, Callable, TypeVar
 
 from objectory.errors import (
     IncorrectObjectFactoryError,
@@ -39,7 +41,7 @@ class Registry:
         self._state = {}
         self._filters = {}
 
-    def __getattr__(self, key: str) -> Union["Registry", type]:
+    def __getattr__(self, key: str) -> Registry | type:
         if key not in self._state:
             self._state[key] = Registry()
         if self._is_registry(key):
@@ -155,7 +157,7 @@ class Registry:
             self._get_target_from_name(_target_), *args, _init_=_init_, **kwargs
         )
 
-    def register(self, name: Optional[str] = None) -> Callable:
+    def register(self, name: str | None = None) -> Callable:
         r"""Defines a decorator to add a class or a function to the
         registry.
 
@@ -225,7 +227,7 @@ class Registry:
                 continue
             self.register_object(class_to_register)
 
-    def register_object(self, obj: Union[type, Callable], name: Optional[str] = None) -> None:
+    def register_object(self, obj: type | Callable, name: str | None = None) -> None:
         r"""Registers an object.
 
         Please read the documentation for more information.
@@ -330,7 +332,7 @@ class Registry:
             )
         self._state.pop(resolved_name)
 
-    def set_class_filter(self, cls: Optional[type]) -> None:
+    def set_class_filter(self, cls: type | None) -> None:
         r"""Sets the class filter so only the child classes of this class
         can be registered.
 
@@ -368,7 +370,7 @@ class Registry:
             raise TypeError(f"The class filter has to be a class (received: {cls})")
         self._filters[self._CLASS_FILTER] = cls
 
-    def _check_object(self, obj: Union[type, Callable]) -> None:
+    def _check_object(self, obj: type | Callable) -> None:
         r"""Checks if the object is valid for this registry before to
         register it.
 
@@ -440,7 +442,7 @@ class Registry:
         """
         return isinstance(self._state[name], Registry)
 
-    def _resolve_name(self, name: str) -> Optional[str]:
+    def _resolve_name(self, name: str) -> str | None:
         r"""Tries to resolve the name.
 
         This function will look at if it can find an object which

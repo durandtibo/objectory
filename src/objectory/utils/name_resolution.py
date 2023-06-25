@@ -1,13 +1,14 @@
 """This module implements the name resolution mechanism."""
 
+from __future__ import annotations
+
 __all__ = ["resolve_name", "find_matches"]
 
-from typing import Optional
 
 from objectory.utils.object_helpers import full_object_name, import_object
 
 
-def resolve_name(name: str, object_names: set[str], allow_import: bool = True) -> Optional[str]:
+def resolve_name(name: str, object_names: set[str], allow_import: bool = True) -> str | None:
     r"""Tries to find a match of the query name in the set of object
     names.
 

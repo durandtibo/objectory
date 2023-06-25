@@ -1,6 +1,8 @@
 r"""This module defines the main errors of the object factory
 package."""
 
+from __future__ import annotations
+
 __all__ = [
     "AbstractClassFactoryError",
     "AbstractFactoryTypeError",
