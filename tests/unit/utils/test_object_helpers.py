@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from collections import Counter
 from math import isclose
@@ -27,15 +29,15 @@ class FakeClass:
         """Do nothing."""
 
     @staticmethod
-    def static_method() -> "FakeClass":
+    def static_method() -> FakeClass:
         return FakeClass(1, "qwerty")
 
     @classmethod
-    def class_method(cls) -> "FakeClass":
+    def class_method(cls) -> FakeClass:
         return cls(arg1=35, arg2="bac")
 
     @classmethod
-    def class_method_with_arg(cls, arg2: str) -> "FakeClass":
+    def class_method_with_arg(cls, arg2: str) -> FakeClass:
         return cls(arg1=333, arg2=arg2)
 
 

@@ -1,13 +1,15 @@
 r"""This module implements the ``AbstractFactory`` metaclass used to create
 factories."""
 
+from __future__ import annotations
+
 __all__ = ["AbstractFactory", "is_abstract_factory", "register", "register_child_classes"]
 
 import inspect
 import logging
 from abc import ABCMeta
 from collections.abc import Callable
-from typing import Any, Optional, Union
+from typing import Any
 
 from objectory.errors import (
     AbstractFactoryTypeError,
@@ -106,7 +108,7 @@ class AbstractFactory(ABCMeta):  # noqa: B024
             cls._abstractfactory_get_target_from_name(_target_), *args, _init_=_init_, **kwargs
         )
 
-    def register_object(cls, obj: Union[type, Callable]) -> None:
+    def register_object(cls, obj: type | Callable) -> None:
         r"""Registers a class or function to the factory. It is useful if
         you are using a 3rd party library.
 
@@ -182,7 +184,7 @@ class AbstractFactory(ABCMeta):  # noqa: B024
             )
         cls._abstractfactory_inheritors.pop(resolved_name)
 
-    def _abstractfactory_get_target_from_name(cls, name: str) -> Union[type, Callable]:
+    def _abstractfactory_get_target_from_name(cls, name: str) -> type | Callable:
         """Gets the class or function to used given its name.
 
         Args:
@@ -205,7 +207,7 @@ class AbstractFactory(ABCMeta):  # noqa: B024
             cls.register_object(import_object(resolved_name))
         return cls._abstractfactory_inheritors[resolved_name]
 
-    def _abstractfactory_resolve_name(cls, name: str) -> Optional[str]:
+    def _abstractfactory_resolve_name(cls, name: str) -> str | None:
         r"""Tries to resolve the name.
 
         This function will look at if it can find an object which
@@ -296,7 +298,7 @@ def register(cls: AbstractFactory) -> Callable:
 
 
 def register_child_classes(
-    factory_cls: Union[AbstractFactory, type], cls: type, ignore_abstract_class: bool = True
+    factory_cls: AbstractFactory | type, cls: type, ignore_abstract_class: bool = True
 ) -> None:
     r"""Registers the given class and its child classes of a given class.
 

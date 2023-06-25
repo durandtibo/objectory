@@ -1,5 +1,7 @@
 r"""This module contains some helper functions to manipulate objects."""
 
+from __future__ import annotations
+
 __all__ = [
     "all_child_classes",
     "full_object_name",
@@ -10,7 +12,7 @@ __all__ = [
 
 import inspect
 import logging
-from typing import Any, Callable, Union
+from typing import Any, Callable
 
 from tornado.util import import_object as tornado_import_object
 
@@ -139,9 +141,7 @@ def import_object(object_path: str) -> Any:
         return None
 
 
-def instantiate_object(
-    obj: Union[Callable, type], *args, _init_: str = "__init__", **kwargs
-) -> Any:
+def instantiate_object(obj: Callable | type, *args, _init_: str = "__init__", **kwargs) -> Any:
     r"""Instantiates dynamically an object from its configuration.
 
     Args:

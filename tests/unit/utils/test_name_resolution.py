@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from objectory.utils.name_resolution import find_matches, resolve_name
 
 ########################

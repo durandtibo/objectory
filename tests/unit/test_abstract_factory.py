@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 import collections
 import logging
 from abc import ABC, abstractmethod
 from collections.abc import Callable
-from typing import NoReturn, TypeVar
+from typing import TypeVar
 
 import pytest
 from pytest import LogCaptureFixture, fixture
@@ -58,11 +60,11 @@ class Class2(Class1):
 
 class Class3(Class2):
     @classmethod
-    def class_method(cls) -> "Class3":
+    def class_method(cls) -> Class3:
         return cls(arg2=111, arg3=222)
 
     @classmethod
-    def class_method_with_arg(cls, arg3: int) -> "Class3":
+    def class_method_with_arg(cls, arg3: int) -> Class3:
         return cls(arg2=333, arg3=arg3)
 
 
@@ -102,13 +104,13 @@ def func_decor() -> Callable:
     return inner
 
 
-def reset_base_class() -> NoReturn:
+def reset_base_class() -> None:
     BaseClass.inheritors.clear()
     BaseClass.register_object(BaseClass)
     assert len(BaseClass.inheritors) == 1
 
 
-def reset_base_class_with_argument() -> NoReturn:
+def reset_base_class_with_argument() -> None:
     BaseClassWithArgument.inheritors.clear()
     BaseClassWithArgument.register_object(BaseClassWithArgument)
     BaseClassWithArgument.register_object(ChildClass)
