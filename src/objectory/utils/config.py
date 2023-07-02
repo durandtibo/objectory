@@ -2,6 +2,9 @@ from __future__ import annotations
 
 __all__ = ["is_object_config"]
 
+import inspect
+import typing
+
 from objectory.constants import OBJECT_TARGET
 from objectory.utils.object_helpers import import_object
 
@@ -11,7 +14,9 @@ def is_object_config(config: dict, cls: type[object]) -> bool:
     given class.
 
     This function only checks if the value of the key  ``_target_``
-    is valid. It does not check the other values.
+    is valid. It does not check the other values. If ``_target_``
+    indicates a function, the returned type hint is used to check
+    the class.
 
     Args:
     ----
@@ -34,4 +39,9 @@ def is_object_config(config: dict, cls: type[object]) -> bool:
     target = config.get(OBJECT_TARGET)
     if target is None:
         return False
-    return cls in import_object(target).__mro__
+    target = import_object(target)
+    if inspect.isfunction(target):
+        target = typing.get_type_hints(target).get("return")
+    if target is None:
+        return False
+    return cls in target.__mro__
