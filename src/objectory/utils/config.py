@@ -51,7 +51,7 @@ def is_object_config(config: dict, cls: type[object]) -> bool:
         target = get_type_hints(target).get("return")
     if target is None:
         return False
-    if isinstance(target, UnionGenericAlias) or isinstance(target, UnionType):  # typing.Union and |
+    if isinstance(target, (UnionGenericAlias, UnionType)):  # typing.Union and |
         targets = target.__args__
     else:
         targets = [target]
