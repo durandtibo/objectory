@@ -9,6 +9,8 @@ from typing import get_type_hints
 
 if sys.version_info >= (3, 10):  # pragma: no cover
     from types import UnionType
+else:
+    UnionType = UnionGenericAlias
 
 from objectory.constants import OBJECT_TARGET
 from objectory.utils.object_helpers import import_object
