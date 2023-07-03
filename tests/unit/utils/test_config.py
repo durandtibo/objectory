@@ -12,6 +12,10 @@ def create_list() -> list[int]:
     return [1, 2, 3, 4]
 
 
+def create_list_union() -> list[int] | tuple[int, ...]:
+    return [1, 2, 3, 4]
+
+
 def create_list_without_type_hint():  # noqa: ANN201
     return [1, 2, 3, 4]
 
@@ -31,6 +35,9 @@ def create_list_without_type_hint():  # noqa: ANN201
         ({OBJECT_TARGET: "collections.Counter", "iterable": [1, 2, 1, 3]}, object),
         ({OBJECT_TARGET: "unit.utils.test_config.create_list"}, list),
         ({OBJECT_TARGET: "unit.utils.test_config.create_list"}, object),
+        ({OBJECT_TARGET: "unit.utils.test_config.create_list_union"}, tuple),
+        ({OBJECT_TARGET: "unit.utils.test_config.create_list_union"}, list),
+        ({OBJECT_TARGET: "unit.utils.test_config.create_list_union"}, object),
     ),
 )
 def test_is_object_config_true(config: dict, cls: type[object]) -> None:

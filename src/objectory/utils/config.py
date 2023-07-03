@@ -4,6 +4,7 @@ __all__ = ["is_object_config"]
 
 import inspect
 import typing
+from types import UnionType
 
 from objectory.constants import OBJECT_TARGET
 from objectory.utils.object_helpers import import_object
@@ -44,4 +45,5 @@ def is_object_config(config: dict, cls: type[object]) -> bool:
         target = typing.get_type_hints(target).get("return")
     if target is None:
         return False
-    return cls in target.__mro__
+    targets = target.__args__ if isinstance(target, UnionType) else [target]
+    return any([cls in target.__mro__ for target in targets])
