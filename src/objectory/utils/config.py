@@ -4,12 +4,11 @@ __all__ = ["is_object_config"]
 
 import inspect
 import sys
+from typing import _UnionGenericAlias as UnionGenericAlias
 from typing import get_type_hints
 
-if sys.version_info >= (3, 10):
+if sys.version_info >= (3, 10):  # pragma: no cover
     from types import UnionType
-else:  # pragma: no cover
-    from typing import _UnionGenericAlias as UnionType
 
 from objectory.constants import OBJECT_TARGET
 from objectory.utils.object_helpers import import_object
@@ -50,5 +49,8 @@ def is_object_config(config: dict, cls: type[object]) -> bool:
         target = get_type_hints(target).get("return")
     if target is None:
         return False
-    targets = target.__args__ if isinstance(target, UnionType) else [target]
+    if isinstance(target, UnionGenericAlias) or isinstance(target, UnionType):  # typing.Union and |
+        targets = target.__args__
+    else:
+        targets = [target]
     return any([cls in target.__mro__ for target in targets])
