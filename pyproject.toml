@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "objectory"
-version = "0.0.6a0"
+version = "0.0.6"
 description = "A light library for general purpose object factories"
 readme = "README.md"
 authors = ["Thibaut Durand <durand.tibo+gh@gmail.com>"]
@@ -44,7 +44,7 @@ pylint = "^2.17"
 pytest = "^7.4"
 pytest-cov = "^4.1"
 pytest-timeout = "^2.1"
-ruff = ">=0.0.275,<1.0"
+ruff = ">=0.0.276,<1.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
