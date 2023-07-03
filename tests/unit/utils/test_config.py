@@ -1,6 +1,5 @@
-from __future__ import annotations
-
 from collections import Counter
+from typing import Union
 
 from pytest import mark
 
@@ -8,11 +7,11 @@ from objectory import OBJECT_TARGET
 from objectory.utils import is_object_config
 
 
-def create_list() -> list[int]:
+def create_list() -> list:
     return [1, 2, 3, 4]
 
 
-def create_list_union() -> list[int] | tuple[int, ...]:
+def create_list_union() -> Union[list, tuple]:
     return [1, 2, 3, 4]
 
 

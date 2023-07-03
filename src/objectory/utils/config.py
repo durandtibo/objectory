@@ -3,8 +3,13 @@ from __future__ import annotations
 __all__ = ["is_object_config"]
 
 import inspect
-import typing
-from types import UnionType
+import sys
+from typing import get_type_hints
+
+if sys.version_info >= (3, 10):
+    from types import UnionType
+else:  # pragma: no cover
+    from typing import _UnionGenericAlias as UnionType
 
 from objectory.constants import OBJECT_TARGET
 from objectory.utils.object_helpers import import_object
@@ -42,7 +47,7 @@ def is_object_config(config: dict, cls: type[object]) -> bool:
         return False
     target = import_object(target)
     if inspect.isfunction(target):
-        target = typing.get_type_hints(target).get("return")
+        target = get_type_hints(target).get("return")
     if target is None:
         return False
     targets = target.__args__ if isinstance(target, UnionType) else [target]
