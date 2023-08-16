@@ -130,6 +130,11 @@ pip install objectory
 
 Please check the [get started page](https://durandtibo.github.io/objectory/get_started) to see other
 alternatives to install the library.
+The following is the corresponding `objectory` versions and supported dependencies.
+
+| `objectory` | `tornado`    | `python`      |
+|-------------|--------------|---------------|
+| `0.0.7`     | `>=6.0,<7.0` | `>=3.9,<3.12` |
 
 ## Contributing
 
