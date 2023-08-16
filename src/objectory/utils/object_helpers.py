@@ -27,9 +27,11 @@ def all_child_classes(cls: type) -> set[type]:
     SOURCE: https://stackoverflow.com/a/3862957
 
     Args:
+    ----
         cls: Specifies the class whose child classes you want to get.
 
     Returns:
+    -------
         set: The set of all the child classes of the given class.
 
     Example usage:
@@ -45,8 +47,8 @@ def all_child_classes(cls: type) -> set[type]:
         >>> class Bar(Foo):
         ...     pass
         ...
-        >>> all_child_classes(Foo)
-        {<class '__main__.Bar'>}
+        >>> all_child_classes(Foo)  # doctest:+ELLIPSIS
+        {<class '....Bar'>}
     """
     return set(cls.__subclasses__()).union(
         [s for c in cls.__subclasses__() for s in all_child_classes(c)]
@@ -59,13 +61,16 @@ def full_object_name(obj: Any) -> str:
     This function works for class and function objects.
 
     Args:
+    ----
         obj: Specifies the class/function that you want to compute
             the full name.
 
     Returns:
+    -------
         str: The full name of the object.
 
     Raises:
+    ------
         ``TypeError`` if the object is not a class or a function.
 
     Example usage:
@@ -76,13 +81,13 @@ def full_object_name(obj: Any) -> str:
         >>> class MyClass:
         ...     pass
         ...
-        >>> full_object_name(MyClass)
-        '__main__.MyClass'
+        >>> full_object_name(MyClass)  # doctest:+ELLIPSIS
+        '....MyClass'
         >>> def my_function():
         ...     pass
         ...
-        >>> full_object_name(my_function)
-        '__main__.my_function'
+        >>> full_object_name(my_function)  # doctest:+ELLIPSIS
+        '....my_function'
     """
     if inspect.isclass(obj) or inspect.isfunction(obj):
         return _full_object_name(obj)
@@ -95,10 +100,12 @@ def _full_object_name(obj: type) -> str:
     SOURCE: https://gist.github.com/clbarnes/edd28ea32010eb159b34b075687bb49e
 
     Args:
+    ----
         obj: Specifies the class/function that you want to compute
             the full class name.
 
     Returns:
+    -------
         str: The full class name.
     """
     name = obj.__qualname__
@@ -116,9 +123,11 @@ def import_object(object_path: str) -> Any:
     the object path does not respect this structure.
 
     Args:
-        object_path: Specifies the path of the object to import.
+    ----
+        object_path (str): Specifies the path of the object to import.
 
     Returns:
+    -------
         The object if the import was successful otherwise ``None``.
 
     Example usage:
@@ -145,6 +154,7 @@ def instantiate_object(obj: Callable | type, *args, _init_: str = "__init__", **
     r"""Instantiates dynamically an object from its configuration.
 
     Args:
+    ----
         obj (class or function): Specifies the class to instantiate
             or the function to call.
         *args: Variable length argument list.
@@ -155,10 +165,12 @@ def instantiate_object(obj: Callable | type, *args, _init_: str = "__init__", **
         **kwargs: Arbitrary keyword arguments.
 
     Returns:
+    -------
         The instantiated object if ``obj`` is a class name, otherwise
             the returned value of the function.
 
     Raises:
+    ------
         TypeError if ``obj`` is not a class or a function.
 
     Example usage:
@@ -186,6 +198,7 @@ def _instantiate_class_object(cls: type, *args, _init_: str = "__init__", **kwar
     ``__init__`` (default) or ``__new__`` or a class method.
 
     Args:
+    ----
         cls (class): Specifies the class of the object to instantiate.
         *args: Variable length argument list.
         _init_ (str, optional): Specifies the function to use to
@@ -195,9 +208,11 @@ def _instantiate_class_object(cls: type, *args, _init_: str = "__init__", **kwar
         **kwargs: Arbitrary keyword arguments.
 
     Returns:
+    -------
         The instantiated object.
 
     Raises:
+    ------
         ``AbstractClassFactoryError`` if it is an abstract class.
         ``IncorrectObjectFactoryError`` if it is not possible to
             instantiate the object.
@@ -226,9 +241,11 @@ def is_lambda_function(obj: Any) -> bool:
     Adapted from https://stackoverflow.com/a/23852434
 
     Args:
+    ----
         obj: Specifies the object to check.
 
     Returns:
+    -------
         bool: ``True`` if the input is a lambda function,
             otherwise ``False``
 

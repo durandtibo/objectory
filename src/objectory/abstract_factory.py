@@ -41,6 +41,7 @@ class AbstractFactory(ABCMeta):  # noqa: B024
     attribute or the function.
 
     Args:
+    ----
         name (str): Specifies the class name. This becomes the
             ``__name__`` attribute of the class.
         bases (tuple): Specifies a tuple of the base classes from
@@ -72,6 +73,7 @@ class AbstractFactory(ABCMeta):  # noqa: B024
         Please read the documentation for more information.
 
         Args:
+        ----
             _target_ (str): Specifies the name of the object
                 (class or function) to instantiate.
                 It can be the class name or the full class name.
@@ -82,9 +84,11 @@ class AbstractFactory(ABCMeta):  # noqa: B024
             **kwargs: Arbitrary keyword arguments.
 
         Returns:
+        -------
             The instantiated object with the given parameters.
 
         Raises:
+        ------
             ``AbstractClassAbstractFactoryError``: if you try to
                 instantiate an abstract class.
             ``UnregisteredClassAbstractFactoryError``: if the target
@@ -101,8 +105,8 @@ class AbstractFactory(ABCMeta):  # noqa: B024
             >>> class MyClass(BaseClass):
             ...     pass
             ...
-            >>> BaseClass.factory("MyClass")
-            <__main__.MyClass object at 0x123456789>
+            >>> BaseClass.factory("MyClass")  # doctest:+ELLIPSIS
+            <....MyClass object at 0x...>
         """
         return instantiate_object(
             cls._abstractfactory_get_target_from_name(_target_), *args, _init_=_init_, **kwargs
@@ -118,10 +122,12 @@ class AbstractFactory(ABCMeta):  # noqa: B024
         3rd party library.
 
         Args:
-            obj: Specifies the class or function to register to the
-                factory.
+        ----
+            obj (``type`` or ``Callable``): Specifies the class or
+                function to register to the factory.
 
         Raises:
+        ------
             ``IncorrectObjectAbstractFactoryError``: if the object
                 is not a class.
 
@@ -137,9 +143,8 @@ class AbstractFactory(ABCMeta):  # noqa: B024
             ...     pass
             ...
             >>> BaseClass.register_object(MyClass)
-            >>> BaseClass.inheritors
-            {'__main__.BaseClass': <class '__main__.BaseClass'>,
-             '__main__.MyClass': <class '__main__.MyClass'>}
+            >>> BaseClass.inheritors  # doctest:+ELLIPSIS
+            {...}
         """
         cls._abstractfactory_check_object(obj)
         name = full_object_name(obj)
@@ -157,6 +162,7 @@ class AbstractFactory(ABCMeta):  # noqa: B024
         This is an experimental function and may change in the future.
 
         Args:
+        ----
             name (string): Specifies the name of the object to remove.
                 This function uses the name resolution mechanism to
                 find the full name if only the short name is given.
@@ -174,8 +180,8 @@ class AbstractFactory(ABCMeta):  # noqa: B024
             ...
             >>> BaseClass.register_object(MyClass)
             >>> BaseClass.unregister("MyClass")
-            >>> BaseClass.inheritors
-            {'__main__.BaseClass': <class '__main__.BaseClass'>}
+            >>> BaseClass.inheritors  # doctest:+ELLIPSIS
+            {'....BaseClass': <class '....BaseClass'>}
         """
         resolved_name = cls._abstractfactory_resolve_name(name)
         if resolved_name is None or not cls._abstractfactory_is_name_registered(resolved_name):
@@ -188,12 +194,15 @@ class AbstractFactory(ABCMeta):  # noqa: B024
         """Gets the class or function to used given its name.
 
         Args:
+        ----
             name (str): Specifies the name of the class or function.
 
         Returns:
+        -------
             The class or function.
 
         Raises:
+        ------
             ``UnregisteredObjectFactoryError`` if it is not possible
                 to find the target.
         """
@@ -218,10 +227,12 @@ class AbstractFactory(ABCMeta):  # noqa: B024
         and registered it if it is not registered yet.
 
         Args:
+        ----
             name (str): Specifies the name of the class or function
                 to resolve.
 
         Returns:
+        -------
             ``str`` or ``None``: It returns the name to use to get
                 the object if the resolution was successful,
                 otherwise ``None``.
@@ -232,9 +243,11 @@ class AbstractFactory(ABCMeta):  # noqa: B024
         r"""Indicates if the name exists or not in the factory .
 
         Args:
+        ----
             name (str): Specifies the name to check.
 
         Returns:
+        -------
             bool: ``True`` if the name exists otherwise ``False``.
         """
         return name in cls._abstractfactory_inheritors
@@ -247,9 +260,11 @@ class AbstractFactory(ABCMeta):  # noqa: B024
         valid.
 
         Args:
+        ----
             obj: Specifies the object to check.
 
         Raises:
+        ------
             ``IncorrectObjectFactoryError`` if it is an invalid
                 object for this factory.
         """
@@ -271,8 +286,13 @@ def register(cls: AbstractFactory) -> Callable:
     an object of a class registered in the factory.
 
     Args:
+    ----
         cls (``AbstractFactory``): Specifies the class where to
             register the function.
+
+    Returns:
+    -------
+        ``Callable``: The decorated function.
 
     Example usage:
 
@@ -306,6 +326,7 @@ def register_child_classes(
     classes of the child classes, etc.
 
     Args:
+    ----
         factory_cls (``AbstractFactory``): Specifies the factory class.
             The child classes will be registered to this class.
         cls (class): Specifies the class to register its child classes.
@@ -314,6 +335,7 @@ def register_child_classes(
             are not registered because they cannot be instantiated.
 
     Raises:
+    ------
         ``AbstractFactoryTypeError`` if the factory class does not
             implement the ``AbstractFactory`` metaclass.
 
@@ -326,13 +348,6 @@ def register_child_classes(
         ...     pass
         ...
         >>> register_child_classes(BaseClass, dict)
-        {'__main__.BaseClass': <class '__main__.BaseClass'>,
-         'builtins.dict': <class 'dict'>,
-         'collections.Counter': <class 'collections.Counter'>,
-         'collections.defaultdict': <class 'collections.defaultdict'>,
-         'tornado.util.ObjectDict': <class 'tornado.util.ObjectDict'>,
-         'collections.OrderedDict': <class 'collections.OrderedDict'>,
-         'enum._EnumDict': <class 'enum._EnumDict'>}
     """
     if not is_abstract_factory(factory_cls):
         raise AbstractFactoryTypeError(
@@ -351,9 +366,11 @@ def is_abstract_factory(cls: Any) -> bool:
     metaclass.
 
     Args:
+    ----
         cls: Specifies the class to check.
 
     Returns:
+    -------
         bool: ``True`` if the class implements the ``AbstractFactory``
             metaclass, otherwise ``False``.
 
