@@ -40,7 +40,8 @@ def is_object_config(config: dict, cls: type[object]) -> bool:
     .. code-block:: pycon
 
         >>> from objectory.utils import is_object_config
-        >>> is_object_config({"_target_": "collections.Counter", "iterable": [1, 2, 1, 3]})
+        >>> from collections import Counter
+        >>> is_object_config({"_target_": "collections.Counter", "iterable": [1, 2, 1, 3]}, Counter)
         True
     """
     target = config.get(OBJECT_TARGET)

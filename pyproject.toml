@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "objectory"
-version = "0.0.6"
+version = "0.0.7a1"
 description = "A light library for general purpose object factories"
 readme = "README.md"
 authors = ["Thibaut Durand <durand.tibo+gh@gmail.com>"]
@@ -28,7 +28,7 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = ">=3.9,<3.12"
 tornado = "^6.0"
 
 [tool.poetry.group.docs.dependencies]
@@ -36,15 +36,16 @@ mkdocs-material = "^9.1"
 mkdocstrings = "^0.22"
 
 [tool.poetry.group.dev.dependencies]
-black = "^23.3"
-coverage = { extras = ["toml"], version = "^7.2" }
+black = "^23.7"
+coverage = { extras = ["toml"], version = "^7.3" }
 docformatter = { extras = ["tomli"], version = "^1.7" }
 pre-commit = "^3.3"
 pylint = "^2.17"
 pytest = "^7.4"
 pytest-cov = "^4.1"
 pytest-timeout = "^2.1"
-ruff = ">=0.0.276,<1.0"
+ruff = ">=0.0.284,<1.0"
+xdoctest = "^1.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -87,27 +88,27 @@ syntax = "google"
 
 [tool.ruff]
 select = [
-    "A",   # builtins
+    "A", # builtins
     "ANN", # annotations
-    "B",   # bugbear
+    "B", # bugbear
     "BLE", # blind-except
-    "E",   # pycodestyle (Error)
-    "F",   # pyflakes
-    "N",   # naming
+    "E", # pycodestyle (Error)
+    "F", # pyflakes
+    "N", # naming
     "PTH", # pathlib
-    "UP",  # pyupgrade
-    "W",   # pycodestyle (Warning)
+    "UP", # pyupgrade
+    "W", # pycodestyle (Warning)
 ]
 ignore = [
-    "A003",    # Class attribute `{name}` is shadowing a python builtin
-    "ANN002",  # Missing type annotation for `*args`
-    "ANN003",  # Missing type annotation for `**kwargs`
-    "ANN101",  # Missing type annotation for `self` in method
-    "ANN102",  # Missing type annotation for `cls` in classmethod
-    "ANN401",  # Dynamically typed expressions (typing.Any) are disallowed.
-    "B905",    # `zip()` without an explicit strict= parameter set. The `strict=` argument was added in Python 3.10
-    "E501",    # Line lengths are recommended to be no greater than 79 characters.
-    "W505",    # Doc line too long
+    "A003", # Class attribute `{name}` is shadowing a python builtin
+    "ANN002", # Missing type annotation for `*args`
+    "ANN003", # Missing type annotation for `**kwargs`
+    "ANN101", # Missing type annotation for `self` in method
+    "ANN102", # Missing type annotation for `cls` in classmethod
+    "ANN401", # Dynamically typed expressions (typing.Any) are disallowed.
+    "B905", # `zip()` without an explicit strict= parameter set. The `strict=` argument was added in Python 3.10
+    "E501", # Line lengths are recommended to be no greater than 79 characters.
+    "W505", # Doc line too long
 ]
 
 # Allow autofix for all enabled rules (when `--fix`) is provided.
