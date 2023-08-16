@@ -1,5 +1,5 @@
-r"""This module implements the ``AbstractFactory`` metaclass used to create
-factories."""
+r"""This module implements the ``AbstractFactory`` metaclass used to
+create factories."""
 
 from __future__ import annotations
 
@@ -347,7 +347,8 @@ def register_child_classes(
 
 
 def is_abstract_factory(cls: Any) -> bool:
-    r"""Indicates if a class implements the ``AbstractFactory`` metaclass.
+    r"""Indicates if a class implements the ``AbstractFactory``
+    metaclass.
 
     Args:
         cls: Specifies the class to check.
