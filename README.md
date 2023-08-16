@@ -91,7 +91,7 @@ The current implementation contains both abstract factory and registry approache
 >>> from objectory import Registry
 >>> registry = Registry()
 >>> @registry.register()
->>> class MyClass:
+... class MyClass:
 ...     pass
 ...
 >>> obj = registry.factory("MyClass")
