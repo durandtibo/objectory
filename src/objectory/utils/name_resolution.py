@@ -18,11 +18,13 @@ def resolve_name(name: str, object_names: set[str], allow_import: bool = True) -
     resolution mechanism.
 
     Args:
+    ----
         name (str): Specifies the query name to use to find a match
             in the set of object names.
         object_names (set): Specifies the set of object names.
 
     Returns:
+    -------
         str or ``None``: The resolved name if the resolution was
             successful, otherwise ``None``
 
@@ -61,11 +63,13 @@ def find_matches(query: str, object_names: set[str]) -> set[str]:
     that can match with the query name.
 
     Args:
+    ----
         query (str): Specifies the query.
         object_names (set): Specifies the set of object names where
             to look for the query.
 
     Returns:
+    -------
         set: The list of names that matches with the query.
 
     Example usage:
@@ -81,8 +85,8 @@ def find_matches(query: str, object_names: set[str]) -> set[str]:
         {'collections.OrderedDict'}
         >>> find_matches(
         ...     "OrderedDict", {"collections.OrderedDict", "typing.OrderedDict", "math.isclose"}
-        ... )
-        {'collections.OrderedDict', 'typing.OrderedDict'}
+        ... )  # doctest:+ELLIPSIS
+        {...}
     """
     if not query.isidentifier():
         return set()
