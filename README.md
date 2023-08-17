@@ -59,60 +59,43 @@ The current implementation contains both abstract factory and registry approache
 
 **factory**
 
-```python
-from objectory import factory
-
-
-class MyClass:
-    pass
-
-
-obj = factory("MyClass")
-print(obj)
+```pycon
+>>> from objectory import factory
+>>> class MyClass:
+...     pass
+...
+>>> obj = factory("MyClass")
+>>> print(obj)
+<__main__.MyClass object at 0x123456789>
 ```
 
 **[abstract factory](https://durandtibo.github.io/objectory/abstract_factory/)**
 
-```python
-from objectory import AbstractFactory
-
-
-class BaseClass(metaclass=AbstractFactory):
-    pass
-
-
-class MyClass(BaseClass):
-    pass
-
-
-obj = BaseClass.factory("MyClass")
-print(obj)
-```
-
-*Output*:
-
-```textmate
+```pycon
+>>> from objectory import AbstractFactory
+>>> class BaseClass(metaclass=AbstractFactory):
+...     pass
+...
+>>> class MyClass(BaseClass):
+...     pass
+...
+>>> obj = BaseClass.factory("MyClass")
+>>> print(obj)
 <__main__.MyClass object at 0x123456789>
 ```
 
+
 **[registry](https://durandtibo.github.io/objectory/registry/)**
 
-```python
-from objectory import Registry
-
-registry = Registry()
-
-
-@registry.register()
-class MyClass:
-    pass
-
-
-obj = registry.factory("MyClass")
-print(obj)
-```
-
-```textmate
+```pycon
+>>> from objectory import Registry
+>>> registry = Registry()
+>>> @registry.register()
+... class MyClass:
+...     pass
+...
+>>> obj = registry.factory("MyClass")
+>>> print(obj)
 <__main__.MyClass object at 0x123456789>
 ```
 
