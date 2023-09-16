@@ -47,7 +47,7 @@ def all_child_classes(cls: type) -> set[type]:
         >>> class Bar(Foo):
         ...     pass
         ...
-        >>> all_child_classes(Foo)  # doctest:+ELLIPSIS
+        >>> all_child_classes(Foo)
         {<class '....Bar'>}
     """
     return set(cls.__subclasses__()).union(
@@ -81,12 +81,12 @@ def full_object_name(obj: Any) -> str:
         >>> class MyClass:
         ...     pass
         ...
-        >>> full_object_name(MyClass)  # doctest:+ELLIPSIS
+        >>> full_object_name(MyClass)
         '....MyClass'
         >>> def my_function():
         ...     pass
         ...
-        >>> full_object_name(my_function)  # doctest:+ELLIPSIS
+        >>> full_object_name(my_function)
         '....my_function'
     """
     if inspect.isclass(obj) or inspect.isfunction(obj):

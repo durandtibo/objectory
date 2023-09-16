@@ -85,7 +85,7 @@ def find_matches(query: str, object_names: set[str]) -> set[str]:
         {'collections.OrderedDict'}
         >>> find_matches(
         ...     "OrderedDict", {"collections.OrderedDict", "typing.OrderedDict", "math.isclose"}
-        ... )  # doctest:+ELLIPSIS
+        ... )
         {...}
     """
     if not query.isidentifier():
