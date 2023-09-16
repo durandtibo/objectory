@@ -124,6 +124,7 @@ The following is the corresponding `objectory` versions and supported dependenci
 
 | `objectory` | `tornado`    | `python`      |
 |-------------|--------------|---------------|
+| `0.0.8`     | `>=6.0,<7.0` | `>=3.9,<3.12` |
 | `0.0.7`     | `>=6.0,<7.0` | `>=3.9,<3.12` |
 
 ## Contributing
