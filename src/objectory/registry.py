@@ -167,7 +167,7 @@ class Registry:
             ... class MyClass:
             ...     ...
             ...
-            >>> registry.factory("MyClass")  # doctest:+ELLIPSIS
+            >>> registry.factory("MyClass")
             <....MyClass object at 0x...>
         """
         return instantiate_object(
@@ -198,13 +198,13 @@ class Registry:
             ... class ClassToRegister:
             ...     ...
             ...
-            >>> registry.registered_names()  # doctest:+ELLIPSIS
+            >>> registry.registered_names()
             {'....ClassToRegister'}
             >>> @registry.register()
             ... def function_to_register(*args, **kwargs):
             ...     ...
             ...
-            >>> registry.registered_names()  # doctest:+ELLIPSIS
+            >>> registry.registered_names()
             {...}
         """
 
@@ -238,7 +238,7 @@ class Registry:
             >>> from objectory import Registry
             >>> registry = Registry()
             >>> registry.register_child_classes(dict)
-            >>> registry.registered_names()  # doctest:+ELLIPSIS
+            >>> registry.registered_names()
             {...}
         """
         for class_to_register in [cls] + list(all_child_classes(cls)):
@@ -269,13 +269,13 @@ class Registry:
             ...     pass
             ...
             >>> registry.register_object(ClassToRegister)
-            >>> registry.registered_names()  # doctest:+ELLIPSIS
+            >>> registry.registered_names()
             {'....ClassToRegister'}
             >>> def function_to_register(*args, **kwargs):
             ...     pass
             ...
             >>> registry.register_object(function_to_register)
-            >>> registry.registered_names()  # doctest:+ELLIPSIS
+            >>> registry.registered_names()
             {...}
         """
         self._check_object(obj)

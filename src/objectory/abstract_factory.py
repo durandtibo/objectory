@@ -105,7 +105,7 @@ class AbstractFactory(ABCMeta):  # noqa: B024
             >>> class MyClass(BaseClass):
             ...     pass
             ...
-            >>> BaseClass.factory("MyClass")  # doctest:+ELLIPSIS
+            >>> BaseClass.factory("MyClass")
             <....MyClass object at 0x...>
         """
         return instantiate_object(
@@ -143,7 +143,7 @@ class AbstractFactory(ABCMeta):  # noqa: B024
             ...     pass
             ...
             >>> BaseClass.register_object(MyClass)
-            >>> BaseClass.inheritors  # doctest:+ELLIPSIS
+            >>> BaseClass.inheritors
             {...}
         """
         cls._abstractfactory_check_object(obj)
@@ -180,7 +180,7 @@ class AbstractFactory(ABCMeta):  # noqa: B024
             ...
             >>> BaseClass.register_object(MyClass)
             >>> BaseClass.unregister("MyClass")
-            >>> BaseClass.inheritors  # doctest:+ELLIPSIS
+            >>> BaseClass.inheritors
             {'....BaseClass': <class '....BaseClass'>}
         """
         resolved_name = cls._abstractfactory_resolve_name(name)
