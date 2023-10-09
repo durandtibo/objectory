@@ -124,7 +124,8 @@ The following is the corresponding `objectory` versions and supported dependenci
 
 | `objectory` | `tornado`    | `python`      |
 |-------------|--------------|---------------|
-| `0.0.8`     | `>=6.0,<7.0` | `>=3.9,<3.12` |
+| `0.0.9`     | `>=6.0,<7.0` | `>=3.9,<3.13` |
+| `0.0.8`     | `>=6.0,<7.0` | `>=3.9,<3.13` |
 | `0.0.7`     | `>=6.0,<7.0` | `>=3.9,<3.12` |
 
 ## Contributing
@@ -137,8 +138,7 @@ Please check the instructions in [CONTRIBUTING.md](.github/CONTRIBUTING.md).
 release to the next.
 In fact, it is very likely that the API will change multiple times before a stable 1.0.0 release.
 In practice, this means that upgrading `objectory` to a new version will possibly break any code
-that
-was using the old version of `objectory`.
+that was using the old version of `objectory`.
 
 ## License
 
