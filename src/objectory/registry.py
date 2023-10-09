@@ -6,7 +6,8 @@ __all__ = ["Registry"]
 
 import inspect
 import logging
-from typing import Any, Callable, TypeVar
+from collections.abc import Callable
+from typing import Any, TypeVar
 
 from objectory.errors import (
     IncorrectObjectFactoryError,

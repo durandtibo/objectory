@@ -12,7 +12,8 @@ __all__ = [
 
 import inspect
 import logging
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
 from tornado.util import import_object as tornado_import_object
 

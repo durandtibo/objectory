@@ -1,6 +1,7 @@
+from __future__ import annotations
+
 import sys
 from collections import Counter
-from typing import Union
 
 from pytest import mark
 
@@ -14,7 +15,7 @@ def create_list() -> list:
     return [1, 2, 3, 4]
 
 
-def create_list_union() -> Union[list, tuple]:
+def create_list_union() -> list | tuple:
     return [1, 2, 3, 4]
 
 

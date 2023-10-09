@@ -72,7 +72,7 @@ addopts = "--color yes --durations 10 -rf"
 
 [tool.black]
 line-length = 100
-target-version = ["py39", "py310", "py311"]
+target-version = ["py39", "py310", "py311", "py312"]
 include = '\.pyi?$'
 
 [tool.pylint.FORMAT]
