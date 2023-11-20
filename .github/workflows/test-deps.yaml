@@ -41,14 +41,6 @@ jobs:
           poetry run poetry show
           poetry run poetry show --tree
 
-      - name: Format
-        run: |
-          poetry run make format
-
-      - name: Lint
-        run: |
-          poetry run make lint
-
       - name: Run unit tests
         run: |
           poetry run make unit-test-cov
