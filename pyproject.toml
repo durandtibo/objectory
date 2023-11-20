@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "objectory"
-version = "0.0.9a0"
+version = "0.0.9a1"
 description = "A light library for general purpose object factories"
 readme = "README.md"
 authors = ["Thibaut Durand <durand.tibo+gh@gmail.com>"]
@@ -34,10 +34,10 @@ tornado = ">=6.0,<7.0"
 
 [tool.poetry.group.docs.dependencies]
 mkdocs-material = "^9.4"
-mkdocstrings = "^0.23"
+mkdocstrings = "^0.24"
 
 [tool.poetry.group.dev.dependencies]
-black = ">=23.9.1"
+black = ">=23.11"
 coverage = { extras = ["toml"], version = "^7.3" }
 docformatter = { extras = ["tomli"], version = "^1.7" }
 pre-commit = "^3.4"
@@ -45,7 +45,7 @@ pygments = "^2.16"
 pytest = "^7.4"
 pytest-cov = "^4.1"
 pytest-timeout = "^2.2"
-ruff = ">=0.0.292,<1.0"
+ruff = ">=0.1.6,<1.0"
 xdoctest = "^1.1"
 
 [build-system]
