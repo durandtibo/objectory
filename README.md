@@ -84,7 +84,6 @@ The current implementation contains both abstract factory and registry approache
 <__main__.MyClass object at 0x123456789>
 ```
 
-
 **[registry](https://durandtibo.github.io/objectory/registry/)**
 
 ```pycon
@@ -118,6 +117,7 @@ a [virtual environment](https://packaging.python.org/guides/installing-using-pip
 pip install objectory
 ```
 
+It is highly recommended to use the last stable version available.
 Please check the [get started page](https://durandtibo.github.io/objectory/get_started) to see other
 alternatives to install the library.
 The following is the corresponding `objectory` versions and supported dependencies.
