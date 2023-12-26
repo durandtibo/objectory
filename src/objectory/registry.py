@@ -67,7 +67,7 @@ class Registry:
         r"""Returns the number of registered objects.
 
         Returns:
-            int: The number of registered objects.
+            The number of registered objects.
 
         Example usage:
 
@@ -90,8 +90,8 @@ class Registry:
         registry.
 
         Args:
-            nested (bool, default): Indicates if the sub-registries
-                should be cleared or not. Default: ``False``.
+            nested: Indicates if the sub-registries should be
+                cleared or not.
 
         Example usage:
 
@@ -116,24 +116,23 @@ class Registry:
     def clear_filters(self, nested: bool = False) -> None:
         r"""Clears all the filters of the registry.
 
-         Args:
-             nested (bool, optional): Indicates if the filters of all
-                 the sub-registries should be cleared or not.
-                 Default: ``False``.
+        Args:
+            nested: Indicates if the filters of all the sub-registries
+                should be cleared or not.
 
-         Example usage:
+        Example usage:
 
         ```pycon
-         >>> from objectory import Registry
-         >>> registry = Registry()
-         >>> # Clear the filters of the main registry.
-         >>> registry.clear_filters()
-         >>> # Clear the filters of the sub-registry other.
-         >>> registry.other.clear_filters()
-         >>> # Clear the filters of the main registry and all its sub-registries.
-         >>> registry.clear_filters(nested=True)
+        >>> from objectory import Registry
+        >>> registry = Registry()
+        >>> # Clear the filters of the main registry.
+        >>> registry.clear_filters()
+        >>> # Clear the filters of the sub-registry other.
+        >>> registry.other.clear_filters()
+        >>> # Clear the filters of the main registry and all its sub-registries.
+        >>> registry.clear_filters(nested=True)
 
-         ```
+        ```
         """
         if nested:  # If True, clear all the sub-registries.
             for value in self._state.values():
@@ -141,17 +140,17 @@ class Registry:
                     value.clear_filters(nested)
         self._filters.clear()
 
-    def factory(self, _target_: str, *args, _init_: str = "__init__", **kwargs: Any) -> Any:
+    def factory(self, _target_: str, *args: Any, _init_: str = "__init__", **kwargs: Any) -> Any:
         r"""Creates dynamically an object given its configuration.
 
         Please read the documentation for more information.
 
         Args:
-            _target_ (str): Specifies the name of the object
+            _target_ : Specifies the name of the object
                 (class or function) to instantiate.
                 It can be the class name or the full class name.
             *args: Variable length argument list.
-            _init_ (str, optional): Specifies the function to use to
+            _init_: Specifies the function to use to
                 create the object. If ``"__init__"``, the object is
                 created by calling the constructor.
                 Default: ``"__init__"``.
@@ -161,9 +160,9 @@ class Registry:
             The instantiated object with the given parameters.
 
         Raises:
-            ``AbstractClassAbstractFactoryError``: if you try to
+            AbstractClassAbstractFactoryError: if you try to
                 instantiate an abstract class.
-            ``UnregisteredClassAbstractFactoryError``: if the target
+            UnregisteredClassAbstractFactoryError: if the target
                 name is not found.
 
         Example usage:
@@ -189,9 +188,9 @@ class Registry:
         registry.
 
         Args:
-            name (str, optional): Specifies the name to use to
-                register the object. If ``None``, the full name of
-                the object is used as name. Default: ``None``.
+            name: Specifies the name to use to register the object.
+                If ``None``, the full name of the object is used as
+                name.
 
         Returns:
             The decorated object.
@@ -234,7 +233,7 @@ class Registry:
 
         Args:
             cls: Specifies the class to register its child classes.
-            ignore_abstract_class (bool): Indicate if the abstract
+            ignore_abstract_class: Indicate if the abstract
                 class should be ignored or not. Be default, the
                 abstract classes are not registered because they
                 cannot be instantiated.
@@ -261,12 +260,11 @@ class Registry:
         Please read the documentation for more information.
 
         Args:
-            obj (type or ``Callable``): Specifies the object to
-                register. The object is expected to be a class or a
-                function.
-            name (str, optional): Specifies the name to use to
-                register the object. If ``None``, the full name of
-                the object is used as name. Default: ``None``.
+            obj: Specifies the object to register. The object is
+                expected to be a class or a function.
+            name: Specifies the name to use to register the object.
+                If ``None``, the full name of the object is used as
+                name. Default: ``None``.
 
         Example usage:
 
@@ -308,10 +306,9 @@ class Registry:
         r"""Gets the names of all the registered objects.
 
         Args:
-            include_registry (bool, optional): Specifies if the other
-                (sub-)registries should be included in the set.
-                By default, the other (sub-)registries are included.
-                Default: ``True``.
+            include_registry: Specifies if the other (sub-)registries
+                should be included in the set. By default, the other
+                (sub-)registries are included. Default: ``True``.
 
         Returns:
             set: The names of the registered objects.
@@ -340,12 +337,12 @@ class Registry:
         r"""Removes a registered object.
 
         Args:
-            name (str): Specifies the name of the object to remove.
+            name: Specifies the name of the object to remove.
                 This function uses the name resolution mechanism to
                 find the full name if only the short name is given.
 
         Raises:
-            ``UnregisteredObjectFactoryError``: if the name does not
+            UnregisteredObjectFactoryError: if the name does not
                 exist in the registry.
 
         Example usage:
@@ -374,12 +371,11 @@ class Registry:
         To unset this filter, you can use ``set_class_filter(None)``.
 
         Args:
-            cls (``type`` or ``None``): Specifies the class to use as
-                filter. Only the child classes of this class
-                can be registered.
+            cls: Specifies the class to use as filter. Only the child
+                classes of this class can be registered.
 
         Raises:
-            ``TypeError``: if the input is not a class or ``None``.
+            TypeError: if the input is not a class or ``None``.
 
         Example usage:
 
@@ -410,11 +406,10 @@ class Registry:
         valid.
 
         Args:
-            obj (``type`` or ``Callable``): Specifies the object to
-                check.
+            obj: Specifies the object to check.
 
         Raises:
-            ``IncorrectObjectFactoryError``: if it is an invalid
+            IncorrectObjectFactoryError: if it is an invalid
                 object for this factory.
         """
         if is_lambda_function(obj):
@@ -434,13 +429,13 @@ class Registry:
         r"""Gets the class or function to used given its name.
 
         Args:
-            name (str): Specifies the name of the class or function.
+            name: Specifies the name of the class or function.
 
         Returns:
             The class or function.
 
         Raises:
-            ``UnregisteredObjectFactoryError``: if it is not possible
+            UnregisteredObjectFactoryError: if it is not possible
                 to find the target.
         """
         resolved_name = self._resolve_name(name)
@@ -457,10 +452,10 @@ class Registry:
         r"""Indicates if the name exists or not in the registry .
 
         Args:
-            name (string): Specifies the name to check.
+            name: Specifies the name to check.
 
         Returns:
-            bool: ``True`` if the name exists, otherwise ``False``.
+            ``True`` if the name exists, otherwise ``False``.
         """
         return name in self._state
 
@@ -468,10 +463,10 @@ class Registry:
         r"""Indicates if the given is used as sub-registry.
 
         Args:
-            name (string): Specifies the name to check.
+            name: Specifies the name to check.
 
         Returns:
-            bool: ``True`` if the name is used as sub-registry,
+            ``True`` if the name is used as sub-registry,
                 otherwise ``False``.
         """
         return isinstance(self._state[name], Registry)
@@ -487,10 +482,10 @@ class Registry:
         and registered it if it is not registered yet.
 
         Args:
-            name (str): Specifies the name to resolve.
+            name: Specifies the name to resolve.
 
         Returns:
-            ``str`` or ``None``: It returns the name to use to get the
+            It returns the name to use to get the
                 object if the resolution was successful,
                 otherwise ``None``.
         """

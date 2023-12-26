@@ -7,24 +7,24 @@ from typing import Any
 from objectory.utils import import_object, instantiate_object
 
 
-def factory(_target_: str, *args, _init_: str = "__init__", **kwargs) -> Any:
+def factory(_target_: str, *args: Any, _init_: str = "__init__", **kwargs: Any) -> Any:
     r"""Creates dynamically an object given its configuration.
 
     Args:
-        _target_ (str): Specifies the name of the object (class or
+        _target_: Specifies the name of the object (class or
             function) to instantiate. It can be the class name or
             the full class name.
         *args: Variable length argument list.
-        _init_ (str): Specifies the function to use to create the
+        _init_: Specifies the function to use to create the
             object. If ``"__init__"``, the object is created by
-            calling the constructor. Default: ``"__init__"``.
+            calling the constructor.
         **kwargs: Arbitrary keyword arguments.
 
     Returns:
         The instantiated object with the given parameters.
 
     Raises:
-        ``RuntimeError``: if the target cannot be found.
+        RuntimeError: if the target cannot be found.
 
     Example usage:
 

@@ -23,6 +23,11 @@ nav:
       - abstract_factory.md
       - registry.md
       - name_resolution.md
+  - Reference:
+      - refs/index.md
+      - refs/abstract_factory.md
+      - refs/registry.md
+      - refs/utils.md
   - GitHub: https://github.com/durandtibo/objectory
 
 repo_url: https://github.com/durandtibo/objectory
@@ -33,14 +38,31 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.snippets
   - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - toc:
       permalink: true
 
 plugins:
   - search
-  - mkdocstrings
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          paths: [ ../src ]
+          options:
+            allow_inspection: true
+            docstring_style: google
+            separate_signature: true
+            show_bases: true
+            show_object_full_path: true
+            show_root_full_path: true
+            show_root_heading: true
+            show_root_toc_entry: true
+            show_signature: true
+            show_signature_annotations: true
+            show_source: false
+            signature_crossrefs: true
 
 extra:
   version:

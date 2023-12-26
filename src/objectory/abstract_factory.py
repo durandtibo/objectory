@@ -41,12 +41,12 @@ class AbstractFactory(ABCMeta):  # noqa: B024
     attribute or the function.
 
     Args:
-        name (str): Specifies the class name. This becomes the
+        name: Specifies the class name. This becomes the
             ``__name__`` attribute of the class.
-        bases (tuple): Specifies a tuple of the base classes from
+        bases: Specifies a tuple of the base classes from
             which the class inherits.
             This becomes the ``__bases__`` attribute of the class.
-        dct (dict): Specifies a namespace dictionary containing
+        dct: Specifies a namespace dictionary containing
             definitions for the class body.
             This becomes the ``__dict__`` attribute of the class.
 
@@ -78,7 +78,7 @@ class AbstractFactory(ABCMeta):  # noqa: B024
         r"""Gets the inheritors.
 
         Returns:
-            dict: The inheritors.
+            The inheritors.
 
         Example usage:
 
@@ -97,28 +97,28 @@ class AbstractFactory(ABCMeta):  # noqa: B024
         """
         return cls._abstractfactory_inheritors
 
-    def factory(cls, _target_: str, *args, _init_: str = "__init__", **kwargs) -> Any:
+    def factory(cls, _target_: str, *args: Any, _init_: str = "__init__", **kwargs: Any) -> Any:
         r"""Creates dynamically an object given its configuration.
 
         Please read the documentation for more information.
 
         Args:
-            _target_ (str): Specifies the name of the object
+            _target_: Specifies the name of the object
                 (class or function) to instantiate.
                 It can be the class name or the full class name.
             *args: Variable length argument list.
-            _init_ (str): Specifies the function to use to create
-                the object. If ``"__init__"``, the object is created
-                by calling the constructor. Default: ``"__init__"``.
+            _init_: Specifies the function to use to create the object.
+                If ``"__init__"``, the object is created by calling
+                the constructor.
             **kwargs: Arbitrary keyword arguments.
 
         Returns:
             The instantiated object with the given parameters.
 
         Raises:
-            ``AbstractClassAbstractFactoryError``: if you try to
+            AbstractClassAbstractFactoryError: if you try to
                 instantiate an abstract class.
-            ``UnregisteredClassAbstractFactoryError``: if the target
+            UnregisteredClassAbstractFactoryError: if the target
                 is not found.
 
         Example usage:
@@ -151,11 +151,11 @@ class AbstractFactory(ABCMeta):  # noqa: B024
         3rd party library.
 
         Args:
-            obj (``type`` or ``Callable``): Specifies the class or
-                function to register to the factory.
+            obj: Specifies the class or function to register to the
+                factory.
 
         Raises:
-            ``IncorrectObjectAbstractFactoryError``: if the object
+            IncorrectObjectAbstractFactoryError: if the object
                 is not a class.
 
         Example usage:
@@ -190,7 +190,7 @@ class AbstractFactory(ABCMeta):  # noqa: B024
         This is an experimental function and may change in the future.
 
         Args:
-            name (string): Specifies the name of the object to remove.
+            name: Specifies the name of the object to remove.
                 This function uses the name resolution mechanism to
                 find the full name if only the short name is given.
 
@@ -222,13 +222,13 @@ class AbstractFactory(ABCMeta):  # noqa: B024
         """Gets the class or function to used given its name.
 
         Args:
-            name (str): Specifies the name of the class or function.
+            name: Specifies the name of the class or function.
 
         Returns:
             The class or function.
 
         Raises:
-            ``UnregisteredObjectFactoryError``: if it is not possible
+            UnregisteredObjectFactoryError: if it is not possible
                 to find the target.
         """
         resolved_name = cls._abstractfactory_resolve_name(name)
@@ -252,13 +252,12 @@ class AbstractFactory(ABCMeta):  # noqa: B024
         and registered it if it is not registered yet.
 
         Args:
-            name (str): Specifies the name of the class or function
+            name: Specifies the name of the class or function
                 to resolve.
 
         Returns:
-            ``str`` or ``None``: It returns the name to use to get
-                the object if the resolution was successful,
-                otherwise ``None``.
+            It returns the name to use to get the object if the
+                resolution was successful, otherwise ``None``.
         """
         return resolve_name(name, set(cls._abstractfactory_inheritors.keys()))
 
@@ -266,10 +265,10 @@ class AbstractFactory(ABCMeta):  # noqa: B024
         r"""Indicates if the name exists or not in the factory .
 
         Args:
-            name (str): Specifies the name to check.
+            name: Specifies the name to check.
 
         Returns:
-            bool: ``True`` if the name exists otherwise ``False``.
+            ``True`` if the name exists otherwise ``False``.
         """
         return name in cls._abstractfactory_inheritors
 
@@ -284,7 +283,7 @@ class AbstractFactory(ABCMeta):  # noqa: B024
             obj: Specifies the object to check.
 
         Raises:
-            ``IncorrectObjectFactoryError``: if it is an invalid
+            IncorrectObjectFactoryError: if it is an invalid
                 object for this factory.
         """
         if not (inspect.isclass(obj) or inspect.isfunction(obj)):
@@ -305,11 +304,11 @@ def register(cls: AbstractFactory) -> Callable:
     an object of a class registered in the factory.
 
     Args:
-        cls (``AbstractFactory``): Specifies the class where to
+        cls (objectory.AbstractFactory): Specifies the class where to
             register the function.
 
     Returns:
-        ``Callable``: The decorated function.
+        collections.abc.Callable: The decorated function.
 
     Example usage:
 
@@ -344,15 +343,15 @@ def register_child_classes(
     classes of the child classes, etc.
 
     Args:
-        factory_cls (``AbstractFactory``): Specifies the factory class.
-            The child classes will be registered to this class.
-        cls (class): Specifies the class to register its child classes.
-        ignore_abstract_class (bool): Indicate if the abstract class
+        factory_cls: Specifies the factory class. The child classes
+            will be registered to this class.
+        cls: Specifies the class to register its child classes.
+        ignore_abstract_class: Indicate if the abstract class
             should be ignored or not. Be default, the abstract classes
             are not registered because they cannot be instantiated.
 
     Raises:
-        ``AbstractFactoryTypeError`` if the factory class does not
+        AbstractFactoryTypeError: if the factory class does not
             implement the ``AbstractFactory`` metaclass.
 
     Example usage:
@@ -386,7 +385,7 @@ def is_abstract_factory(cls: Any) -> bool:
         cls: Specifies the class to check.
 
     Returns:
-        bool: ``True`` if the class implements the ``AbstractFactory``
+        ``True`` if the class implements the ``AbstractFactory``
             metaclass, otherwise ``False``.
 
     Example usage:
