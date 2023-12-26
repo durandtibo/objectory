@@ -16,7 +16,7 @@ from objectory.constants import OBJECT_TARGET
 from objectory.utils.object_helpers import import_object
 
 
-def is_object_config(config: dict, cls: type[object]) -> bool:
+def is_object_config(config: dict, cls: type) -> bool:
     r"""Indicate if the input configuration is a configuration for a
     given class.
 
@@ -26,11 +26,11 @@ def is_object_config(config: dict, cls: type[object]) -> bool:
     the class.
 
     Args:
-        config (dict): Specifies the configuration to check.
-        cls (type): Specifies the object class.
+        config: Specifies the configuration to check.
+        cls: Specifies the object class.
 
     Returns:
-        bool: ``True`` if the input configuration is a configuration
+        ``True`` if the input configuration is a configuration
             for the given class.
 
     Example usage:

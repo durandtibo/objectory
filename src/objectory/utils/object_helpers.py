@@ -24,13 +24,13 @@ logger = logging.getLogger(__name__)
 def all_child_classes(cls: type) -> set[type]:
     r"""Gets all the child classes (or subclasses) of a given class.
 
-    SOURCE: https://stackoverflow.com/a/3862957
+    Based on: https://stackoverflow.com/a/3862957
 
     Args:
         cls: Specifies the class whose child classes you want to get.
 
     Returns:
-        set: The set of all the child classes of the given class.
+        The set of all the child classes of the given class.
 
     Example usage:
 
@@ -64,10 +64,10 @@ def full_object_name(obj: Any) -> str:
             the full name.
 
     Returns:
-        str: The full name of the object.
+        The full name of the object.
 
     Raises:
-        ``TypeError``: if the object is not a class or a function.
+        TypeError: if the object is not a class or a function.
 
     Example usage:
 
@@ -91,17 +91,17 @@ def full_object_name(obj: Any) -> str:
     raise TypeError(f"Incorrect object type: {obj}")
 
 
-def _full_object_name(obj: type) -> str:
+def _full_object_name(obj: object | type) -> str:
     r"""Computes the full class name of a class/function.
 
-    SOURCE: https://gist.github.com/clbarnes/edd28ea32010eb159b34b075687bb49e
+    Based on: https://gist.github.com/clbarnes/edd28ea32010eb159b34b075687bb49e
 
     Args:
         obj: Specifies the class/function that you want to compute
             the full class name.
 
     Returns:
-        str: The full class name.
+        The full class name.
     """
     name = obj.__qualname__
     if (module := obj.__module__) is not None and module != "__builtin__":
@@ -118,7 +118,7 @@ def import_object(object_path: str) -> Any:
     the object path does not respect this structure.
 
     Args:
-        object_path (str): Specifies the path of the object to import.
+        object_path: Specifies the path of the object to import.
 
     Returns:
         The object if the import was successful otherwise ``None``.
@@ -144,17 +144,19 @@ def import_object(object_path: str) -> Any:
         return None
 
 
-def instantiate_object(obj: Callable | type, *args, _init_: str = "__init__", **kwargs) -> Any:
+def instantiate_object(
+    obj: Callable | type, *args: Any, _init_: str = "__init__", **kwargs: Any
+) -> Any:
     r"""Instantiates dynamically an object from its configuration.
 
     Args:
-        obj (class or function): Specifies the class to instantiate
+        obj: Specifies the class to instantiate
             or the function to call.
         *args: Variable length argument list.
-        _init_ (str, optional): Specifies the function to use to
+        _init_: Specifies the function to use to
             create the object. This input is ignored if ``obj`` is a
             function. If ``"__init__"``, the object is created by
-            calling the constructor. Default: ``"__init__"``.
+            calling the constructor.
         **kwargs: Arbitrary keyword arguments.
 
     Returns:
@@ -190,12 +192,11 @@ def _instantiate_class_object(cls: type, *args, _init_: str = "__init__", **kwar
     ``__init__`` (default) or ``__new__`` or a class method.
 
     Args:
-        cls (class): Specifies the class of the object to instantiate.
+        cls: Specifies the class of the object to instantiate.
         *args: Variable length argument list.
-        _init_ (str, optional): Specifies the function to use to
+        _init_: Specifies the function to use to
             create the object. If ``"__init__"``, the object is
             created by calling the constructor.
-            Default: ``"__init__"``.
         **kwargs: Arbitrary keyword arguments.
 
     Returns:
@@ -233,7 +234,7 @@ def is_lambda_function(obj: Any) -> bool:
         obj: Specifies the object to check.
 
     Returns:
-        bool: ``True`` if the input is a lambda function,
+        ``True`` if the input is a lambda function,
             otherwise ``False``
 
     Example usage:
