@@ -27,28 +27,27 @@ def all_child_classes(cls: type) -> set[type]:
     SOURCE: https://stackoverflow.com/a/3862957
 
     Args:
-    ----
         cls: Specifies the class whose child classes you want to get.
 
     Returns:
-    -------
         set: The set of all the child classes of the given class.
 
     Example usage:
 
-    .. code-block:: pycon
+    ```pycon
+    >>> from objectory.utils import all_child_classes
+    >>> class Foo:
+    ...     pass
+    ...
+    >>> all_child_classes(Foo)
+    set()
+    >>> class Bar(Foo):
+    ...     pass
+    ...
+    >>> all_child_classes(Foo)
+    {<class '....Bar'>}
 
-        >>> from objectory.utils import all_child_classes
-        >>> class Foo:
-        ...     pass
-        ...
-        >>> all_child_classes(Foo)
-        set()
-        >>> class Bar(Foo):
-        ...     pass
-        ...
-        >>> all_child_classes(Foo)
-        {<class '....Bar'>}
+    ```
     """
     return set(cls.__subclasses__()).union(
         [s for c in cls.__subclasses__() for s in all_child_classes(c)]
@@ -61,33 +60,31 @@ def full_object_name(obj: Any) -> str:
     This function works for class and function objects.
 
     Args:
-    ----
         obj: Specifies the class/function that you want to compute
             the full name.
 
     Returns:
-    -------
         str: The full name of the object.
 
     Raises:
-    ------
-        ``TypeError`` if the object is not a class or a function.
+        ``TypeError``: if the object is not a class or a function.
 
     Example usage:
 
-    .. code-block:: pycon
+    ```pycon
+    >>> from objectory.utils import full_object_name
+    >>> class MyClass:
+    ...     pass
+    ...
+    >>> full_object_name(MyClass)
+    '....MyClass'
+    >>> def my_function():
+    ...     pass
+    ...
+    >>> full_object_name(my_function)
+    '....my_function'
 
-        >>> from objectory.utils import full_object_name
-        >>> class MyClass:
-        ...     pass
-        ...
-        >>> full_object_name(MyClass)
-        '....MyClass'
-        >>> def my_function():
-        ...     pass
-        ...
-        >>> full_object_name(my_function)
-        '....my_function'
+    ```
     """
     if inspect.isclass(obj) or inspect.isfunction(obj):
         return _full_object_name(obj)
@@ -100,12 +97,10 @@ def _full_object_name(obj: type) -> str:
     SOURCE: https://gist.github.com/clbarnes/edd28ea32010eb159b34b075687bb49e
 
     Args:
-    ----
         obj: Specifies the class/function that you want to compute
             the full class name.
 
     Returns:
-    -------
         str: The full class name.
     """
     name = obj.__qualname__
@@ -123,24 +118,23 @@ def import_object(object_path: str) -> Any:
     the object path does not respect this structure.
 
     Args:
-    ----
         object_path (str): Specifies the path of the object to import.
 
     Returns:
-    -------
         The object if the import was successful otherwise ``None``.
 
     Example usage:
 
-    .. code-block:: pycon
+    ```pycon
+    >>> from objectory.utils import import_object
+    >>> obj = import_object("collections.Counter")
+    >>> obj()
+    Counter()
+    >>> fn = import_object("math.isclose")
+    >>> fn(1, 1)
+    True
 
-        >>> from objectory.utils import import_object
-        >>> obj = import_object("collections.Counter")
-        >>> obj()
-        Counter()
-        >>> fn = import_object("math.isclose")
-        >>> fn(1, 1)
-        True
+    ```
     """
     if not isinstance(object_path, str):
         raise TypeError(f"The object_path has to be a string (received: {object_path})")
@@ -154,7 +148,6 @@ def instantiate_object(obj: Callable | type, *args, _init_: str = "__init__", **
     r"""Instantiates dynamically an object from its configuration.
 
     Args:
-    ----
         obj (class or function): Specifies the class to instantiate
             or the function to call.
         *args: Variable length argument list.
@@ -165,24 +158,23 @@ def instantiate_object(obj: Callable | type, *args, _init_: str = "__init__", **
         **kwargs: Arbitrary keyword arguments.
 
     Returns:
-    -------
         The instantiated object if ``obj`` is a class name, otherwise
             the returned value of the function.
 
     Raises:
-    ------
-        TypeError if ``obj`` is not a class or a function.
+        TypeError: if ``obj`` is not a class or a function.
 
     Example usage:
 
-    .. code-block:: pycon
+    ```pycon
+    >>> from collections import Counter
+    >>> from objectory.utils import instantiate_object
+    >>> instantiate_object(Counter, [1, 2, 1])
+    Counter({1: 2, 2: 1})
+    >>> instantiate_object(list, [1, 2, 1])
+    [1, 2, 1]
 
-        >>> from collections import Counter
-        >>> from objectory.utils import instantiate_object
-        >>> instantiate_object(Counter, [1, 2, 1])
-        Counter({1: 2, 2: 1})
-        >>> instantiate_object(list, [1, 2, 1])
-        [1, 2, 1]
+    ```
     """
     if inspect.isfunction(obj):
         return obj(*args, **kwargs)
@@ -198,7 +190,6 @@ def _instantiate_class_object(cls: type, *args, _init_: str = "__init__", **kwar
     ``__init__`` (default) or ``__new__`` or a class method.
 
     Args:
-    ----
         cls (class): Specifies the class of the object to instantiate.
         *args: Variable length argument list.
         _init_ (str, optional): Specifies the function to use to
@@ -208,13 +199,11 @@ def _instantiate_class_object(cls: type, *args, _init_: str = "__init__", **kwar
         **kwargs: Arbitrary keyword arguments.
 
     Returns:
-    -------
         The instantiated object.
 
     Raises:
-    ------
-        ``AbstractClassFactoryError`` if it is an abstract class.
-        ``IncorrectObjectFactoryError`` if it is not possible to
+        AbstractClassFactoryError: if it is an abstract class.
+        IncorrectObjectFactoryError: if it is not possible to
             instantiate the object.
     """
     if inspect.isabstract(cls):
@@ -241,28 +230,27 @@ def is_lambda_function(obj: Any) -> bool:
     Adapted from https://stackoverflow.com/a/23852434
 
     Args:
-    ----
         obj: Specifies the object to check.
 
     Returns:
-    -------
         bool: ``True`` if the input is a lambda function,
             otherwise ``False``
 
     Example usage:
 
-    .. code-block:: pycon
+    ```pycon
+    >>> from objectory.utils import is_lambda_function
+    >>> is_lambda_function(lambda value: value + 1)
+    True
+    >>> def my_function(value: int) -> int:
+    ...     return value + 1
+    ...
+    >>> is_lambda_function(my_function)
+    False
+    >>> is_lambda_function(1)
+    False
 
-        >>> from objectory.utils import is_lambda_function
-        >>> is_lambda_function(lambda value: value + 1)
-        True
-        >>> def my_function(value: int) -> int:
-        ...     return value + 1
-        ...
-        >>> is_lambda_function(my_function)
-        False
-        >>> is_lambda_function(1)
-        False
+    ```
     """
     if not inspect.isfunction(obj):
         return False
