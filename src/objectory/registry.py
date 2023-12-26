@@ -153,7 +153,6 @@ class Registry:
             _init_: Specifies the function to use to
                 create the object. If ``"__init__"``, the object is
                 created by calling the constructor.
-                Default: ``"__init__"``.
             **kwargs: Arbitrary keyword arguments.
 
         Returns:
@@ -264,7 +263,7 @@ class Registry:
                 expected to be a class or a function.
             name: Specifies the name to use to register the object.
                 If ``None``, the full name of the object is used as
-                name. Default: ``None``.
+                name.
 
         Example usage:
 
@@ -308,7 +307,7 @@ class Registry:
         Args:
             include_registry: Specifies if the other (sub-)registries
                 should be included in the set. By default, the other
-                (sub-)registries are included. Default: ``True``.
+                (sub-)registries are included.
 
         Returns:
             set: The names of the registered objects.

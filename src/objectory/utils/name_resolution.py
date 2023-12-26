@@ -23,7 +23,6 @@ def resolve_name(name: str, object_names: set[str], allow_import: bool = True) -
         object_names: Specifies the set of object names.
         allow_import: If ``True``, the parent package
             is installed if it was not imported previously.
-            Default: ``True``
 
     Returns:
         The resolved name if the resolution was successful,
