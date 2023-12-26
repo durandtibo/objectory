@@ -26,23 +26,22 @@ def is_object_config(config: dict, cls: type[object]) -> bool:
     the class.
 
     Args:
-    ----
         config (dict): Specifies the configuration to check.
         cls (type): Specifies the object class.
 
     Returns:
-    -------
         bool: ``True`` if the input configuration is a configuration
             for the given class.
 
     Example usage:
 
-    .. code-block:: pycon
+    ```pycon
+    >>> from objectory.utils import is_object_config
+    >>> from collections import Counter
+    >>> is_object_config({"_target_": "collections.Counter", "iterable": [1, 2, 1, 3]}, Counter)
+    True
 
-        >>> from objectory.utils import is_object_config
-        >>> from collections import Counter
-        >>> is_object_config({"_target_": "collections.Counter", "iterable": [1, 2, 1, 3]}, Counter)
-        True
+    ```
     """
     target = config.get(OBJECT_TARGET)
     if target is None:

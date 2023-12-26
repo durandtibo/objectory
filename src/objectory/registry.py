@@ -36,14 +36,15 @@ class Registry:
 
     Example usage:
 
-    .. code-block:: pycon
+    ```pycon
+    >>> from objectory import Registry
+    >>> from collections import Counter
+    >>> registry = Registry()
+    >>> registry.register_object(Counter)
+    >>> registry.factory("collections.Counter")
+    Counter()
 
-        >>> from objectory import Registry
-        >>> from collections import Counter
-        >>> registry = Registry()
-        >>> registry.register_object(Counter)
-        >>> registry.factory("collections.Counter")
-        Counter()
+    ```
     """
 
     _CLASS_FILTER = "class_filter"
@@ -66,8 +67,19 @@ class Registry:
         r"""Returns the number of registered objects.
 
         Returns:
-        -------
             int: The number of registered objects.
+
+        Example usage:
+
+        ```pycon
+        >>> from objectory import Registry
+        >>> from collections import Counter
+        >>> registry = Registry()
+        >>> registry.register_object(Counter)
+        >>> len(registry)
+        1
+
+        ```
         """
         return len(self._state)
 
@@ -78,22 +90,22 @@ class Registry:
         registry.
 
         Args:
-        ----
-            nested (bool): Indicates if the sub-registries should
-                be cleared or not. Default: ``False``.
+            nested (bool, default): Indicates if the sub-registries
+                should be cleared or not. Default: ``False``.
 
         Example usage:
 
-        .. code-block:: pycon
+        ```pycon
+        >>> from objectory import Registry
+        >>> registry = Registry()
+        >>> # Clear the main registry.
+        >>> registry.clear()
+        >>> # Clear only the sub-registry other.
+        >>> registry.other.clear()
+        >>> # Clear the main registry and its sub-registries.
+        >>> registry.clear(nested=True)
 
-            >>> from objectory import Registry
-            >>> registry = Registry()
-            >>> # Clear the main registry.
-            >>> registry.clear()
-            >>> # Clear only the sub-registry other.
-            >>> registry.other.clear()
-            >>> # Clear the main registry and its sub-registries.
-            >>> registry.clear(nested=True)
+        ```
         """
         if nested:  # If True, clear all the sub-registries.
             for value in self._state.values():
@@ -104,24 +116,24 @@ class Registry:
     def clear_filters(self, nested: bool = False) -> None:
         r"""Clears all the filters of the registry.
 
-        Args:
-        ----
-            nested (bool): Indicates if the filters of all the
-                sub-registries should be cleared or not.
-                Default: ``False``.
+         Args:
+             nested (bool, optional): Indicates if the filters of all
+                 the sub-registries should be cleared or not.
+                 Default: ``False``.
 
-        Example usage:
+         Example usage:
 
-        .. code-block:: pycon
+        ```pycon
+         >>> from objectory import Registry
+         >>> registry = Registry()
+         >>> # Clear the filters of the main registry.
+         >>> registry.clear_filters()
+         >>> # Clear the filters of the sub-registry other.
+         >>> registry.other.clear_filters()
+         >>> # Clear the filters of the main registry and all its sub-registries.
+         >>> registry.clear_filters(nested=True)
 
-            >>> from objectory import Registry
-            >>> registry = Registry()
-            >>> # Clear the filters of the main registry.
-            >>> registry.clear_filters()
-            >>> # Clear the filters of the sub-registry other.
-            >>> registry.other.clear_filters()
-            >>> # Clear the filters of the main registry and all its sub-registries.
-            >>> registry.clear_filters(nested=True)
+         ```
         """
         if nested:  # If True, clear all the sub-registries.
             for value in self._state.values():
@@ -129,29 +141,26 @@ class Registry:
                     value.clear_filters(nested)
         self._filters.clear()
 
-    def factory(self, _target_: str, *args, _init_: str = "__init__", **kwargs) -> Any:
+    def factory(self, _target_: str, *args, _init_: str = "__init__", **kwargs: Any) -> Any:
         r"""Creates dynamically an object given its configuration.
 
         Please read the documentation for more information.
 
         Args:
-        ----
             _target_ (str): Specifies the name of the object
                 (class or function) to instantiate.
                 It can be the class name or the full class name.
             *args: Variable length argument list.
-            _init_ (str): Specifies the function to use to create
-                the object. If ``"__init__"``, the object is
+            _init_ (str, optional): Specifies the function to use to
+                create the object. If ``"__init__"``, the object is
                 created by calling the constructor.
                 Default: ``"__init__"``.
             **kwargs: Arbitrary keyword arguments.
 
         Returns:
-        -------
             The instantiated object with the given parameters.
 
         Raises:
-        ------
             ``AbstractClassAbstractFactoryError``: if you try to
                 instantiate an abstract class.
             ``UnregisteredClassAbstractFactoryError``: if the target
@@ -159,16 +168,17 @@ class Registry:
 
         Example usage:
 
-        .. code-block:: pycon
+        ```pycon
+        >>> from objectory import Registry
+        >>> registry = Registry()
+        >>> @registry.register()
+        ... class MyClass:
+        ...     pass
+        ...
+        >>> registry.factory("MyClass")
+        <....MyClass object at 0x...>
 
-            >>> from objectory import Registry
-            >>> registry = Registry()
-            >>> @registry.register()
-            ... class MyClass:
-            ...     ...
-            ...
-            >>> registry.factory("MyClass")
-            <....MyClass object at 0x...>
+        ```
         """
         return instantiate_object(
             self._get_target_from_name(_target_), *args, _init_=_init_, **kwargs
@@ -179,33 +189,32 @@ class Registry:
         registry.
 
         Args:
-        ----
             name (str, optional): Specifies the name to use to
                 register the object. If ``None``, the full name of
                 the object is used as name. Default: ``None``.
 
         Returns:
-        -------
             The decorated object.
 
         Example usage:
 
-        .. code-block:: pycon
+        ```pycon
+        >>> from objectory import Registry
+        >>> registry = Registry()
+        >>> @registry.register()
+        ... class ClassToRegister:
+        ...     pass
+        ...
+        >>> registry.registered_names()
+        {'....ClassToRegister'}
+        >>> @registry.register()
+        ... def function_to_register(*args, **kwargs):
+        ...     pass
+        ...
+        >>> registry.registered_names()
+        {...}
 
-            >>> from objectory import Registry
-            >>> registry = Registry()
-            >>> @registry.register()
-            ... class ClassToRegister:
-            ...     ...
-            ...
-            >>> registry.registered_names()
-            {'....ClassToRegister'}
-            >>> @registry.register()
-            ... def function_to_register(*args, **kwargs):
-            ...     ...
-            ...
-            >>> registry.registered_names()
-            {...}
+        ```
         """
 
         def function_wrapper(obj: T) -> T:
@@ -224,7 +233,6 @@ class Registry:
         objects. It will use the full name of each object.
 
         Args:
-        ----
             cls: Specifies the class to register its child classes.
             ignore_abstract_class (bool): Indicate if the abstract
                 class should be ignored or not. Be default, the
@@ -233,13 +241,14 @@ class Registry:
 
         Example usage:
 
-        .. code-block:: pycon
+        ```pycon
+        >>> from objectory import Registry
+        >>> registry = Registry()
+        >>> registry.register_child_classes(dict)
+        >>> registry.registered_names()
+        {...}
 
-            >>> from objectory import Registry
-            >>> registry = Registry()
-            >>> registry.register_child_classes(dict)
-            >>> registry.registered_names()
-            {...}
+        ```
         """
         for class_to_register in [cls] + list(all_child_classes(cls)):
             if ignore_abstract_class and inspect.isabstract(class_to_register):
@@ -252,31 +261,32 @@ class Registry:
         Please read the documentation for more information.
 
         Args:
-        ----
-            obj: Specifies the object to register. The object is
-                expected to be a class or a function.
+            obj (type or ``Callable``): Specifies the object to
+                register. The object is expected to be a class or a
+                function.
             name (str, optional): Specifies the name to use to
                 register the object. If ``None``, the full name of
                 the object is used as name. Default: ``None``.
 
         Example usage:
 
-        .. code-block:: pycon
+        ```pycon
+        >>> from objectory import Registry
+        >>> registry = Registry()
+        >>> class ClassToRegister:
+        ...     pass
+        ...
+        >>> registry.register_object(ClassToRegister)
+        >>> registry.registered_names()
+        {'....ClassToRegister'}
+        >>> def function_to_register(*args, **kwargs):
+        ...     pass
+        ...
+        >>> registry.register_object(function_to_register)
+        >>> registry.registered_names()
+        {...}
 
-            >>> from objectory import Registry
-            >>> registry = Registry()
-            >>> class ClassToRegister:
-            ...     pass
-            ...
-            >>> registry.register_object(ClassToRegister)
-            >>> registry.registered_names()
-            {'....ClassToRegister'}
-            >>> def function_to_register(*args, **kwargs):
-            ...     pass
-            ...
-            >>> registry.register_object(function_to_register)
-            >>> registry.registered_names()
-            {...}
+        ```
         """
         self._check_object(obj)
         if name is None:
@@ -298,25 +308,24 @@ class Registry:
         r"""Gets the names of all the registered objects.
 
         Args:
-        ----
-            include_registry (bool): Specifies if the other
+            include_registry (bool, optional): Specifies if the other
                 (sub-)registries should be included in the set.
                 By default, the other (sub-)registries are included.
                 Default: ``True``.
 
         Returns:
-        -------
             set: The names of the registered objects.
 
         Example usage:
 
-        .. code-block:: pycon
+        ```pycon
+        >>> from objectory import Registry
+        >>> registry = Registry()
+        >>> registry.registered_names()
+        >>> # Show name of all the registered objects except the sub-registries.
+        >>> registry.registered_names(include_registry=False)
 
-            >>> from objectory import Registry
-            >>> registry = Registry()
-            >>> registry.registered_names()
-            >>> # Show name of all the registered objects except the sub-registries.
-            >>> registry.registered_names(include_registry=False)
+        ```
         """
         if include_registry:
             return set(self._state.keys())
@@ -331,25 +340,24 @@ class Registry:
         r"""Removes a registered object.
 
         Args:
-        ----
-            name (string): Specifies the name of the object to remove.
+            name (str): Specifies the name of the object to remove.
                 This function uses the name resolution mechanism to
                 find the full name if only the short name is given.
 
         Raises:
-        ------
-            ``UnregisteredObjectFactoryError`` if the name does not
+            ``UnregisteredObjectFactoryError``: if the name does not
                 exist in the registry.
 
         Example usage:
 
-        .. code-block:: pycon
+        ```pycon
+        >>> from objectory import Registry
+        >>> from collections import Counter
+        >>> registry = Registry()
+        >>> registry.register_object(Counter)
+        >>> registry.unregister("collections.Counter")
 
-            >>> from objectory import Registry
-            >>> from collections import Counter
-            >>> registry = Registry()
-            >>> registry.register_object(Counter)
-            >>> registry.unregister("collections.Counter")
+        ```
         """
         resolved_name = self._resolve_name(name)
         if resolved_name is None or not self._is_name_registered(resolved_name):
@@ -366,26 +374,25 @@ class Registry:
         To unset this filter, you can use ``set_class_filter(None)``.
 
         Args:
-        ----
             cls (``type`` or ``None``): Specifies the class to use as
                 filter. Only the child classes of this class
                 can be registered.
 
         Raises:
-        ------
-            ``TypeError`` if the input is not a class or ``None``.
+            ``TypeError``: if the input is not a class or ``None``.
 
         Example usage:
 
-        .. code-block:: pycon
+        ```pycon
+        >>> from collections import Counter, OrderedDict
+        >>> from objectory import Registry
+        >>> registry = Registry()
+        >>> registry.mapping.set_class_filter(dict)
+        >>> registry.mapping.register_object(OrderedDict)
+        >>> registry.mapping.registered_names()
+        {'collections.OrderedDict'}
 
-            >>> from collections import Counter, OrderedDict
-            >>> from objectory import Registry
-            >>> registry = Registry()
-            >>> registry.mapping.set_class_filter(dict)
-            >>> registry.mapping.register_object(OrderedDict)
-            >>> registry.mapping.registered_names()
-            {'collections.OrderedDict'}
+        ```
         """
         if cls is None:
             self._filters.pop(self._CLASS_FILTER, None)
@@ -403,13 +410,11 @@ class Registry:
         valid.
 
         Args:
-        ----
             obj (``type`` or ``Callable``): Specifies the object to
                 check.
 
         Raises:
-        ------
-            ``IncorrectObjectFactoryError`` if it is an invalid
+            ``IncorrectObjectFactoryError``: if it is an invalid
                 object for this factory.
         """
         if is_lambda_function(obj):
@@ -429,16 +434,13 @@ class Registry:
         r"""Gets the class or function to used given its name.
 
         Args:
-        ----
             name (str): Specifies the name of the class or function.
 
         Returns:
-        -------
             The class or function.
 
         Raises:
-        ------
-            ``UnregisteredObjectFactoryError`` if it is not possible
+            ``UnregisteredObjectFactoryError``: if it is not possible
                 to find the target.
         """
         resolved_name = self._resolve_name(name)
@@ -455,11 +457,9 @@ class Registry:
         r"""Indicates if the name exists or not in the registry .
 
         Args:
-        ----
             name (string): Specifies the name to check.
 
         Returns:
-        -------
             bool: ``True`` if the name exists, otherwise ``False``.
         """
         return name in self._state
@@ -468,12 +468,11 @@ class Registry:
         r"""Indicates if the given is used as sub-registry.
 
         Args:
-        ----
             name (string): Specifies the name to check.
 
         Returns:
-        -------
-            bool: ``True`` if the name is used as sub-registry, otherwise ``False``.
+            bool: ``True`` if the name is used as sub-registry,
+                otherwise ``False``.
         """
         return isinstance(self._state[name], Registry)
 
@@ -488,11 +487,9 @@ class Registry:
         and registered it if it is not registered yet.
 
         Args:
-        ----
             name (str): Specifies the name to resolve.
 
         Returns:
-        -------
             ``str`` or ``None``: It returns the name to use to get the
                 object if the resolution was successful,
                 otherwise ``None``.
