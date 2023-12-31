@@ -83,7 +83,7 @@ def test_full_object_name_builtin() -> None:
 
 
 def test_full_object_name_class() -> None:
-    assert full_object_name(FakeClass) == "unit.utils.test_object_helpers.FakeClass"
+    assert full_object_name(FakeClass) == "tests.unit.utils.test_object_helpers.FakeClass"
 
 
 def test_full_object_name_local_class() -> None:
@@ -92,12 +92,12 @@ def test_full_object_name_local_class() -> None:
 
     assert (
         full_object_name(FakeClass)
-        == "unit.utils.test_object_helpers.test_full_object_name_local_class.<locals>.FakeClass"
+        == "tests.unit.utils.test_object_helpers.test_full_object_name_local_class.<locals>.FakeClass"
     )
 
 
 def test_full_object_name_function() -> None:
-    assert full_object_name(fake_function) == "unit.utils.test_object_helpers.fake_function"
+    assert full_object_name(fake_function) == "tests.unit.utils.test_object_helpers.fake_function"
 
 
 def test_full_object_name_builtin_module() -> None:

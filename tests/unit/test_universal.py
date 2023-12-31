@@ -31,7 +31,7 @@ def test_factory_abstract_object() -> None:
         AbstractClassFactoryError,
         match="Cannot instantiate the class .* because it is an abstract class.",
     ):
-        factory("unit.test_universal.BaseFakeClass")
+        factory("tests.unit.test_universal.BaseFakeClass")
 
 
 def test_factory_non_existing_object() -> None:

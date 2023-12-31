@@ -75,7 +75,7 @@ def func_decor() -> Callable:
 def test_register_object_class() -> None:
     registry = Registry()
     registry.register_object(ClassToRegister)
-    assert registry._state == {"unit.test_registry.ClassToRegister": ClassToRegister}
+    assert registry._state == {"tests.unit.test_registry.ClassToRegister": ClassToRegister}
 
 
 def test_register_object_class_with_name() -> None:
@@ -87,7 +87,9 @@ def test_register_object_class_with_name() -> None:
 def test_register_object_function() -> None:
     registry = Registry()
     registry.register_object(function_to_register)
-    assert registry._state == {"unit.test_registry.function_to_register": function_to_register}
+    assert registry._state == {
+        "tests.unit.test_registry.function_to_register": function_to_register
+    }
 
 
 def test_register_object_function_with_name() -> None:
@@ -145,7 +147,7 @@ def test_register_class_without_name() -> None:
         """Do nothing."""
 
     assert registry._state == {
-        "unit.test_registry.test_register_class_without_name.<locals>.ClassToRegister2": (
+        "tests.unit.test_registry.test_register_class_without_name.<locals>.ClassToRegister2": (
             ClassToRegister2
         )
     }
@@ -169,7 +171,7 @@ def test_register_function_without_name() -> None:
         """Do nothing."""
 
     assert registry._state == {
-        "unit.test_registry.test_register_function_without_name.<locals>.function_to_register2": (
+        "tests.unit.test_registry.test_register_function_without_name.<locals>.function_to_register2": (
             function_to_register2
         )
     }
@@ -204,7 +206,7 @@ def test_register_class_multiple_decorators_1() -> None:
         ...
 
     assert (
-        "unit.test_registry.test_register_class_multiple_decorators_1.<locals>.ClassToRegister2"
+        "tests.unit.test_registry.test_register_class_multiple_decorators_1.<locals>.ClassToRegister2"
         in registry._state
     )
     assert len(registry._state) == 1
@@ -221,7 +223,7 @@ def test_register_class_multiple_decorators_2() -> None:
         ...
 
     assert (
-        "unit.test_registry.test_register_class_multiple_decorators_2.<locals>.ClassToRegister2"
+        "tests.unit.test_registry.test_register_class_multiple_decorators_2.<locals>.ClassToRegister2"
         in registry._state
     )
     assert len(registry._state) == 1
@@ -233,7 +235,7 @@ def test_get_attribute_new() -> None:
     registry.other.register_object(ClassToRegister)
     assert "other" in registry._state
     assert registry.other._state == {
-        "unit.test_registry.ClassToRegister": ClassToRegister,
+        "tests.unit.test_registry.ClassToRegister": ClassToRegister,
     }
 
 
@@ -245,7 +247,7 @@ def test_get_attribute_nested() -> None:
     assert len(registry.other._state) == 1
     assert "other" in registry.other._state
     assert registry.other.other._state == {
-        "unit.test_registry.ClassToRegister": ClassToRegister,
+        "tests.unit.test_registry.ClassToRegister": ClassToRegister,
     }
 
 
@@ -256,8 +258,8 @@ def test_get_attribute_already_exist() -> None:
     assert len(registry._state) == 1
     assert "other" in registry._state
     assert registry.other._state == {
-        "unit.test_registry.ClassToRegister": ClassToRegister,
-        "unit.test_registry.function_to_register": function_to_register,
+        "tests.unit.test_registry.ClassToRegister": ClassToRegister,
+        "tests.unit.test_registry.function_to_register": function_to_register,
     }
 
 
@@ -278,42 +280,48 @@ def test_get_attribute_invalid_subregistry() -> None:
 def test_register_child_classes_ignore_abstract_foo() -> None:
     registry = Registry()
     registry.register_child_classes(Foo)
-    assert registry.registered_names() == {"unit.test_registry.Baz", "unit.test_registry.Bing"}
+    assert registry.registered_names() == {
+        "tests.unit.test_registry.Baz",
+        "tests.unit.test_registry.Bing",
+    }
 
 
 def test_register_child_classes_ignore_abstract_bar() -> None:
     registry = Registry()
     registry.register_child_classes(Bar)
-    assert registry.registered_names() == {"unit.test_registry.Bing"}
+    assert registry.registered_names() == {"tests.unit.test_registry.Bing"}
 
 
 def test_register_child_classes_ignore_abstract_bing() -> None:
     registry = Registry()
     registry.register_child_classes(Bing)
-    assert registry.registered_names() == {"unit.test_registry.Bing"}
+    assert registry.registered_names() == {"tests.unit.test_registry.Bing"}
 
 
 def test_register_child_classes_with_abstract_foo() -> None:
     registry = Registry()
     registry.register_child_classes(Foo, ignore_abstract_class=False)
     assert registry.registered_names() == {
-        "unit.test_registry.Bar",
-        "unit.test_registry.Baz",
-        "unit.test_registry.Bing",
-        "unit.test_registry.Foo",
+        "tests.unit.test_registry.Bar",
+        "tests.unit.test_registry.Baz",
+        "tests.unit.test_registry.Bing",
+        "tests.unit.test_registry.Foo",
     }
 
 
 def test_register_child_classes_with_abstract_bar() -> None:
     registry = Registry()
     registry.register_child_classes(Bar, ignore_abstract_class=False)
-    assert registry.registered_names() == {"unit.test_registry.Bar", "unit.test_registry.Bing"}
+    assert registry.registered_names() == {
+        "tests.unit.test_registry.Bar",
+        "tests.unit.test_registry.Bing",
+    }
 
 
 def test_register_child_classes_with_abstract_bing() -> None:
     registry = Registry()
     registry.register_child_classes(Bing, ignore_abstract_class=False)
-    assert registry.registered_names() == {"unit.test_registry.Bing"}
+    assert registry.registered_names() == {"tests.unit.test_registry.Bing"}
 
 
 ###################
@@ -321,7 +329,7 @@ def test_register_child_classes_with_abstract_bing() -> None:
 ###################
 
 
-@pytest.mark.parametrize("target", ["ClassToRegister", "unit.test_registry.ClassToRegister"])
+@pytest.mark.parametrize("target", ["ClassToRegister", "tests.unit.test_registry.ClassToRegister"])
 def test_factory_class_target(target: str) -> None:
     registry = Registry()
     registry.register_object(ClassToRegister)
@@ -339,7 +347,7 @@ def test_factory_class_target_import() -> None:
 def test_factory_class_args(arg1: int, arg2: str) -> None:
     registry = Registry()
     registry.register_object(ClassToRegister)
-    obj = registry.factory("unit.test_registry.ClassToRegister", arg1, arg2)
+    obj = registry.factory("tests.unit.test_registry.ClassToRegister", arg1, arg2)
     assert isinstance(obj, ClassToRegister)
     assert obj.arg1 == arg1
     assert obj.arg2 == arg2
@@ -350,7 +358,9 @@ def test_factory_class_args(arg1: int, arg2: str) -> None:
 def test_factory_class_kwargs(arg1: int, arg2: str) -> None:
     registry = Registry()
     registry.register_object(ClassToRegister)
-    obj = registry.factory(_target_="unit.test_registry.ClassToRegister", arg1=arg1, arg2=arg2)
+    obj = registry.factory(
+        _target_="tests.unit.test_registry.ClassToRegister", arg1=arg1, arg2=arg2
+    )
     assert isinstance(obj, ClassToRegister)
     assert obj.arg1 == arg1
     assert obj.arg2 == arg2
@@ -359,7 +369,7 @@ def test_factory_class_kwargs(arg1: int, arg2: str) -> None:
 def test_factory_init_class_method() -> None:
     registry = Registry()
     registry.register_object(ClassToRegister)
-    obj = registry.factory("unit.test_registry.ClassToRegister", _init_="class_method")
+    obj = registry.factory("tests.unit.test_registry.ClassToRegister", _init_="class_method")
     assert isinstance(obj, ClassToRegister)
     assert obj.arg1 == 35
     assert obj.arg2 == "bac"
@@ -369,7 +379,7 @@ def test_factory_init_class_method_with_arg() -> None:
     registry = Registry()
     registry.register_object(ClassToRegister)
     obj = registry.factory(
-        "unit.test_registry.ClassToRegister", "qwe", _init_="class_method_with_arg"
+        "tests.unit.test_registry.ClassToRegister", "qwe", _init_="class_method_with_arg"
     )
     assert isinstance(obj, ClassToRegister)
     assert obj.arg1 == 333
@@ -380,7 +390,7 @@ def test_factory_init_class_method_with_kwarg() -> None:
     registry = Registry()
     registry.register_object(ClassToRegister)
     obj = registry.factory(
-        "unit.test_registry.ClassToRegister", _init_="class_method_with_arg", arg2="meow"
+        "tests.unit.test_registry.ClassToRegister", _init_="class_method_with_arg", arg2="meow"
     )
     assert isinstance(obj, ClassToRegister)
     assert obj.arg1 == 333
@@ -394,7 +404,7 @@ def test_factory_init_not_exist() -> None:
         IncorrectObjectFactoryError, match=".* does not have `incorrect_init_method` attribute"
     ):
         # Should fail because the init function does not exist.
-        registry.factory("unit.test_registry.ClassToRegister", _init_="incorrect_init_method")
+        registry.factory("tests.unit.test_registry.ClassToRegister", _init_="incorrect_init_method")
 
 
 def test_factory_init_missing() -> None:
@@ -402,13 +412,13 @@ def test_factory_init_missing() -> None:
     registry.register_object(ClassToRegister)
     with pytest.raises(IncorrectObjectFactoryError, match=".* does not have `arg2` attribute"):
         # Should fail because the attribute arg2 is not initialized.
-        registry.factory("unit.test_registry.ClassToRegister", _init_="arg2")
+        registry.factory("tests.unit.test_registry.ClassToRegister", _init_="arg2")
 
 
 def test_factory_duplicate_class_name() -> None:
     registry = Registry()
     registry.register_object(ClassToRegister, name="ClassToRegister")
-    registry.register_object(ClassToRegister, name="unit.test_registry.ClassToRegister")
+    registry.register_object(ClassToRegister, name="tests.unit.test_registry.ClassToRegister")
     with pytest.raises(
         UnregisteredObjectFactoryError,
         match="Unable to create the object `OrderedDict` because it is not registered.",
@@ -439,7 +449,7 @@ def test_factory_unregistered_incorrect_package() -> None:
 
 
 @pytest.mark.parametrize(
-    "target", ["function_to_register", "unit.test_registry.function_to_register"]
+    "target", ["function_to_register", "tests.unit.test_registry.function_to_register"]
 )
 def test_factory_function_target(target: str) -> None:
     registry = Registry()
@@ -491,7 +501,7 @@ def test_clear_nested_true() -> None:
 def test_unregister_exact_name() -> None:
     registry = Registry()
     registry.register_object(ClassToRegister)
-    registry.unregister("unit.test_registry.ClassToRegister")
+    registry.unregister("tests.unit.test_registry.ClassToRegister")
     assert registry._state == {}
 
 
@@ -509,7 +519,7 @@ def test_unregister_missing_object() -> None:
         match="It is not possible to remove an object which is not registered",
     ):
         # Should fail because the object is not registered.
-        registry.unregister("unit.test_registry.ClassToRegister")
+        registry.unregister("tests.unit.test_registry.ClassToRegister")
 
 
 ##################
