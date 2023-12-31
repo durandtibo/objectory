@@ -205,9 +205,7 @@ def test_instantiate_object_init_not_exist() -> None:
 
 
 def test_instantiate_object_init_regular_method() -> None:
-    with pytest.raises(
-        TypeError, match=r"FakeClass.method\(\) missing 1 required positional argument: 'self'"
-    ):
+    with pytest.raises(TypeError, match=r"missing 1 required positional argument: 'self'"):
         # Should fail because self is not defined.
         instantiate_object(FakeClass, _init_="method")
 
