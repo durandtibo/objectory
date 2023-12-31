@@ -114,6 +114,7 @@ select = [
     "PERF", # Perflint
     "PGH", # pygrep-hooks
     "PIE", # flake8-pie
+    "PL", # Pylint
     "PT", # flake8-pytest-style
     "PTH", # pathlib
     "PYI", # flake8-pyi
@@ -128,7 +129,6 @@ select = [
     "TRY", # tryceratops
     "UP", # pyupgrade
     "W", # pycodestyle (Warning)
-    "PL", # Pylint
 ]
 ignore = [
     "A003", # Class attribute `{name}` is shadowing a python builtin
@@ -166,6 +166,7 @@ fixable = [
     "PERF",
     "PGH",
     "PIE",
+    "PL",
     "PT",
     "PTH",
     "PYI",
@@ -179,7 +180,6 @@ fixable = [
     "TID",
     "TRY",
     "W",
-    "PL",
 ]
 unfixable = []
 
