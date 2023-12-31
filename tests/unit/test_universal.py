@@ -27,10 +27,13 @@ def test_factory_valid_object() -> None:
 
 
 def test_factory_abstract_object() -> None:
-    with pytest.raises(AbstractClassFactoryError):
+    with pytest.raises(
+        AbstractClassFactoryError,
+        match="Cannot instantiate the class .* because it is an abstract class.",
+    ):
         factory("unit.test_universal.BaseFakeClass")
 
 
 def test_factory_non_existing_object() -> None:
-    with pytest.raises(RuntimeError):
+    with pytest.raises(RuntimeError, match="The target object does not exist:"):
         factory("collections.NotACounter")

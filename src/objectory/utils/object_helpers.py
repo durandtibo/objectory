@@ -138,7 +138,7 @@ def import_object(object_path: str) -> Any:
     ```
     """
     if not isinstance(object_path, str):
-        msg = f"The object_path has to be a string (received: {object_path})"
+        msg = f"`object_path` has to be a string (received: {object_path})"
         raise TypeError(msg)
     try:
         return tornado_import_object(object_path)
@@ -220,11 +220,11 @@ def _instantiate_class_object(
         return cls(*args, **kwargs)
 
     if not hasattr(cls, _init_):
-        msg = f"{cls} does not have {_init_} attribute"
+        msg = f"{cls} does not have `{_init_}` attribute"
         raise IncorrectObjectFactoryError(msg)
     init_fn = getattr(cls, _init_)
     if not callable(init_fn):
-        msg = f"The {_init_} attribute of {cls} is not callable"
+        msg = f"`{_init_}` attribute of {cls} is not callable"
         raise IncorrectObjectFactoryError(msg)
     if _init_ == "__new__":
         return init_fn(cls, *args, **kwargs)

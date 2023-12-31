@@ -59,7 +59,7 @@ class Registry:
         if self._is_registry(key):
             return self._state[key]
         msg = (
-            f"The attribute {key} is not a registry. You can use this function only to access "
+            f"The attribute `{key}` is not a registry. You can use this function only to access "
             "a Registry object."
         )
         raise InvalidAttributeRegistryError(msg)
@@ -295,11 +295,11 @@ class Registry:
 
         if name in self._state:
             if self._is_registry(name):
-                msg = f"The name {name} is already used by a sub-registry"
+                msg = f"The name `{name}` is already used by a sub-registry"
                 raise InvalidNameFactoryError(msg)
             if self._state[name] != obj:
                 logger.warning(
-                    f"The name {name} already exists and its value will be replaced by {obj}"
+                    f"The name `{name}` already exists and its value will be replaced by {obj}"
                 )
 
         self._state[name] = obj
@@ -445,7 +445,8 @@ class Registry:
         resolved_name = self._resolve_name(name)
         if resolved_name is None:
             msg = (
-                f"Unable to create the object {name}. Registered objects of {self.__name__} are "
+                f"Unable to create the object `{name}` because it is not registered. "
+                f"Registered objects of {self.__name__} are "
                 f"{self.registered_names(include_registry=False)}."
             )
             raise UnregisteredObjectFactoryError(msg)
