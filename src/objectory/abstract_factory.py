@@ -1,5 +1,5 @@
 r"""This module implements the ``AbstractFactory`` metaclass used to
-create factories."""
+create abstract factories."""
 
 from __future__ import annotations
 
