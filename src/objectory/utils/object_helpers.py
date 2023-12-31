@@ -1,4 +1,4 @@
-r"""This module contains some helper functions to manipulate objects."""
+r"""Implement some helper functions to manipulate objects."""
 
 from __future__ import annotations
 

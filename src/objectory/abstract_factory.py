@@ -1,5 +1,5 @@
-r"""This module implements the ``AbstractFactory`` metaclass used to
-create abstract factories."""
+r"""Implement the ``AbstractFactory`` metaclass used to create abstract
+factories."""
 
 from __future__ import annotations
 
@@ -267,7 +267,7 @@ class AbstractFactory(ABCMeta):  # noqa: B024
         return resolve_name(name, set(cls._abstractfactory_inheritors.keys()))
 
     def _abstractfactory_is_name_registered(cls, name: str) -> bool:
-        r"""Indicates if the name exists or not in the factory .
+        r"""Indicate if the name exists or not in the factory .
 
         Args:
             name: Specifies the name to check.

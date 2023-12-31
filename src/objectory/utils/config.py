@@ -1,3 +1,6 @@
+r"""Implement a function to indicate if the input configuration is a
+configuration for a given class."""
+
 from __future__ import annotations
 
 __all__ = ["is_object_config"]

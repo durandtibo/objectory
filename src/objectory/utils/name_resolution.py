@@ -1,4 +1,8 @@
-"""This module implements the name resolution mechanism."""
+"""Implement the name resolution mechanism.
+
+Please read the documentation to learn more about the name resolution
+mechanism.
+"""
 
 from __future__ import annotations
 

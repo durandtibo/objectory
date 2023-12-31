@@ -1,3 +1,7 @@
+r"""Contain some utility functions or helpers."""
+
+from __future__ import annotations
+
 __all__ = [
     "all_child_classes",
     "full_object_name",
