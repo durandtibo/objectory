@@ -137,9 +137,9 @@ def _reset_factory() -> None:
 def test_inheritors() -> None:
     assert len(BaseClassWithArgument.inheritors) == 3
     assert BaseClassWithArgument.inheritors == {
-        "unit.test_abstract_factory.BaseClassWithArgument": BaseClassWithArgument,
-        "unit.test_abstract_factory.ChildClass": ChildClass,
-        "unit.test_abstract_factory.AbstractChildClass": AbstractChildClass,
+        "tests.unit.test_abstract_factory.BaseClassWithArgument": BaseClassWithArgument,
+        "tests.unit.test_abstract_factory.ChildClass": ChildClass,
+        "tests.unit.test_abstract_factory.AbstractChildClass": AbstractChildClass,
     }
 
 
@@ -148,7 +148,7 @@ def test_inheritors() -> None:
 ###################
 
 
-@pytest.mark.parametrize("target", ["BaseClass", "unit.test_abstract_factory.BaseClass"])
+@pytest.mark.parametrize("target", ["BaseClass", "tests.unit.test_abstract_factory.BaseClass"])
 def test_factory_target(target: str) -> None:
     obj = BaseClass.factory(target)
     assert isinstance(obj, BaseClass)
@@ -262,7 +262,7 @@ def test_factory_unregistered_incorrect_package() -> None:
 
 
 @pytest.mark.parametrize(
-    "target", ["function_to_register", "unit.test_abstract_factory.function_to_register"]
+    "target", ["function_to_register", "tests.unit.test_abstract_factory.function_to_register"]
 )
 def test_factory_function_target(target: str) -> None:
     Class1.register_object(function_to_register)
@@ -280,10 +280,10 @@ def test_factory_function_target(target: str) -> None:
 def test_register_object_class() -> None:
     Class1.register_object(ClassToRegister)
     assert Class1.inheritors == {
-        "unit.test_abstract_factory.Class1": Class1,
-        "unit.test_abstract_factory.Class2": Class2,
-        "unit.test_abstract_factory.Class3": Class3,
-        "unit.test_abstract_factory.ClassToRegister": ClassToRegister,
+        "tests.unit.test_abstract_factory.Class1": Class1,
+        "tests.unit.test_abstract_factory.Class2": Class2,
+        "tests.unit.test_abstract_factory.Class3": Class3,
+        "tests.unit.test_abstract_factory.ClassToRegister": ClassToRegister,
     }
 
 
@@ -291,9 +291,9 @@ def test_register_object_duplicate_class(caplog: pytest.LogCaptureFixture) -> No
     with caplog.at_level(level=logging.INFO):
         Class1.register_object(Class2)
         assert Class1.inheritors == {
-            "unit.test_abstract_factory.Class1": Class1,
-            "unit.test_abstract_factory.Class2": Class2,
-            "unit.test_abstract_factory.Class3": Class3,
+            "tests.unit.test_abstract_factory.Class1": Class1,
+            "tests.unit.test_abstract_factory.Class2": Class2,
+            "tests.unit.test_abstract_factory.Class3": Class3,
         }
         assert caplog.messages == []
 
@@ -301,12 +301,12 @@ def test_register_object_duplicate_class(caplog: pytest.LogCaptureFixture) -> No
 def test_register_object_function() -> None:
     Class1.register_object(function_to_register)
     assert Class1.inheritors == {
-        "unit.test_abstract_factory.Class1": Class1,
-        "unit.test_abstract_factory.Class2": Class2,
-        "unit.test_abstract_factory.Class3": Class3,
-        "unit.test_abstract_factory.function_to_register": function_to_register,
+        "tests.unit.test_abstract_factory.Class1": Class1,
+        "tests.unit.test_abstract_factory.Class2": Class2,
+        "tests.unit.test_abstract_factory.Class3": Class3,
+        "tests.unit.test_abstract_factory.function_to_register": function_to_register,
     }
-    obj = Class1.factory("unit.test_abstract_factory.function_to_register", arg2=42, arg3=11)
+    obj = Class1.factory("tests.unit.test_abstract_factory.function_to_register", arg2=42, arg3=11)
     assert obj.arg2 == 42
     assert obj.arg3 == 11
     assert isinstance(obj, Class1)
@@ -349,11 +349,11 @@ def test_decorator_register_function() -> None:
         return Class1(arg1, arg2)
 
     function_name = "test_decorator_register_function.<locals>.my_function_to_register"
-    function_path = f"unit.test_abstract_factory.{function_name}"
+    function_path = f"tests.unit.test_abstract_factory.{function_name}"
     assert Class1.inheritors == {
-        "unit.test_abstract_factory.Class1": Class1,
-        "unit.test_abstract_factory.Class2": Class2,
-        "unit.test_abstract_factory.Class3": Class3,
+        "tests.unit.test_abstract_factory.Class1": Class1,
+        "tests.unit.test_abstract_factory.Class2": Class2,
+        "tests.unit.test_abstract_factory.Class3": Class3,
         function_path: my_function_to_register,
     }
     obj = Class1.factory(function_path, 42, 11)
@@ -369,11 +369,11 @@ def test_decorator_register_class() -> None:
             self.arg = arg
 
     assert (
-        "unit.test_abstract_factory.test_decorator_register_class.<locals>.MyClass"
+        "tests.unit.test_abstract_factory.test_decorator_register_class.<locals>.MyClass"
         in BaseClass.inheritors
     )
     obj = BaseClass.factory(
-        "unit.test_abstract_factory.test_decorator_register_class.<locals>.MyClass", 42
+        "tests.unit.test_abstract_factory.test_decorator_register_class.<locals>.MyClass", 42
     )
     assert obj.arg == 42
 
@@ -386,7 +386,7 @@ def test_register_object_multiple_decorators_1() -> None:
         """Do nothing."""
 
     assert (
-        "unit.test_abstract_factory.test_register_object_multiple_decorators_1.<locals>.my_func"
+        "tests.unit.test_abstract_factory.test_register_object_multiple_decorators_1.<locals>.my_func"
         in BaseClass.inheritors
     )
     assert my_func._my_value == 1
@@ -400,7 +400,7 @@ def test_register_object_multiple_decorators_2() -> None:
         """Do nothing."""
 
     assert (
-        "unit.test_abstract_factory.test_register_object_multiple_decorators_2.<locals>.my_func"
+        "tests.unit.test_abstract_factory.test_register_object_multiple_decorators_2.<locals>.my_func"
         in BaseClass.inheritors
     )
     assert my_func._my_value == 1
@@ -436,13 +436,17 @@ def test_multiple_register() -> None:
         """Do nothing."""
 
     assert (
-        "unit.test_abstract_factory.test_multiple_register.<locals>.MyClass" in BaseClass.inheritors
+        "tests.unit.test_abstract_factory.test_multiple_register.<locals>.MyClass"
+        in BaseClass.inheritors
     )
     assert (
-        "unit.test_abstract_factory.test_multiple_register.<locals>.MyClass"
+        "tests.unit.test_abstract_factory.test_multiple_register.<locals>.MyClass"
         in BaseClassWithArgument.inheritors
     )
-    assert "unit.test_abstract_factory.test_multiple_register.<locals>.MyClass" in Class1.inheritors
+    assert (
+        "tests.unit.test_abstract_factory.test_multiple_register.<locals>.MyClass"
+        in Class1.inheritors
+    )
 
 
 #################################
@@ -452,37 +456,37 @@ def test_multiple_register() -> None:
 
 def test_register_child_classes_ignore_abstract_foo() -> None:
     register_child_classes(BaseClass, Foo)
-    assert "unit.test_abstract_factory.Baz" in BaseClass.inheritors
-    assert "unit.test_abstract_factory.Bing" in BaseClass.inheritors
+    assert "tests.unit.test_abstract_factory.Baz" in BaseClass.inheritors
+    assert "tests.unit.test_abstract_factory.Bing" in BaseClass.inheritors
 
 
 def test_register_child_classes_ignore_abstract_bar() -> None:
     register_child_classes(BaseClass, Bar)
-    assert "unit.test_abstract_factory.Bing" in BaseClass.inheritors
+    assert "tests.unit.test_abstract_factory.Bing" in BaseClass.inheritors
 
 
 def test_register_child_classes_ignore_abstract_bing() -> None:
     register_child_classes(BaseClass, Bing)
-    assert "unit.test_abstract_factory.Bing" in BaseClass.inheritors
+    assert "tests.unit.test_abstract_factory.Bing" in BaseClass.inheritors
 
 
 def test_register_child_classes_with_abstract_foo() -> None:
     register_child_classes(BaseClass, Foo, ignore_abstract_class=False)
-    assert "unit.test_abstract_factory.Bar" in BaseClass.inheritors
-    assert "unit.test_abstract_factory.Baz" in BaseClass.inheritors
-    assert "unit.test_abstract_factory.Bing" in BaseClass.inheritors
-    assert "unit.test_abstract_factory.Foo" in BaseClass.inheritors
+    assert "tests.unit.test_abstract_factory.Bar" in BaseClass.inheritors
+    assert "tests.unit.test_abstract_factory.Baz" in BaseClass.inheritors
+    assert "tests.unit.test_abstract_factory.Bing" in BaseClass.inheritors
+    assert "tests.unit.test_abstract_factory.Foo" in BaseClass.inheritors
 
 
 def test_register_child_classes_with_abstract_bar() -> None:
     register_child_classes(BaseClass, Bar, ignore_abstract_class=False)
-    assert "unit.test_abstract_factory.Bar" in BaseClass.inheritors
-    assert "unit.test_abstract_factory.Bing" in BaseClass.inheritors
+    assert "tests.unit.test_abstract_factory.Bar" in BaseClass.inheritors
+    assert "tests.unit.test_abstract_factory.Bing" in BaseClass.inheritors
 
 
 def test_register_child_classes_with_abstract_bing() -> None:
     register_child_classes(BaseClass, Bing, ignore_abstract_class=False)
-    assert "unit.test_abstract_factory.Bing" in BaseClass.inheritors
+    assert "tests.unit.test_abstract_factory.Bing" in BaseClass.inheritors
 
 
 def test_register_child_classes_incorrect_factory_class() -> None:
@@ -502,18 +506,18 @@ def test_register_child_classes_incorrect_factory_class() -> None:
 
 
 def test_unregister_exact_name() -> None:
-    Class1.unregister("unit.test_abstract_factory.Class3")
+    Class1.unregister("tests.unit.test_abstract_factory.Class3")
     assert Class1.inheritors == {
-        "unit.test_abstract_factory.Class1": Class1,
-        "unit.test_abstract_factory.Class2": Class2,
+        "tests.unit.test_abstract_factory.Class1": Class1,
+        "tests.unit.test_abstract_factory.Class2": Class2,
     }
 
 
 def test_unregister_short_name() -> None:
     Class1.unregister("Class3")
     assert Class1.inheritors == {
-        "unit.test_abstract_factory.Class1": Class1,
-        "unit.test_abstract_factory.Class2": Class2,
+        "tests.unit.test_abstract_factory.Class1": Class1,
+        "tests.unit.test_abstract_factory.Class2": Class2,
     }
 
 

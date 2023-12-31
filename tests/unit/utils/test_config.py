@@ -41,11 +41,11 @@ if sys.version_info >= (3, 10):
         ({OBJECT_TARGET: "collections.Counter", "iterable": [1, 2, 1, 3]}, Counter),
         ({OBJECT_TARGET: "collections.Counter", "iterable": [1, 2, 1, 3]}, dict),
         ({OBJECT_TARGET: "collections.Counter", "iterable": [1, 2, 1, 3]}, object),
-        ({OBJECT_TARGET: "unit.utils.test_config.create_list"}, list),
-        ({OBJECT_TARGET: "unit.utils.test_config.create_list"}, object),
-        ({OBJECT_TARGET: "unit.utils.test_config.create_list_union"}, tuple),
-        ({OBJECT_TARGET: "unit.utils.test_config.create_list_union"}, list),
-        ({OBJECT_TARGET: "unit.utils.test_config.create_list_union"}, object),
+        ({OBJECT_TARGET: "tests.unit.utils.test_config.create_list"}, list),
+        ({OBJECT_TARGET: "tests.unit.utils.test_config.create_list"}, object),
+        ({OBJECT_TARGET: "tests.unit.utils.test_config.create_list_union"}, tuple),
+        ({OBJECT_TARGET: "tests.unit.utils.test_config.create_list_union"}, list),
+        ({OBJECT_TARGET: "tests.unit.utils.test_config.create_list_union"}, object),
     ],
 )
 def test_is_object_config_true(config: dict, cls: type[object]) -> None:
@@ -54,7 +54,9 @@ def test_is_object_config_true(config: dict, cls: type[object]) -> None:
 
 @py310_plus
 def test_is_object_config_true_union_type() -> None:
-    assert is_object_config({OBJECT_TARGET: "unit.utils.test_config.create_list_union2"}, tuple)
+    assert is_object_config(
+        {OBJECT_TARGET: "tests.unit.utils.test_config.create_list_union2"}, tuple
+    )
 
 
 def test_is_object_config_true_child_class() -> None:
@@ -71,5 +73,5 @@ def test_is_object_config_false_incorrect_class() -> None:
 
 def test_is_object_config_false_function_without_type_hint() -> None:
     assert not is_object_config(
-        {OBJECT_TARGET: "unit.utils.test_config.create_list_without_type_hint"}, float
+        {OBJECT_TARGET: "tests.unit.utils.test_config.create_list_without_type_hint"}, float
     )
