@@ -128,6 +128,7 @@ select = [
     "TRY", # tryceratops
     "UP", # pyupgrade
     "W", # pycodestyle (Warning)
+    "PL", # Pylint
 ]
 ignore = [
     "A003", # Class attribute `{name}` is shadowing a python builtin
@@ -178,6 +179,7 @@ fixable = [
     "TID",
     "TRY",
     "W",
+    "PL",
 ]
 unfixable = []
 
@@ -209,7 +211,10 @@ src = ["src"]
 
 [tool.ruff.per-file-ignores]
 # Ignore all directories named `tests`.
-"tests/**" = ["D"]  # D: pydocstyle
+"tests/**" = [
+    "D", # pydocstyle
+    "PL", # Pylint
+]
 
 [tool.ruff.mccabe]
 max-complexity = 10
@@ -218,7 +223,7 @@ max-complexity = 10
 convention = "google"
 
 [tool.ruff.lint]
-# Enable D400 on top of the Google convention.
+# Enable on top of the Google convention.
 extend-select = ["D400", "D401", "D404"]
 
 [tool.ruff.lint.pydocstyle]
