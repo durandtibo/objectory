@@ -1,5 +1,5 @@
 r"""This module implements the ``AbstractFactory`` metaclass used to
-create factories."""
+create abstract factories."""
 
 from __future__ import annotations
 
@@ -8,8 +8,7 @@ __all__ = ["AbstractFactory", "is_abstract_factory", "register", "register_child
 import inspect
 import logging
 from abc import ABCMeta
-from collections.abc import Callable
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from objectory.errors import (
     AbstractFactoryTypeError,
@@ -24,6 +23,9 @@ from objectory.utils import (
     is_lambda_function,
     resolve_name,
 )
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 logger = logging.getLogger(__name__)
 

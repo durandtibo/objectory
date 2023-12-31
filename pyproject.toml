@@ -61,6 +61,10 @@ source = ["objectory"]
 
 [tool.coverage.report]
 show_missing = true
+exclude_lines = [
+    "pragma: no cover",
+    "if TYPE_CHECKING:"
+]
 
 [tool.pytest.ini_options]
 testpaths = "tests/"
@@ -117,6 +121,7 @@ select = [
     "RSE", # flake8-raise
     "SIM", # flake8-simplify
     "T20", # flake8-print
+    "TCH", # flake8-type-checking
     "TD", # flake8-todos
     "TID", # flake8-tidy-imports
     "TRY", # tryceratops
@@ -161,6 +166,7 @@ fixable = [
     "RSE",
     "SIM",
     "T20",
+    "TCH",
     "TD",
     "TID",
     "TRY",

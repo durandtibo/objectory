@@ -3,8 +3,7 @@ from __future__ import annotations
 import collections
 import logging
 from abc import ABC, abstractmethod
-from collections.abc import Callable
-from typing import TypeVar
+from typing import TYPE_CHECKING, TypeVar
 
 import pytest
 
@@ -20,6 +19,9 @@ from objectory.errors import (
     IncorrectObjectFactoryError,
     UnregisteredObjectFactoryError,
 )
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 T = TypeVar("T")
 
