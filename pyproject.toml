@@ -114,6 +114,7 @@ select = [
     "PERF", # Perflint
     "PGH", # pygrep-hooks
     "PIE", # flake8-pie
+    "PL", # Pylint
     "PT", # flake8-pytest-style
     "PTH", # pathlib
     "PYI", # flake8-pyi
@@ -165,6 +166,7 @@ fixable = [
     "PERF",
     "PGH",
     "PIE",
+    "PL",
     "PT",
     "PTH",
     "PYI",
@@ -209,7 +211,10 @@ src = ["src"]
 
 [tool.ruff.per-file-ignores]
 # Ignore all directories named `tests`.
-"tests/**" = ["D"]  # D: pydocstyle
+"tests/**" = [
+    "D", # pydocstyle
+    "PL", # Pylint
+]
 
 [tool.ruff.mccabe]
 max-complexity = 10
@@ -218,7 +223,7 @@ max-complexity = 10
 convention = "google"
 
 [tool.ruff.lint]
-# Enable D400 on top of the Google convention.
+# Enable on top of the Google convention.
 extend-select = ["D400", "D401", "D404"]
 
 [tool.ruff.lint.pydocstyle]
