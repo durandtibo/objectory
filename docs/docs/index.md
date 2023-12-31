@@ -92,7 +92,7 @@ print(obj)
 *Output*:
 
 ```textmate
-<__main__.MyClass object at 0x123456789>
+<__main__.MyClass object at 0x...>
 ```
 
 **[registry](registry.md)**
@@ -113,7 +113,7 @@ print(obj)
 ```
 
 ```textmate
-<__main__.MyClass object at 0x123456789>
+<__main__.MyClass object at 0x...>
 ```
 
 ## API stability

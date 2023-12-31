@@ -61,12 +61,10 @@ The current implementation contains both abstract factory and registry approache
 
 ```pycon
 >>> from objectory import factory
->>> class MyClass:
-...     pass
-...
->>> obj = factory("MyClass")
+>>> obj = factory("builtins.list")
 >>> print(obj)
-<__main__.MyClass object at 0x123456789>
+[]
+
 ```
 
 **[abstract factory](https://durandtibo.github.io/objectory/abstract_factory/)**
@@ -81,7 +79,8 @@ The current implementation contains both abstract factory and registry approache
 ...
 >>> obj = BaseClass.factory("MyClass")
 >>> print(obj)
-<__main__.MyClass object at 0x123456789>
+<__main__.MyClass object at 0x...>
+
 ```
 
 **[registry](https://durandtibo.github.io/objectory/registry/)**
@@ -95,7 +94,8 @@ The current implementation contains both abstract factory and registry approache
 ...
 >>> obj = registry.factory("MyClass")
 >>> print(obj)
-<__main__.MyClass object at 0x123456789>
+<__main__.MyClass object at 0x...>
+
 ```
 
 Please read the [documentation](https://durandtibo.github.io/objectory/) to learn more about these
