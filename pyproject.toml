@@ -214,10 +214,17 @@ line-length = 100
 target-version = "py39"
 src = ["src"]
 
+[tool.ruff.per-file-ignores]
+# Ignore all directories named `tests`.
+"tests/**" = ["D"]  # D: pydocstyle
+
 [tool.ruff.mccabe]
 max-complexity = 10
 
 [tool.ruff.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.pydocstyle]
 convention = "google"
 
 [tool.ruff.pycodestyle]

@@ -1,4 +1,4 @@
-r"""This module implements a registry class."""
+r"""Implement the registry class."""
 
 from __future__ import annotations
 

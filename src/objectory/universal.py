@@ -1,3 +1,5 @@
+r"""Implement a "universal" factory function."""
+
 from __future__ import annotations
 
 __all__ = ["factory"]

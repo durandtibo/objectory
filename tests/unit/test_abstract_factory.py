@@ -71,7 +71,7 @@ class Class3(Class2):
 
 class Foo(ABC):
     @abstractmethod
-    def my_function(self) -> None:
+    def my_method(self) -> None:
         """Abstract method."""
 
 
@@ -80,13 +80,13 @@ class Bar(Foo):
 
 
 class Baz(Foo):
-    def my_function(self) -> None:
-        """Implemented empty method."""
+    def my_method(self) -> None:
+        """Implement an empty method."""
 
 
 class Bing(Bar):
-    def my_function(self) -> None:
-        """Implemented empty method."""
+    def my_method(self) -> None:
+        """Implement an empty method."""
 
 
 class ClassToRegister:
@@ -345,16 +345,16 @@ def test_register_object_incorrect_type() -> None:
 
 def test_decorator_register_function() -> None:
     @register(Class1)
-    def my_function_to_register(arg1: int, arg2: int) -> Class1:
+    def my_method_to_register(arg1: int, arg2: int) -> Class1:
         return Class1(arg1, arg2)
 
-    function_name = "test_decorator_register_function.<locals>.my_function_to_register"
+    function_name = "test_decorator_register_function.<locals>.my_method_to_register"
     function_path = f"tests.unit.test_abstract_factory.{function_name}"
     assert Class1.inheritors == {
         "tests.unit.test_abstract_factory.Class1": Class1,
         "tests.unit.test_abstract_factory.Class2": Class2,
         "tests.unit.test_abstract_factory.Class3": Class3,
-        function_path: my_function_to_register,
+        function_path: my_method_to_register,
     }
     obj = Class1.factory(function_path, 42, 11)
     assert obj.arg2 == 42
