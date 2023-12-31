@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 
 def all_child_classes(cls: type) -> set[type]:
-    r"""Gets all the child classes (or subclasses) of a given class.
+    r"""Get all the child classes (or subclasses) of a given class.
 
     Based on: https://stackoverflow.com/a/3862957
 
@@ -55,7 +55,7 @@ def all_child_classes(cls: type) -> set[type]:
 
 
 def full_object_name(obj: Any) -> str:
-    r"""Computes the full name of an object.
+    r"""Compute the full name of an object.
 
     This function works for class and function objects.
 
@@ -93,7 +93,7 @@ def full_object_name(obj: Any) -> str:
 
 
 def _full_object_name(obj: object | type) -> str:
-    r"""Computes the full class name of a class/function.
+    r"""Compute the full class name of a class/function.
 
     Based on: https://gist.github.com/clbarnes/edd28ea32010eb159b34b075687bb49e
 
@@ -111,7 +111,7 @@ def _full_object_name(obj: object | type) -> str:
 
 
 def import_object(object_path: str) -> Any:
-    r"""Tries to import an object given its path.
+    r"""Import an object given its path.
 
     This function can be used to dynamically import a class or a
     function. The object path should have the following structure:
@@ -149,7 +149,7 @@ def import_object(object_path: str) -> Any:
 def instantiate_object(
     obj: Callable | type, *args: Any, _init_: str = "__init__", **kwargs: Any
 ) -> Any:
-    r"""Instantiates dynamically an object from its configuration.
+    r"""Instantiate dynamically an object from its configuration.
 
     Args:
         obj: Specifies the class to instantiate
@@ -191,7 +191,7 @@ def instantiate_object(
 def _instantiate_class_object(
     cls: type, *args: Any, _init_: str = "__init__", **kwargs: Any
 ) -> Any:
-    r"""Instantiates an object from its class and some arguments.
+    r"""Instantiate an object from its class and some arguments.
 
     The object can be instantiated by calling the constructor
     ``__init__`` (default) or ``__new__`` or a class method.
@@ -232,7 +232,7 @@ def _instantiate_class_object(
 
 
 def is_lambda_function(obj: Any) -> bool:
-    r"""Indicates if the object is a lambda function or not.
+    r"""Indicate if the object is a lambda function or not.
 
     Adapted from https://stackoverflow.com/a/23852434
 

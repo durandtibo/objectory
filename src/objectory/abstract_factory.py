@@ -31,7 +31,7 @@ logger = logging.getLogger(__name__)
 
 
 class AbstractFactory(ABCMeta):  # noqa: B024
-    r"""Implements an abstract factory metaclass to create automatically
+    r"""Implement the abstract factory metaclass to create automatically
     factories.
 
     Please read the documentation about this abstract factory to
@@ -77,7 +77,7 @@ class AbstractFactory(ABCMeta):  # noqa: B024
 
     @property
     def inheritors(cls) -> dict[str, Any]:
-        r"""Gets the inheritors.
+        r"""Get the inheritors.
 
         Returns:
             The inheritors.
@@ -100,7 +100,7 @@ class AbstractFactory(ABCMeta):  # noqa: B024
         return cls._abstractfactory_inheritors
 
     def factory(cls, _target_: str, *args: Any, _init_: str = "__init__", **kwargs: Any) -> Any:
-        r"""Creates dynamically an object given its configuration.
+        r"""Instantiate dynamically an object given its configuration.
 
         Please read the documentation for more information.
 
@@ -144,7 +144,7 @@ class AbstractFactory(ABCMeta):  # noqa: B024
         )
 
     def register_object(cls, obj: type | Callable) -> None:
-        r"""Registers a class or function to the factory. It is useful if
+        r"""Register a class or function to the factory. It is useful if
         you are using a 3rd party library.
 
         For example, you use a 3rd party library, and you cannot
@@ -187,7 +187,7 @@ class AbstractFactory(ABCMeta):  # noqa: B024
         cls._abstractfactory_inheritors[name] = obj
 
     def unregister(cls, name: str) -> None:
-        r"""Removes a registered object from the factory.
+        r"""Remove a registered object from the factory.
 
         This is an experimental function and may change in the future.
 
@@ -222,7 +222,7 @@ class AbstractFactory(ABCMeta):  # noqa: B024
         cls._abstractfactory_inheritors.pop(resolved_name)
 
     def _abstractfactory_get_target_from_name(cls, name: str) -> type | Callable:
-        """Gets the class or function to used given its name.
+        """Get the class or function to used given its name.
 
         Args:
             name: Specifies the name of the class or function.
@@ -247,7 +247,7 @@ class AbstractFactory(ABCMeta):  # noqa: B024
         return cls._abstractfactory_inheritors[resolved_name]
 
     def _abstractfactory_resolve_name(cls, name: str) -> str | None:
-        r"""Tries to resolve the name.
+        r"""Try to resolve the name.
 
         This function will look at if it can find an object which
         match with the given name. It is quite useful because there
@@ -278,7 +278,7 @@ class AbstractFactory(ABCMeta):  # noqa: B024
         return name in cls._abstractfactory_inheritors
 
     def _abstractfactory_check_object(cls, obj: type) -> None:
-        r"""Checks if the object is valid for this factory before to
+        r"""Check if the object is valid for this factory before to
         register it.
 
         This function will raise an exception if the object is not
@@ -303,7 +303,7 @@ class AbstractFactory(ABCMeta):  # noqa: B024
 
 
 def register(cls: AbstractFactory) -> Callable:
-    r"""Defines a decorator to register a function to a factory.
+    r"""Define a decorator to register a function to a factory.
 
     This decorator is designed to register functions that returns
     an object of a class registered in the factory.
@@ -342,7 +342,7 @@ def register(cls: AbstractFactory) -> Callable:
 def register_child_classes(
     factory_cls: AbstractFactory | type, cls: type, ignore_abstract_class: bool = True
 ) -> None:
-    r"""Registers the given class and its child classes of a given class.
+    r"""Register the given class and its child classes of a given class.
 
     This function registers all the child classes including the child
     classes of the child classes, etc.
@@ -384,8 +384,7 @@ def register_child_classes(
 
 
 def is_abstract_factory(cls: Any) -> bool:
-    r"""Indicates if a class implements the ``AbstractFactory``
-    metaclass.
+    r"""Indicate if a class implements the ``AbstractFactory`` metaclass.
 
     Args:
         cls: Specifies the class to check.
