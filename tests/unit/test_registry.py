@@ -5,7 +5,7 @@ from collections import OrderedDict
 from collections.abc import Callable
 from typing import TypeVar
 
-from pytest import mark, raises
+import pytest
 
 from objectory import Registry
 from objectory.errors import (
@@ -96,14 +96,14 @@ def test_register_object_function_with_name() -> None:
 
 def test_register_object_lambda_function() -> None:
     registry = Registry()
-    with raises(IncorrectObjectFactoryError):
+    with pytest.raises(IncorrectObjectFactoryError):
         # Should fail because it is not possible to register a lambda function.
         registry.register_object(lambda x: x)
 
 
 def test_register_object_incorrect_name() -> None:
     registry = Registry()
-    with raises(TypeError):
+    with pytest.raises(TypeError):
         # Should fail because name should be a string.
         registry.register_object(ClassToRegister, name=123)
 
@@ -119,7 +119,7 @@ def test_register_object_replace_object() -> None:
 def test_register_object_replace_subregistry() -> None:
     registry = Registry()
     registry.other.register_object(ClassToRegister)
-    with raises(InvalidNameFactoryError):
+    with pytest.raises(InvalidNameFactoryError):
         # Should fail because the name already exists.
         registry.register_object(function_to_register, name="other")
 
@@ -181,7 +181,7 @@ def test_register_function_with_name() -> None:
 
 def test_register_function_incorrect_name() -> None:
     registry = Registry()
-    with raises(TypeError):
+    with pytest.raises(TypeError):
         # Should fail because name should be a string.
         @registry.register(123)
         def function_to_register3() -> None:
@@ -258,7 +258,7 @@ def test_get_attribute_already_exist() -> None:
 def test_get_attribute_invalid_subregistry() -> None:
     registry = Registry()
     registry.register_object(ClassToRegister, name="other")
-    with raises(InvalidAttributeRegistryError):
+    with pytest.raises(InvalidAttributeRegistryError):
         # Should fail because other is not a sub-registry.
         registry.other.register_object(ClassToRegister)
 
@@ -309,7 +309,7 @@ def test_register_child_classes_with_abstract_bing() -> None:
 ###################
 
 
-@mark.parametrize("target", ("ClassToRegister", "unit.test_registry.ClassToRegister"))
+@pytest.mark.parametrize("target", ["ClassToRegister", "unit.test_registry.ClassToRegister"])
 def test_factory_class_target(target: str) -> None:
     registry = Registry()
     registry.register_object(ClassToRegister)
@@ -322,8 +322,8 @@ def test_factory_class_target_import() -> None:
     assert isinstance(Registry().factory(_target_="collections.OrderedDict"), OrderedDict)
 
 
-@mark.parametrize("arg1", (-1, 1))
-@mark.parametrize("arg2", ("arg2", "cba"))
+@pytest.mark.parametrize("arg1", [-1, 1])
+@pytest.mark.parametrize("arg2", ["arg2", "cba"])
 def test_factory_class_args(arg1: int, arg2: str) -> None:
     registry = Registry()
     registry.register_object(ClassToRegister)
@@ -333,8 +333,8 @@ def test_factory_class_args(arg1: int, arg2: str) -> None:
     assert obj.arg2 == arg2
 
 
-@mark.parametrize("arg1", (-1, 1))
-@mark.parametrize("arg2", ("arg2", "cba"))
+@pytest.mark.parametrize("arg1", [-1, 1])
+@pytest.mark.parametrize("arg2", ["arg2", "cba"])
 def test_factory_class_kwargs(arg1: int, arg2: str) -> None:
     registry = Registry()
     registry.register_object(ClassToRegister)
@@ -378,7 +378,7 @@ def test_factory_init_class_method_with_kwarg() -> None:
 def test_factory_init_not_exist() -> None:
     registry = Registry()
     registry.register_object(ClassToRegister)
-    with raises(IncorrectObjectFactoryError):
+    with pytest.raises(IncorrectObjectFactoryError):
         # Should fail because the init function does not exist.
         registry.factory("unit.test_registry.ClassToRegister", _init_="incorrect_init_function")
 
@@ -386,7 +386,7 @@ def test_factory_init_not_exist() -> None:
 def test_factory_init_missing() -> None:
     registry = Registry()
     registry.register_object(ClassToRegister)
-    with raises(IncorrectObjectFactoryError):
+    with pytest.raises(IncorrectObjectFactoryError):
         # Should fail because the attribute arg2 is not initialized.
         registry.factory("unit.test_registry.ClassToRegister", _init_="arg2")
 
@@ -395,24 +395,26 @@ def test_factory_duplicate_class_name() -> None:
     registry = Registry()
     registry.register_object(ClassToRegister, name="ClassToRegister")
     registry.register_object(ClassToRegister, name="unit.test_registry.ClassToRegister")
-    with raises(UnregisteredObjectFactoryError):
+    with pytest.raises(UnregisteredObjectFactoryError):
         # Should fail because the object name is not unique.
         registry.factory("OrderedDict")
 
 
 def test_factory_unregistered_incorrect_class_name() -> None:
     registry = Registry()
-    with raises(UnregisteredObjectFactoryError):
+    with pytest.raises(UnregisteredObjectFactoryError):
         registry.factory("collections.NotACounter")
 
 
 def test_factory_unregistered_incorrect_package() -> None:
     registry = Registry()
-    with raises(UnregisteredObjectFactoryError):
+    with pytest.raises(UnregisteredObjectFactoryError):
         registry.factory("my_incorrect_package.MyClass")
 
 
-@mark.parametrize("target", ("function_to_register", "unit.test_registry.function_to_register"))
+@pytest.mark.parametrize(
+    "target", ["function_to_register", "unit.test_registry.function_to_register"]
+)
 def test_factory_function_target(target: str) -> None:
     registry = Registry()
     registry.register_object(function_to_register)
@@ -476,7 +478,7 @@ def test_unregister_short_name() -> None:
 
 def test_unregister_missing_object() -> None:
     registry = Registry()
-    with raises(UnregisteredObjectFactoryError):
+    with pytest.raises(UnregisteredObjectFactoryError):
         # Should fail because the object is not registered.
         registry.unregister("unit.test_registry.ClassToRegister")
 
@@ -486,7 +488,7 @@ def test_unregister_missing_object() -> None:
 ##################
 
 
-@mark.parametrize("cls", (ClassToRegister, OrderedDict))
+@pytest.mark.parametrize("cls", [ClassToRegister, OrderedDict])
 def test_set_class_filter(cls: type) -> None:
     registry = Registry()
     registry.set_class_filter(cls)
@@ -495,7 +497,7 @@ def test_set_class_filter(cls: type) -> None:
 
 def test_set_class_filter_incorrect_object() -> None:
     registry = Registry()
-    with raises(TypeError):
+    with pytest.raises(TypeError, match="The class filter has to be a class"):
         # Should raise an error because it is not a class or None.
         registry.set_class_filter("abc")
 
@@ -523,12 +525,12 @@ def test_set_class_filter_register_valid_object() -> None:
 def test_set_class_filter_register_invalid_object() -> None:
     registry = Registry()
     registry.set_class_filter(dict)
-    with raises(IncorrectObjectFactoryError):
+    with pytest.raises(IncorrectObjectFactoryError):
         # Should raise an error because ClassToRegister is not a child class of dict.
         registry.register_object(int)
 
 
-@mark.parametrize("nested", (True, False))
+@pytest.mark.parametrize("nested", [True, False])
 def test_clear_filters(nested: bool) -> None:
     registry = Registry()
     registry.set_class_filter(ClassToRegister)

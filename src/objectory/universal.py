@@ -37,5 +37,6 @@ def factory(_target_: str, *args: Any, _init_: str = "__init__", **kwargs: Any) 
     """
     target = import_object(_target_)
     if target is None:
-        raise RuntimeError(f"The target object does not exist: {_target_}")
+        msg = f"The target object does not exist: {_target_}"
+        raise RuntimeError(msg)
     return instantiate_object(target, *args, _init_=_init_, **kwargs)

@@ -7,7 +7,6 @@ from collections.abc import Callable
 from typing import TypeVar
 
 import pytest
-from pytest import LogCaptureFixture, fixture
 
 from objectory.abstract_factory import (
     AbstractFactory,
@@ -126,8 +125,8 @@ def reset_class1() -> None:
     assert len(Class1.inheritors) == 3
 
 
-@fixture(scope="function", autouse=True)
-def reset_factory() -> None:
+@pytest.fixture(autouse=True)
+def _reset_factory() -> None:
     reset_base_class()
     reset_base_class_with_argument()
     reset_class1()
@@ -272,7 +271,7 @@ def test_register_object_class() -> None:
     }
 
 
-def test_register_object_duplicate_class(caplog: LogCaptureFixture) -> None:
+def test_register_object_duplicate_class(caplog: pytest.LogCaptureFixture) -> None:
     with caplog.at_level(level=logging.INFO):
         Class1.register_object(Class2)
         assert Class1.inheritors == {
@@ -297,7 +296,7 @@ def test_register_object_function() -> None:
     assert isinstance(obj, Class1)
 
 
-def test_register_object_function_duplicate(caplog: LogCaptureFixture) -> None:
+def test_register_object_function_duplicate(caplog: pytest.LogCaptureFixture) -> None:
     with caplog.at_level(level=logging.INFO):
 
         def function_to_register2() -> None:

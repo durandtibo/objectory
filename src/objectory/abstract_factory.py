@@ -213,9 +213,10 @@ class AbstractFactory(ABCMeta):  # noqa: B024
         """
         resolved_name = cls._abstractfactory_resolve_name(name)
         if resolved_name is None or not cls._abstractfactory_is_name_registered(resolved_name):
-            raise UnregisteredObjectFactoryError(
+            msg = (
                 f"It is not possible to remove an object which is not registered (received: {name})"
             )
+            raise UnregisteredObjectFactoryError(msg)
         cls._abstractfactory_inheritors.pop(resolved_name)
 
     def _abstractfactory_get_target_from_name(cls, name: str) -> type | Callable:
@@ -233,10 +234,11 @@ class AbstractFactory(ABCMeta):  # noqa: B024
         """
         resolved_name = cls._abstractfactory_resolve_name(name)
         if resolved_name is None:
-            raise UnregisteredObjectFactoryError(
+            msg = (
                 f"Unable to create the object {name}. Registered objects of {cls.__qualname__} "
                 f"are {set(cls._abstractfactory_inheritors.keys())}"
             )
+            raise UnregisteredObjectFactoryError(msg)
         if not cls._abstractfactory_is_name_registered(resolved_name):
             cls.register_object(import_object(resolved_name))
         return cls._abstractfactory_inheritors[resolved_name]
@@ -287,14 +289,14 @@ class AbstractFactory(ABCMeta):  # noqa: B024
                 object for this factory.
         """
         if not (inspect.isclass(obj) or inspect.isfunction(obj)):
-            raise IncorrectObjectFactoryError(
-                f"It is possible to register only a class or a function (received: {obj})"
-            )
+            msg = f"It is possible to register only a class or a function (received: {obj})"
+            raise IncorrectObjectFactoryError(msg)
         if is_lambda_function(obj):
-            raise IncorrectObjectFactoryError(
+            msg = (
                 "It is not possible to register a lambda function. "
                 "Please use a regular function instead"
             )
+            raise IncorrectObjectFactoryError(msg)
 
 
 def register(cls: AbstractFactory) -> Callable:
@@ -366,10 +368,11 @@ def register_child_classes(
     ```
     """
     if not is_abstract_factory(factory_cls):
-        raise AbstractFactoryTypeError(
+        msg = (
             "It is not possible to register child classes because the factory class does "
             f"not implement the {AbstractFactory.__qualname__} metaclass"
         )
+        raise AbstractFactoryTypeError(msg)
 
     for class_to_register in [cls] + list(all_child_classes(cls)):
         if ignore_abstract_class and inspect.isabstract(class_to_register):

@@ -88,7 +88,8 @@ def full_object_name(obj: Any) -> str:
     """
     if inspect.isclass(obj) or inspect.isfunction(obj):
         return _full_object_name(obj)
-    raise TypeError(f"Incorrect object type: {obj}")
+    msg = f"Incorrect object type: {obj}"
+    raise TypeError(msg)
 
 
 def _full_object_name(obj: object | type) -> str:
@@ -137,7 +138,8 @@ def import_object(object_path: str) -> Any:
     ```
     """
     if not isinstance(object_path, str):
-        raise TypeError(f"The object_path has to be a string (received: {object_path})")
+        msg = f"The object_path has to be a string (received: {object_path})"
+        raise TypeError(msg)
     try:
         return tornado_import_object(object_path)
     except (ValueError, ImportError):
@@ -182,10 +184,13 @@ def instantiate_object(
         return obj(*args, **kwargs)
     if inspect.isclass(obj):
         return _instantiate_class_object(obj, *args, _init_=_init_, **kwargs)
-    raise TypeError(f"Incorrect type: {obj}. The valid types are class and function")
+    msg = f"Incorrect type: {obj}. The valid types are class and function"
+    raise TypeError(msg)
 
 
-def _instantiate_class_object(cls: type, *args, _init_: str = "__init__", **kwargs) -> Any:
+def _instantiate_class_object(
+    cls: type, *args: Any, _init_: str = "__init__", **kwargs: Any
+) -> Any:
     r"""Instantiates an object from its class and some arguments.
 
     The object can be instantiated by calling the constructor
@@ -208,18 +213,19 @@ def _instantiate_class_object(cls: type, *args, _init_: str = "__init__", **kwar
             instantiate the object.
     """
     if inspect.isabstract(cls):
-        raise AbstractClassFactoryError(
-            f"Cannot instantiate the class {cls} because it is an abstract class."
-        )
+        msg = f"Cannot instantiate the class {cls} because it is an abstract class."
+        raise AbstractClassFactoryError(msg)
 
     if _init_ == "__init__":
         return cls(*args, **kwargs)
 
     if not hasattr(cls, _init_):
-        raise IncorrectObjectFactoryError(f"{cls} does not have {_init_} attribute")
+        msg = f"{cls} does not have {_init_} attribute"
+        raise IncorrectObjectFactoryError(msg)
     init_fn = getattr(cls, _init_)
     if not callable(init_fn):
-        raise IncorrectObjectFactoryError(f"The {_init_} attribute of {cls} is not callable")
+        msg = f"The {_init_} attribute of {cls} is not callable"
+        raise IncorrectObjectFactoryError(msg)
     if _init_ == "__new__":
         return init_fn(cls, *args, **kwargs)
     return init_fn(*args, **kwargs)

@@ -2,19 +2,19 @@ import sys
 from collections import Counter
 from typing import Union
 
-from pytest import mark
+import pytest
 
 from objectory import OBJECT_TARGET
 from objectory.utils import is_object_config
 
-py310_plus = mark.skipif(sys.version_info < (3, 10), reason="Requires python 3.10+")
+py310_plus = pytest.mark.skipif(sys.version_info < (3, 10), reason="Requires python 3.10+")
 
 
 def create_list() -> list:
     return [1, 2, 3, 4]
 
 
-def create_list_union() -> Union[list, tuple]:
+def create_list_union() -> Union[list, tuple]:  # noqa: FA100
     return [1, 2, 3, 4]
 
 
@@ -24,7 +24,7 @@ def create_list_without_type_hint():  # noqa: ANN201
 
 if sys.version_info >= (3, 10):
 
-    def create_list_union2() -> list | tuple:
+    def create_list_union2() -> list | tuple:  # noqa: FA102
         return [1, 2, 3, 4]
 
 
@@ -33,9 +33,9 @@ if sys.version_info >= (3, 10):
 ######################################
 
 
-@mark.parametrize(
-    "config,cls",
-    (
+@pytest.mark.parametrize(
+    ("config", "cls"),
+    [
         ({OBJECT_TARGET: "builtins.int"}, int),
         ({OBJECT_TARGET: "builtins.int"}, object),
         ({OBJECT_TARGET: "collections.Counter", "iterable": [1, 2, 1, 3]}, Counter),
@@ -46,7 +46,7 @@ if sys.version_info >= (3, 10):
         ({OBJECT_TARGET: "unit.utils.test_config.create_list_union"}, tuple),
         ({OBJECT_TARGET: "unit.utils.test_config.create_list_union"}, list),
         ({OBJECT_TARGET: "unit.utils.test_config.create_list_union"}, object),
-    ),
+    ],
 )
 def test_is_object_config_true(config: dict, cls: type[object]) -> None:
     assert is_object_config(config, cls)

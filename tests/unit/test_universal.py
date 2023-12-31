@@ -3,7 +3,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from collections import Counter
 
-from pytest import raises
+import pytest
 
 from objectory import factory
 from objectory.errors import AbstractClassFactoryError
@@ -27,10 +27,10 @@ def test_factory_valid_object() -> None:
 
 
 def test_factory_abstract_object() -> None:
-    with raises(AbstractClassFactoryError):
+    with pytest.raises(AbstractClassFactoryError):
         factory("unit.test_universal.BaseFakeClass")
 
 
 def test_factory_non_existing_object() -> None:
-    with raises(RuntimeError):
+    with pytest.raises(RuntimeError):
         factory("collections.NotACounter")

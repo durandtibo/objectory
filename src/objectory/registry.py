@@ -58,10 +58,11 @@ class Registry:
             self._state[key] = Registry()
         if self._is_registry(key):
             return self._state[key]
-        raise InvalidAttributeRegistryError(
+        msg = (
             f"The attribute {key} is not a registry. You can use this function only to access "
             "a Registry object."
         )
+        raise InvalidAttributeRegistryError(msg)
 
     def __len__(self) -> int:
         r"""Returns the number of registered objects.
@@ -289,11 +290,13 @@ class Registry:
         if name is None:
             name = full_object_name(obj)
         elif not isinstance(name, str):
-            raise TypeError(f"The name has to be a string (received: {name})")
+            msg = f"The name has to be a string (received: {name})"
+            raise TypeError(msg)
 
         if name in self._state:
             if self._is_registry(name):
-                raise InvalidNameFactoryError(f"The name {name} is already used by a sub-registry")
+                msg = f"The name {name} is already used by a sub-registry"
+                raise InvalidNameFactoryError(msg)
             if self._state[name] != obj:
                 logger.warning(
                     f"The name {name} already exists and its value will be replaced by {obj}"
@@ -357,9 +360,10 @@ class Registry:
         """
         resolved_name = self._resolve_name(name)
         if resolved_name is None or not self._is_name_registered(resolved_name):
-            raise UnregisteredObjectFactoryError(
+            msg = (
                 f"It is not possible to remove an object which is not registered (received: {name})"
             )
+            raise UnregisteredObjectFactoryError(msg)
         self._state.pop(resolved_name)
 
     def set_class_filter(self, cls: type | None) -> None:
@@ -394,7 +398,8 @@ class Registry:
             return
 
         if not inspect.isclass(cls):
-            raise TypeError(f"The class filter has to be a class (received: {cls})")
+            msg = f"The class filter has to be a class (received: {cls})"
+            raise TypeError(msg)
         self._filters[self._CLASS_FILTER] = cls
 
     def _check_object(self, obj: type | Callable) -> None:
@@ -412,17 +417,17 @@ class Registry:
                 object for this factory.
         """
         if is_lambda_function(obj):
-            raise IncorrectObjectFactoryError(
+            msg = (
                 "It is not possible to register a lambda function. "
                 "Please use a regular function instead"
             )
+            raise IncorrectObjectFactoryError(msg)
 
         filter_class = self._filters.get(self._CLASS_FILTER, None)
         if filter_class is not None and not issubclass(obj, filter_class):
             class_name = full_object_name(filter_class)
-            raise IncorrectObjectFactoryError(
-                f"All the registered objects should inherit {class_name} class (received {obj})"
-            )
+            msg = f"All the registered objects should inherit {class_name} class (received {obj})"
+            raise IncorrectObjectFactoryError(msg)
 
     def _get_target_from_name(self, name: str) -> Any:
         r"""Gets the class or function to used given its name.
@@ -439,10 +444,11 @@ class Registry:
         """
         resolved_name = self._resolve_name(name)
         if resolved_name is None:
-            raise UnregisteredObjectFactoryError(
+            msg = (
                 f"Unable to create the object {name}. Registered objects of {self.__name__} are "
                 f"{self.registered_names(include_registry=False)}."
             )
+            raise UnregisteredObjectFactoryError(msg)
         if not self._is_name_registered(resolved_name):
             self.register_object(import_object(resolved_name))
         return self._state[resolved_name]

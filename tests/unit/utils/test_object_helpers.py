@@ -6,7 +6,7 @@ from math import isclose
 from typing import Any
 from unittest.mock import Mock
 
-from pytest import mark, raises
+import pytest
 
 from objectory.errors import AbstractClassFactoryError, IncorrectObjectFactoryError
 from objectory.utils import (
@@ -107,7 +107,7 @@ def test_full_object_name_builtin_module() -> None:
 
 
 def test_full_object_name_incorrect_type() -> None:
-    with raises(TypeError):
+    with pytest.raises(TypeError):
         full_object_name(1)
 
 
@@ -129,7 +129,7 @@ def test_import_object_incorrect() -> None:
 
 
 def test_import_object_incorrect_type() -> None:
-    with raises(TypeError):
+    with pytest.raises(TypeError):
         import_object(1)
 
 
@@ -138,8 +138,8 @@ def test_import_object_incorrect_type() -> None:
 ##############################
 
 
-@mark.parametrize("arg1", (-1, 1))
-@mark.parametrize("arg2", ("arg2", "cba"))
+@pytest.mark.parametrize("arg1", [-1, 1])
+@pytest.mark.parametrize("arg2", ["arg2", "cba"])
 def test_instantiate_object_class_args(arg1: int, arg2: str) -> None:
     obj = instantiate_object(FakeClass, arg1, arg2)
     assert isinstance(obj, FakeClass)
@@ -147,8 +147,8 @@ def test_instantiate_object_class_args(arg1: int, arg2: str) -> None:
     assert obj.arg2 == arg2
 
 
-@mark.parametrize("arg1", (-1, 1))
-@mark.parametrize("arg2", ("arg2", "cba"))
+@pytest.mark.parametrize("arg1", [-1, 1])
+@pytest.mark.parametrize("arg2", ["arg2", "cba"])
 def test_instantiate_object_class_kwargs(arg1: int, arg2: str) -> None:
     obj = instantiate_object(FakeClass, arg1=arg1, arg2=arg2)
     assert isinstance(obj, FakeClass)
@@ -197,20 +197,20 @@ def test_instantiate_object_class_init_static_method() -> None:
 
 
 def test_instantiate_object_init_not_exist() -> None:
-    with raises(IncorrectObjectFactoryError):
+    with pytest.raises(IncorrectObjectFactoryError):
         # Should fail because the init function does not exist.
         instantiate_object(FakeClass, _init_="incorrect_init_function")
 
 
 def test_instantiate_object_init_regular_method() -> None:
-    with raises(TypeError):
+    with pytest.raises(TypeError):
         # Should fail because self is not defined.
         instantiate_object(FakeClass, _init_="method")
 
 
 def test_instantiate_object_init_not_method() -> None:
-    with raises(IncorrectObjectFactoryError):
-        FakeClass.not_a_method = None
+    FakeClass.not_a_method = None
+    with pytest.raises(IncorrectObjectFactoryError):
         # Should fail because the attribute not_a_method is not a method.
         instantiate_object(FakeClass, _init_="not_a_method")
 
@@ -221,7 +221,7 @@ def test_instantiate_object_abstract_class() -> None:
         def my_method(self) -> None:
             """Abstract method."""
 
-    with raises(AbstractClassFactoryError):
+    with pytest.raises(AbstractClassFactoryError):
         instantiate_object(FakeAbstractClass, 42)
 
 
@@ -239,8 +239,8 @@ def test_instantiate_object_function_init() -> None:
     assert obj.arg2 == "abc"
 
 
-@mark.parametrize("arg1", (-1, 1))
-@mark.parametrize("arg2", ("arg2", "cba"))
+@pytest.mark.parametrize("arg1", [-1, 1])
+@pytest.mark.parametrize("arg2", ["arg2", "cba"])
 def test_instantiate_object_function_args(arg1: int, arg2: str) -> None:
     obj = instantiate_object(fake_function, arg1, arg2)
     assert isinstance(obj, FakeClass)
@@ -248,8 +248,8 @@ def test_instantiate_object_function_args(arg1: int, arg2: str) -> None:
     assert obj.arg2 == arg2
 
 
-@mark.parametrize("arg1", (-1, 1))
-@mark.parametrize("arg2", ("arg2", "cba"))
+@pytest.mark.parametrize("arg1", [-1, 1])
+@pytest.mark.parametrize("arg2", ["arg2", "cba"])
 def test_instantiate_object_function_kwargs(arg1: int, arg2: str) -> None:
     obj = instantiate_object(fake_function, arg1=arg1, arg2=arg2)
     assert isinstance(obj, FakeClass)
@@ -258,7 +258,7 @@ def test_instantiate_object_function_kwargs(arg1: int, arg2: str) -> None:
 
 
 def test_instantiate_object_incorrect_type() -> None:
-    with raises(TypeError):
+    with pytest.raises(TypeError):
         instantiate_object(FakeClass(12))
 
 
@@ -275,6 +275,6 @@ def test_is_lambda_function_regular_function() -> None:
     assert not is_lambda_function(fake_function)
 
 
-@mark.parametrize("obj", (-1, "abc", FakeClass))
+@pytest.mark.parametrize("obj", [-1, "abc", FakeClass])
 def test_is_lambda_function_non_function(obj: Any) -> None:
     assert not is_lambda_function(obj)
