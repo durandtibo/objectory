@@ -51,8 +51,6 @@ def is_object_config(config: dict, cls: type) -> bool:
         target = get_type_hints(target).get("return")
     if target is None:
         return False
-    if isinstance(target, (UnionGenericAlias, UnionType)):  # typing.Union and |
-        targets = target.__args__
-    else:
-        targets = [target]
-    return any([cls in target.__mro__ for target in targets])
+    # Union and | -> (UnionGenericAlias, UnionType)
+    targets = target.__args__ if isinstance(target, (UnionGenericAlias, UnionType)) else [target]
+    return any(cls in target.__mro__ for target in targets)

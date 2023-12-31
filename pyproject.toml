@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "objectory"
-version = "0.1.1"
+version = "0.1.2a0"
 description = "A light library for general purpose object factories"
 readme = "README.md"
 authors = ["Thibaut Durand <durand.tibo+gh@gmail.com>"]
@@ -88,22 +88,43 @@ wrap-descriptions = 72
 syntax = "google"
 
 [tool.ruff]
+# List of rules: https://docs.astral.sh/ruff/rules/
 select = [
     "A", # builtins
     "ANN", # annotations
     "B", # bugbear
-    "BLE", # blind-except
+    "BLE", # flake8-blind-except
+    "C4", # flake8-comprehensions
     "E", # pycodestyle (Error)
+    "EM", # flake8-errmsg
     "F", # pyflakes
+    "FA", # flake8-future-annotations
+    "FURB", # refurb
+    "ICN", # flake8-import-conventions
+    "INP", # flake8-no-pep420
+    "ISC", # flake8-implicit-str-concat
+    "LOG", # logging
     "N", # naming
+    "PD", # pandas-vet
+    "PERF", # Perflint
+    "PGH", # pygrep-hooks
+    "PIE", # flake8-pie
+    "PT", # flake8-pytest-style
     "PTH", # pathlib
+    "PYI", # flake8-pyi
+    "Q", # flake8-quotes
+    "RET", # flake8-return
+    "RSE", # flake8-raise
+    "SIM", # flake8-simplify
+    "T20", # flake8-print
+    "TD", # flake8-todos
+    "TID", # flake8-tidy-imports
+    "TRY", # tryceratops
     "UP", # pyupgrade
     "W", # pycodestyle (Warning)
 ]
 ignore = [
     "A003", # Class attribute `{name}` is shadowing a python builtin
-    "ANN002", # Missing type annotation for `*args`
-    "ANN003", # Missing type annotation for `**kwargs`
     "ANN101", # Missing type annotation for `self` in method
     "ANN102", # Missing type annotation for `cls` in classmethod
     "ANN401", # Dynamically typed expressions (typing.Any) are disallowed.
@@ -113,7 +134,38 @@ ignore = [
 ]
 
 # Allow autofix for all enabled rules (when `--fix`) is provided.
-fixable = ["A", "ANN", "B", "E", "F", "PTH", "W"]
+fixable = [
+    "A",
+    "ANN",
+    "B",
+    "BLE",
+    "C4",
+    "E",
+    "EM",
+    "F",
+    "FA",
+    "FURB",
+    "ICN",
+    "INP",
+    "ISC",
+    "LOG",
+    "PD",
+    "PERF",
+    "PGH",
+    "PIE",
+    "PT",
+    "PTH",
+    "PYI",
+    "Q",
+    "RET",
+    "RSE",
+    "SIM",
+    "T20",
+    "TD",
+    "TID",
+    "TRY",
+    "W",
+]
 unfixable = []
 
 exclude = [
