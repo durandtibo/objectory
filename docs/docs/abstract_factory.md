@@ -233,7 +233,7 @@ It is the responsibility of the user to manage the object name to avoid duplicat
 
 If you have registered some functions, you should see them in the inheritors.
 For example if you have registered the function `my_nodule` in the `BaseModule`, you should see
-something like: `'my_package.nodule.my_nodule': <function my_nodule at 0x123456789>`.
+something like: `'my_package.nodule.my_nodule': <function my_nodule at 0x...>`.
 
 ### Missing objects
 
