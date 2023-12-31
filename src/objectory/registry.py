@@ -29,7 +29,7 @@ T = TypeVar("T")
 
 
 class Registry:
-    r"""Implementation of the registry class.
+    r"""Implement the registry class.
 
     This class can be used to register some objects and instantiate an
     object from its configuration.
@@ -65,7 +65,7 @@ class Registry:
         raise InvalidAttributeRegistryError(msg)
 
     def __len__(self) -> int:
-        r"""Returns the number of registered objects.
+        r"""Return the number of registered objects.
 
         Returns:
             The number of registered objects.
@@ -85,7 +85,7 @@ class Registry:
         return len(self._state)
 
     def clear(self, nested: bool = False) -> None:
-        r"""Clears the registry.
+        r"""Clear the registry.
 
         This functions removes all the registered objects in the
         registry.
@@ -115,7 +115,7 @@ class Registry:
         self._state.clear()
 
     def clear_filters(self, nested: bool = False) -> None:
-        r"""Clears all the filters of the registry.
+        r"""Clear all the filters of the registry.
 
         Args:
             nested: Indicates if the filters of all the sub-registries
@@ -142,7 +142,7 @@ class Registry:
         self._filters.clear()
 
     def factory(self, _target_: str, *args: Any, _init_: str = "__init__", **kwargs: Any) -> Any:
-        r"""Creates dynamically an object given its configuration.
+        r"""Instantiate dynamically an object given its configuration.
 
         Please read the documentation for more information.
 
@@ -184,7 +184,7 @@ class Registry:
         )
 
     def register(self, name: str | None = None) -> Callable:
-        r"""Defines a decorator to add a class or a function to the
+        r"""Define a decorator to add a class or a function to the
         registry.
 
         Args:
@@ -223,7 +223,7 @@ class Registry:
         return function_wrapper
 
     def register_child_classes(self, cls: type, ignore_abstract_class: bool = True) -> None:
-        r"""Registers a given class and its child classes of a given
+        r"""Register a given class and its child classes of a given
         class.
 
         This function registers all the child classes including the
@@ -255,7 +255,7 @@ class Registry:
             self.register_object(class_to_register)
 
     def register_object(self, obj: type | Callable, name: str | None = None) -> None:
-        r"""Registers an object.
+        r"""Register an object.
 
         Please read the documentation for more information.
 
@@ -305,7 +305,7 @@ class Registry:
         self._state[name] = obj
 
     def registered_names(self, include_registry: bool = True) -> set[str]:
-        r"""Gets the names of all the registered objects.
+        r"""Get the names of all the registered objects.
 
         Args:
             include_registry: Specifies if the other (sub-)registries
@@ -336,7 +336,7 @@ class Registry:
         return names
 
     def unregister(self, name: str) -> None:
-        r"""Removes a registered object.
+        r"""Remove a registered object.
 
         Args:
             name: Specifies the name of the object to remove.
@@ -367,7 +367,7 @@ class Registry:
         self._state.pop(resolved_name)
 
     def set_class_filter(self, cls: type | None) -> None:
-        r"""Sets the class filter so only the child classes of this class
+        r"""Set the class filter so only the child classes of this class
         can be registered.
 
         If you set this filter, you cannot register functions.
@@ -403,7 +403,7 @@ class Registry:
         self._filters[self._CLASS_FILTER] = cls
 
     def _check_object(self, obj: type | Callable) -> None:
-        r"""Checks if the object is valid for this registry before to
+        r"""Check if the object is valid for this registry before to
         register it.
 
         This function will raise an exception if the object is not
@@ -430,7 +430,7 @@ class Registry:
             raise IncorrectObjectFactoryError(msg)
 
     def _get_target_from_name(self, name: str) -> Any:
-        r"""Gets the class or function to used given its name.
+        r"""Get the class or function to used given its name.
 
         Args:
             name: Specifies the name of the class or function.
@@ -455,7 +455,7 @@ class Registry:
         return self._state[resolved_name]
 
     def _is_name_registered(self, name: str) -> bool:
-        r"""Indicates if the name exists or not in the registry .
+        r"""Indicate if the name exists or not in the registry .
 
         Args:
             name: Specifies the name to check.
@@ -466,7 +466,7 @@ class Registry:
         return name in self._state
 
     def _is_registry(self, name: str) -> bool:
-        r"""Indicates if the given is used as sub-registry.
+        r"""Indicate if the given is used as sub-registry.
 
         Args:
             name: Specifies the name to check.
@@ -478,7 +478,7 @@ class Registry:
         return isinstance(self._state[name], Registry)
 
     def _resolve_name(self, name: str) -> str | None:
-        r"""Tries to resolve the name.
+        r"""Try to resolve the name.
 
         This function will look at if it can find an object which
         match with the given name. It is quite useful because there

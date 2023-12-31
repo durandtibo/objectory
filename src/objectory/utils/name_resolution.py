@@ -9,8 +9,7 @@ from objectory.utils.object_helpers import full_object_name, import_object
 
 
 def resolve_name(name: str, object_names: set[str], allow_import: bool = True) -> str | None:
-    r"""Tries to find a match of the query name in the set of object
-    names.
+    r"""Find a match of the query name in the set of object names.
 
     The resolution is successful only if there is only one object
     name that can match with the query name.
@@ -55,7 +54,7 @@ def resolve_name(name: str, object_names: set[str], allow_import: bool = True) -
 
 
 def find_matches(query: str, object_names: set[str]) -> set[str]:
-    r"""Finds the set of potential names that ends with the given query.
+    r"""Find the set of potential names that ends with the given query.
 
     This function is used when the user only specify a valid object
     identifier. For example, the user only gives the class name

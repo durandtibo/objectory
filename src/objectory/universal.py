@@ -8,7 +8,7 @@ from objectory.utils import import_object, instantiate_object
 
 
 def factory(_target_: str, *args: Any, _init_: str = "__init__", **kwargs: Any) -> Any:
-    r"""Creates dynamically an object given its configuration.
+    r"""Instantiate dynamically an object given its configuration.
 
     Args:
         _target_: Specifies the name of the object (class or

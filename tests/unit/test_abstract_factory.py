@@ -38,7 +38,7 @@ class BaseClassWithArgument(metaclass=AbstractFactory):  # noqa: B903
 
 
 class ChildClass(BaseClassWithArgument):
-    """Child class of ``BaseClassWithArgument``"""
+    """Child class of ``BaseClassWithArgument``."""
 
 
 class AbstractChildClass(ABC, BaseClassWithArgument):
