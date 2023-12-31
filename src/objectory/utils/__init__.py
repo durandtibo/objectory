@@ -1,3 +1,5 @@
+r"""Contain some utility functions or helpers."""
+
 from __future__ import annotations
 
 __all__ = [

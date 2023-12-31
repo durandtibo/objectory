@@ -54,6 +54,27 @@ class Registry:
         self._filters = {}
 
     def __getattr__(self, key: str) -> Registry | type:
+        r"""Get the registry associated to a key.
+
+        Args:
+            key: Specifies the key.
+
+        Returns:
+            The registry associated to the key.
+
+        Raises:
+            InvalidAttributeRegistryError: if the associated attribute
+                is not a registry.
+
+        Example usage:
+
+        ```pycon
+        >>> from collections import Counter
+        >>> registry = Registry()
+        >>> registry.other.register_object(Counter)
+
+        ```
+        """
         if key not in self._state:
             self._state[key] = Registry()
         if self._is_registry(key):

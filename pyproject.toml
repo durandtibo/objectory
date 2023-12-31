@@ -138,14 +138,7 @@ ignore = [
     "E501", # Line lengths are recommended to be no greater than 79 characters.
     "W505", # Doc line too long
 
-    # The following rules are ignored because of the test files or because they conflict
-    # with another library.
-    "D100", # Missing docstring in public module
-    "D101", # Missing docstring in public class
-    "D102", # Missing docstring in public method
-    "D103", # Missing docstring in public function
-    "D104", # Missing docstring in public package
-    "D105", # Missing docstring in magic method
+    # The following rules are ignored because they conflict with another library like docformatter.
     "D107", # Missing docstring in `__init__`
     "D205", # 1 blank line required between summary line and description
     "D209", # Multi-line docstring closing quotes should be on a separate line
@@ -223,6 +216,10 @@ max-complexity = 10
 
 [tool.ruff.pydocstyle]
 convention = "google"
+
+[tool.ruff.lint]
+# Enable D400 on top of the Google convention.
+extend-select = ["D400", "D401", "D404"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
