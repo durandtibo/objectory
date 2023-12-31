@@ -237,7 +237,8 @@ class AbstractFactory(ABCMeta):  # noqa: B024
         resolved_name = cls._abstractfactory_resolve_name(name)
         if resolved_name is None:
             msg = (
-                f"Unable to create the object {name}. Registered objects of {cls.__qualname__} "
+                f"Unable to create the object `{name}` because it is not registered. "
+                f"Registered objects of {cls.__qualname__} "
                 f"are {set(cls._abstractfactory_inheritors.keys())}"
             )
             raise UnregisteredObjectFactoryError(msg)
