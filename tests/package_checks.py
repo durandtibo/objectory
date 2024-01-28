@@ -35,8 +35,7 @@ def check_registry() -> None:
     registry = objectory.Registry()
 
     @registry.register()
-    class MyClass:
-        ...
+    class MyClass: ...
 
     obj = registry.factory("MyClass")
     assert isinstance(obj, MyClass)

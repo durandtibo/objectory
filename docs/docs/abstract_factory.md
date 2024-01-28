@@ -280,8 +280,7 @@ This function can instantiate any registered class given its configuration.
 The signature of the`factory` function is:
 
 ```python
-def factory(cls, _target_: str, *args, _init_: str = "__init__", **kwargs):
-    ...
+def factory(cls, _target_: str, *args, _init_: str = "__init__", **kwargs): ...
 ```
 
 where `*args` and `**kwargs` are the parameters of the object to instantiate.

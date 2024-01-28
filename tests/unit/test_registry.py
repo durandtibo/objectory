@@ -45,8 +45,7 @@ class Foo(ABC):
         """Abstract method."""
 
 
-class Bar(Foo):
-    ...
+class Bar(Foo): ...
 
 
 class Baz(Foo):
@@ -202,8 +201,7 @@ def test_register_class_multiple_decorators_1() -> None:
 
     @registry.register()
     @func_decor()
-    class ClassToRegister2:
-        ...
+    class ClassToRegister2: ...
 
     assert (
         "tests.unit.test_registry.test_register_class_multiple_decorators_1.<locals>.ClassToRegister2"
@@ -219,8 +217,7 @@ def test_register_class_multiple_decorators_2() -> None:
 
     @func_decor()
     @registry.register()
-    class ClassToRegister2:
-        ...
+    class ClassToRegister2: ...
 
     assert (
         "tests.unit.test_registry.test_register_class_multiple_decorators_2.<locals>.ClassToRegister2"
