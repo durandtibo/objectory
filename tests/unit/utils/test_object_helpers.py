@@ -52,23 +52,19 @@ def fake_function(arg1: int, arg2: str = "abc") -> FakeClass:
 
 
 def test_all_child_classes() -> None:
-    class Foo:
-        ...
+    class Foo: ...
 
     assert all_child_classes(Foo) == set()
 
-    class Bar(Foo):
-        ...
+    class Bar(Foo): ...
 
     assert all_child_classes(Foo) == {Bar}
 
-    class Baz(Foo):
-        ...
+    class Baz(Foo): ...
 
     assert all_child_classes(Foo) == {Bar, Baz}
 
-    class Bing(Bar):
-        ...
+    class Bing(Bar): ...
 
     assert all_child_classes(Foo) == {Bar, Baz, Bing}
 
@@ -87,8 +83,7 @@ def test_full_object_name_class() -> None:
 
 
 def test_full_object_name_local_class() -> None:
-    class FakeClass:
-        ...
+    class FakeClass: ...
 
     assert (
         full_object_name(FakeClass)

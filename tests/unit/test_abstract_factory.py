@@ -75,8 +75,7 @@ class Foo(ABC):
         """Abstract method."""
 
 
-class Bar(Foo):
-    ...
+class Bar(Foo): ...
 
 
 class Baz(Foo):
