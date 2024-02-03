@@ -45,7 +45,7 @@ pygments = "^2.17"
 pytest = "^7.4"
 pytest-cov = "^4.1"
 pytest-timeout = "^2.2"
-ruff = ">=0.1.14,<1.0"
+ruff = ">=0.2.0,<1.0"
 xdoctest = "^1.1"
 
 [build-system]
@@ -121,6 +121,7 @@ select = [
     "Q", # flake8-quotes
     "RET", # flake8-return
     "RSE", # flake8-raise
+    "S", # flake8-bandit
     "SIM", # flake8-simplify
     "T20", # flake8-print
     "TCH", # flake8-type-checking
@@ -138,8 +139,12 @@ ignore = [
     "B905", # `zip()` without an explicit strict= parameter set. The `strict=` argument was added in Python 3.10
     "E501", # Line lengths are recommended to be no greater than 79 characters.
     "W505", # Doc line too long
+    "PLR0913", # Too many arguments in function definition (8 > 5)
+    "PLR2004", # Magic value used in comparison, consider replacing 0.0 with a constant variable
 
     # The following rules are ignored because they conflict with another library like docformatter.
+    "D102", # Missing docstring in public method
+    "D105", # Missing docstring in magic method
     "D107", # Missing docstring in `__init__`
     "D205", # 1 blank line required between summary line and description
     "D209", # Multi-line docstring closing quotes should be on a separate line
@@ -173,6 +178,7 @@ fixable = [
     "Q",
     "RET",
     "RSE",
+    "S",
     "SIM",
     "T20",
     "TCH",
@@ -205,34 +211,31 @@ exclude = [
     "venv",
 ]
 
+# Enable on top of the Google convention.
+extend-select = ["D400", "D401", "D404"]
+
 line-length = 100
 target-version = "py39"
 src = ["src"]
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 # Ignore all directories named `tests`.
 "tests/**" = [
     "D", # pydocstyle
     "PL", # Pylint
+    "S101", # flake8-bandit
 ]
 
-[tool.ruff.mccabe]
+[tool.ruff.lint.mccabe]
 max-complexity = 10
-
-[tool.ruff.pydocstyle]
-convention = "google"
-
-[tool.ruff.lint]
-# Enable on top of the Google convention.
-extend-select = ["D400", "D401", "D404"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
 
-[tool.ruff.pycodestyle]
+[tool.ruff.lint.pycodestyle]
 max-doc-length = 72
 
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 force-sort-within-sections = true
 combine-as-imports = true
 known-first-party = ["src"]
