@@ -4,14 +4,18 @@
     <a href="https://github.com/durandtibo/objectory/actions">
         <img alt="CI" src="https://github.com/durandtibo/objectory/workflows/CI/badge.svg">
     </a>
-    <a href="https://durandtibo.github.io/objectory/">
-        <img alt="Documentation" src="https://github.com/durandtibo/objectory/workflows/Documentation/badge.svg">
-    </a>
     <a href="https://github.com/durandtibo/objectory/actions">
         <img alt="Nightly Tests" src="https://github.com/durandtibo/objectory/workflows/Nightly%20Tests/badge.svg">
     </a>
     <a href="https://github.com/durandtibo/objectory/actions">
         <img alt="Nightly Package Tests" src="https://github.com/durandtibo/objectory/workflows/Nightly%20Package%20Tests/badge.svg">
+    </a>
+    <br/>
+    <a href="https://durandtibo.github.io/objectory/">
+        <img alt="Documentation" src="https://github.com/durandtibo/objectory/workflows/Documentation%20(stable)/badge.svg">
+    </a>
+    <a href="https://durandtibo.github.io/objectory/">
+        <img alt="Documentation" src="https://github.com/durandtibo/objectory/workflows/Documentation%20(unstable)/badge.svg">
     </a>
     <br/>
     <a href="https://codecov.io/gh/durandtibo/objectory">
