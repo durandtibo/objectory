@@ -27,20 +27,27 @@ jobs:
       - name: Install Poetry
         uses: snok/install-poetry@v1
 
+      - name: Set environment variable
+        run: |
+          echo $(poetry run poetry env info --path)/bin >> $GITHUB_PATH
+
       - name: Install packages
         run: |
-          poetry run make config-poetry
-          poetry run make install-all
+          make config-poetry
+          make install-all
 
-      - name: Install tornado
-        run: |
-          poetry run pip install tornado==${{ matrix.tornado-version }}
+      - name: Install valid package version
+        uses: durandtibo/pip-install-package-action@v0.3.0
+        with:
+          package-name: 'tornado'
+          package-version: ${{ matrix.tornado-version }}
+          python-version: ${{ matrix.python-version }}
 
       - name: Show installed packages
         run: |
-          poetry run poetry show
-          poetry run poetry show --tree
+          poetry show
+          poetry show --tree
 
       - name: Run unit tests
         run: |
-          poetry run make unit-test-cov
+          make unit-test-cov
