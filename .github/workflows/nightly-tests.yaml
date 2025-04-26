@@ -4,6 +4,8 @@ on:
     - cron: '10 9 * * *' # run at 9:10 AM UTC
   workflow_dispatch:  # to trigger manually
 
+permissions: read-all
+
 jobs:
   doctest:
     uses: ./.github/workflows/doctest.yaml
