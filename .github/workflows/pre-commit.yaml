@@ -3,6 +3,8 @@ on:
   workflow_call:
   workflow_dispatch:  # to trigger manually
 
+permissions: read-all
+
 jobs:
   format:
     runs-on: ubuntu-latest
