@@ -8,6 +8,8 @@ on:
       - main
   workflow_dispatch:  # to trigger manually
 
+permissions: read-all
+
 jobs:
   coverage:
     uses: ./.github/workflows/coverage.yaml
