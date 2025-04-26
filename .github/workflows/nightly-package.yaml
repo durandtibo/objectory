@@ -4,7 +4,8 @@ on:
     - cron: '10 10 * * *' # run at 10:10 AM UTC
   workflow_dispatch:  # to trigger manually
 
-permissions: read-all
+permissions:
+      contents: read
 
 jobs:
   stable:
