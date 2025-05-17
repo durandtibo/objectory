@@ -9,7 +9,7 @@ on:
   workflow_dispatch:  # to trigger manually
 
 permissions:
-      contents: read
+  contents: read
 
 jobs:
   coverage:
