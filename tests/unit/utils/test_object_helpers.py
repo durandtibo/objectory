@@ -102,7 +102,7 @@ def test_full_object_name_builtin_module() -> None:
 
 
 def test_full_object_name_incorrect_type() -> None:
-    with pytest.raises(TypeError, match="Incorrect object type:"):
+    with pytest.raises(TypeError, match=r"Incorrect object type:"):
         full_object_name(1)
 
 
@@ -124,7 +124,7 @@ def test_import_object_incorrect() -> None:
 
 
 def test_import_object_incorrect_type() -> None:
-    with pytest.raises(TypeError, match="`object_path` has to be a string"):
+    with pytest.raises(TypeError, match=r"`object_path` has to be a string"):
         import_object(1)
 
 
@@ -193,7 +193,7 @@ def test_instantiate_object_class_init_static_method() -> None:
 
 def test_instantiate_object_init_not_exist() -> None:
     with pytest.raises(
-        IncorrectObjectFactoryError, match=".* does not have `incorrect_init_method` attribute"
+        IncorrectObjectFactoryError, match=r".* does not have `incorrect_init_method` attribute"
     ):
         # Should fail because the init function does not exist.
         instantiate_object(FakeClass, _init_="incorrect_init_method")
@@ -208,7 +208,7 @@ def test_instantiate_object_init_regular_method() -> None:
 def test_instantiate_object_init_not_method() -> None:
     FakeClass.not_a_method = None
     with pytest.raises(
-        IncorrectObjectFactoryError, match="`not_a_method` attribute of .* is not callable"
+        IncorrectObjectFactoryError, match=r"`not_a_method` attribute of .* is not callable"
     ):
         # Should fail because the attribute not_a_method is not a method.
         instantiate_object(FakeClass, _init_="not_a_method")
@@ -222,7 +222,7 @@ def test_instantiate_object_abstract_class() -> None:
 
     with pytest.raises(
         AbstractClassFactoryError,
-        match="Cannot instantiate the class .* because it is an abstract class.",
+        match=r"Cannot instantiate the class .* because it is an abstract class.",
     ):
         instantiate_object(FakeAbstractClass, 42)
 
@@ -261,7 +261,7 @@ def test_instantiate_object_function_kwargs(arg1: int, arg2: str) -> None:
 
 def test_instantiate_object_incorrect_type() -> None:
     with pytest.raises(
-        TypeError, match="Incorrect type: .*. The valid types are class and function"
+        TypeError, match=r"Incorrect type: .*. The valid types are class and function"
     ):
         instantiate_object(FakeClass(12))
 
