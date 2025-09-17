@@ -100,7 +100,7 @@ def test_register_object_function_with_name() -> None:
 def test_register_object_lambda_function() -> None:
     registry = Registry()
     with pytest.raises(
-        IncorrectObjectFactoryError, match="It is not possible to register a lambda function."
+        IncorrectObjectFactoryError, match=r"It is not possible to register a lambda function."
     ):
         # Should fail because it is not possible to register a lambda function.
         registry.register_object(lambda x: x)
@@ -108,7 +108,7 @@ def test_register_object_lambda_function() -> None:
 
 def test_register_object_incorrect_name() -> None:
     registry = Registry()
-    with pytest.raises(TypeError, match="The name has to be a string"):
+    with pytest.raises(TypeError, match=r"The name has to be a string"):
         # Should fail because name should be a string.
         registry.register_object(ClassToRegister, name=123)
 
@@ -125,7 +125,7 @@ def test_register_object_replace_subregistry() -> None:
     registry = Registry()
     registry.other.register_object(ClassToRegister)
     with pytest.raises(
-        InvalidNameFactoryError, match="The name `other` is already used by a sub-registry"
+        InvalidNameFactoryError, match=r"The name `other` is already used by a sub-registry"
     ):
         # Should fail because the name already exists.
         registry.register_object(function_to_register, name="other")
@@ -188,7 +188,7 @@ def test_register_function_with_name() -> None:
 
 def test_register_function_incorrect_name() -> None:
     registry = Registry()
-    with pytest.raises(TypeError, match="The name has to be a string"):
+    with pytest.raises(TypeError, match=r"The name has to be a string"):
         # Should fail because name should be a string.
         @registry.register(123)
         def function_to_register3() -> None:
@@ -398,7 +398,7 @@ def test_factory_init_not_exist() -> None:
     registry = Registry()
     registry.register_object(ClassToRegister)
     with pytest.raises(
-        IncorrectObjectFactoryError, match=".* does not have `incorrect_init_method` attribute"
+        IncorrectObjectFactoryError, match=r".* does not have `incorrect_init_method` attribute"
     ):
         # Should fail because the init function does not exist.
         registry.factory("tests.unit.test_registry.ClassToRegister", _init_="incorrect_init_method")
@@ -407,7 +407,7 @@ def test_factory_init_not_exist() -> None:
 def test_factory_init_missing() -> None:
     registry = Registry()
     registry.register_object(ClassToRegister)
-    with pytest.raises(IncorrectObjectFactoryError, match=".* does not have `arg2` attribute"):
+    with pytest.raises(IncorrectObjectFactoryError, match=r".* does not have `arg2` attribute"):
         # Should fail because the attribute arg2 is not initialized.
         registry.factory("tests.unit.test_registry.ClassToRegister", _init_="arg2")
 
@@ -418,7 +418,7 @@ def test_factory_duplicate_class_name() -> None:
     registry.register_object(ClassToRegister, name="tests.unit.test_registry.ClassToRegister")
     with pytest.raises(
         UnregisteredObjectFactoryError,
-        match="Unable to create the object `OrderedDict` because it is not registered.",
+        match=r"Unable to create the object `OrderedDict` because it is not registered.",
     ):
         # Should fail because the object name is not unique.
         registry.factory("OrderedDict")
@@ -428,7 +428,7 @@ def test_factory_unregistered_incorrect_class_name() -> None:
     registry = Registry()
     with pytest.raises(
         UnregisteredObjectFactoryError,
-        match="Unable to create the object `collections.NotACounter` because it is not registered.",
+        match=r"Unable to create the object `collections.NotACounter` because it is not registered.",
     ):
         registry.factory("collections.NotACounter")
 
@@ -513,7 +513,7 @@ def test_unregister_missing_object() -> None:
     registry = Registry()
     with pytest.raises(
         UnregisteredObjectFactoryError,
-        match="It is not possible to remove an object which is not registered",
+        match=r"It is not possible to remove an object which is not registered",
     ):
         # Should fail because the object is not registered.
         registry.unregister("tests.unit.test_registry.ClassToRegister")
@@ -533,7 +533,7 @@ def test_set_class_filter(cls: type) -> None:
 
 def test_set_class_filter_incorrect_object() -> None:
     registry = Registry()
-    with pytest.raises(TypeError, match="The class filter has to be a class"):
+    with pytest.raises(TypeError, match=r"The class filter has to be a class"):
         # Should raise an error because it is not a class or None.
         registry.set_class_filter("abc")
 
@@ -563,7 +563,7 @@ def test_set_class_filter_register_invalid_object() -> None:
     registry.set_class_filter(dict)
     with pytest.raises(
         IncorrectObjectFactoryError,
-        match="All the registered objects should inherit builtins.dict class",
+        match=r"All the registered objects should inherit builtins.dict class",
     ):
         # Should raise an error because ClassToRegister is not a child class of dict.
         registry.register_object(int)

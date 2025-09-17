@@ -208,14 +208,14 @@ def test_factory_init_class_method_with_kwarg() -> None:
 
 def test_factory_init_not_exist() -> None:
     with pytest.raises(
-        IncorrectObjectFactoryError, match=".* does not have `incorrect_init_method` attribute"
+        IncorrectObjectFactoryError, match=r".* does not have `incorrect_init_method` attribute"
     ):
         # Should fail because the init function does not exist.
         Class1.factory("Class3", _init_="incorrect_init_method")
 
 
 def test_factory_init_missing() -> None:
-    with pytest.raises(IncorrectObjectFactoryError, match=".* does not have `arg2` attribute"):
+    with pytest.raises(IncorrectObjectFactoryError, match=r".* does not have `arg2` attribute"):
         # Should fail because the attribute arg2 is not initialized.
         Class1.factory("Class3", _init_="arg2")
 
@@ -229,7 +229,7 @@ def test_factory_duplicate_class_name() -> None:
     BaseClass.register_object(Counter)
     with pytest.raises(
         UnregisteredObjectFactoryError,
-        match="Unable to create the object `Counter` because it is not registered.",
+        match=r"Unable to create the object `Counter` because it is not registered.",
     ):
         # Should fail because the class name Counter is not unique.
         BaseClass.factory("Counter")
@@ -244,7 +244,7 @@ def test_factory_unregistered_class() -> None:
 def test_factory_unregistered_incorrect_class_name() -> None:
     with pytest.raises(
         UnregisteredObjectFactoryError,
-        match="Unable to create the object `collections.NotACounter` because it is not registered.",
+        match=r"Unable to create the object `collections.NotACounter` because it is not registered.",
     ):
         Class1.factory("collections.NotACounter")
 
@@ -328,7 +328,7 @@ def test_register_object_function_duplicate(caplog: pytest.LogCaptureFixture) ->
 
 def test_register_object_lambda_function() -> None:
     with pytest.raises(
-        IncorrectObjectFactoryError, match="It is not possible to register a lambda function."
+        IncorrectObjectFactoryError, match=r"It is not possible to register a lambda function."
     ):
         # Should fail because it is not possible to register a lambda function.
         Class1.register_object(lambda x: x)
@@ -336,7 +336,7 @@ def test_register_object_lambda_function() -> None:
 
 def test_register_object_incorrect_type() -> None:
     with pytest.raises(
-        IncorrectObjectFactoryError, match="It is possible to register only a class or a function"
+        IncorrectObjectFactoryError, match=r"It is possible to register only a class or a function"
     ):
         # Should fail because it is only possible to register a class or a function.
         Class1.register_object("abc")
@@ -408,7 +408,7 @@ def test_register_object_multiple_decorators_2() -> None:
 def test_factory_fails_to_instantiate_abstract_class() -> None:
     with pytest.raises(
         AbstractClassFactoryError,
-        match="Cannot instantiate the class .* because it is an abstract class.",
+        match=r"Cannot instantiate the class .* because it is an abstract class.",
     ):
         BaseClassWithArgument.factory("AbstractChildClass")
 
@@ -416,14 +416,14 @@ def test_factory_fails_to_instantiate_abstract_class() -> None:
 def test_factory_fails_to_instantiate_unregistered_class() -> None:
     with pytest.raises(
         UnregisteredObjectFactoryError,
-        match="Unable to create the object `Class1` because it is not registered.",
+        match=r"Unable to create the object `Class1` because it is not registered.",
     ):
         BaseClassWithArgument.factory("Class1")
 
 
 def test_register_incorrect_object() -> None:
     with pytest.raises(
-        IncorrectObjectFactoryError, match="It is possible to register only a class or a function"
+        IncorrectObjectFactoryError, match=r"It is possible to register only a class or a function"
     ):
         Class1.register_object(None)
 
@@ -523,7 +523,7 @@ def test_unregister_short_name() -> None:
 def test_unregister_missing_object() -> None:
     with pytest.raises(
         UnregisteredObjectFactoryError,
-        match="It is not possible to remove an object which is not registered",
+        match=r"It is not possible to remove an object which is not registered",
     ):
         Class1.unregister("Class4")
 
