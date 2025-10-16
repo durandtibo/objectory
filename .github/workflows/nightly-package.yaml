@@ -111,7 +111,7 @@ jobs:
           pip install objectory
 
       - name: Install valid package version
-        uses: durandtibo/pip-install-package-action@v0.3.4
+        uses: durandtibo/pip-install-package-action@v0.4.0
         with:
           package-name: 'tornado'
           package-version: ${{ matrix.tornado-version }}
