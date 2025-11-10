@@ -1,11 +1,11 @@
-[tool.poetry]
+[project]
 name = "objectory"
 version = "0.2.2a0"
 description = "A light library for general purpose object factories"
 readme = "README.md"
-authors = ["Thibaut Durand <durand.tibo+gh@gmail.com>"]
-homepage = "https://github.com/durandtibo/objectory"
-repository = "https://github.com/durandtibo/objectory"
+authors = [
+    { name = "Thibaut Durand", email = "durand.tibo+gh@gmail.com" },
+]
 keywords = ["factory", "abstract factory", "registry"]
 license = "BSD-3-Clause"
 
@@ -25,35 +25,47 @@ classifiers = [
     "Topic :: Software Development :: Libraries",
 ]
 
-packages = [
-    { include = "objectory", from = "src" },
+requires-python = ">=3.10"
+
+dependencies = [
+    "tornado >=6.0,<7.0",
 ]
 
-[tool.poetry.dependencies]
-python = ">=3.10,<3.15"
-tornado = ">=6.0,<7.0"
+[project.optional-dependencies]
 
-[tool.poetry.group.docs.dependencies]
-mike = "^2.1"
-mkdocs-material = "^9.5"
-mkdocstrings = { extras = ["python"], version = "^0.30" }
+[dependency-groups]
+dev = [
+    "black >=25.11",
+    "coverage[toml] >=7.10,<8.0",
+    "docformatter[tomli] >=1.7,<2.0 ; python_version < '3.14'",
+    "feu[all] >=0.4.2,<1.0",
+    "invoke >=2.2.0,<3.0",
+    "pre-commit >=4.3,<5.0",
+    "pygments >=2.19,<3.0",
+    "pytest >=8.4,<9.0",
+    "pytest-cov >=7,<8",
+    "pytest-timeout >=2.4,<3.0",
+    "ruff >=0.14,<1.0",
+    "xdoctest >=1.3,<2.0",
+]
 
-[tool.poetry.group.dev.dependencies]
-black = ">=25.9"
-coverage = { extras = ["toml"], version = "^7.10" }
-docformatter = { extras = ["tomli"], version = "^1.7", python = "<3.14" }
-feu = { extras = ["all"], version = ">=0.5.0,<1.0" }
-pre-commit = "^4.3"
-pygments = "^2.19"
-pytest = "^8.4"
-pytest-cov = "^7.0"
-pytest-timeout = "^2.4"
-ruff = "^0.14"
-xdoctest = "^1.3"
+docs = [
+    "mike >=2.1,<3.0",
+    "mkdocs-material >=9.5,<10.0",
+    "mkdocstrings[python] >=0.29,<1.0",
+]
+
+[project.urls]
+homepage = "https://github.com/durandtibo/objectory"
+repository = "https://github.com/durandtibo/objectory"
+documentation = "https://durandtibo.github.io/objectory/"
 
 [build-system]
-requires = ["poetry-core>=2.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[tool.uv.pip]
+torch-backend = "auto"
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]

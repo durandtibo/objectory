@@ -15,12 +15,14 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - uses: actions/checkout@v5
+      - name: Checkout
+        uses: actions/checkout@v5
 
       - name: Setup python environment
         uses: ./.github/actions/setup-env
         with:
           python-version: '3.13'
+          install-docs: true
 
       - name: Setup doc deploy
         env:
@@ -32,4 +34,4 @@ jobs:
 
       - name: Build and deploy documentation
         run: |
-          make publish-doc-latest
+          inv publish-doc-latest

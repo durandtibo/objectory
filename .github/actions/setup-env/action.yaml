@@ -31,41 +31,43 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Set up Python
-      uses: actions/setup-python@v6
+    - name: Install uv and set the python version
+      uses: astral-sh/setup-uv@v7
       with:
         python-version: ${{ inputs.python-version }}
+        activate-environment: true
 
-    - name: Install Poetry
-      uses: snok/install-poetry@v1
-
-    - name: Set environment variable
+    - name: Install invoke
       shell: bash
       run: |
-        echo $(poetry run poetry env info --path)/bin >> $GITHUB_PATH
+        make install-invoke
 
-    - name: Install required packages
+    - name: Install packages
       if: ${{ !inputs.install-optional-deps }}
       shell: bash
       run: |
-        make install
+        inv install --all-deps
 
-    - name: Install all packages
+    - name: Install packages including docs
       if: ${{ inputs.install-optional-deps }}
       shell: bash
       run: |
-        make install-all
+        inv install --all-deps --docs
 
     - name: Install valid package version
       if: ${{ inputs.package-name != '' }}
-      uses: durandtibo/pip-install-package-action@v0.4.0
+      uses: durandtibo/uv-install-package-action@v0.1.1
       with:
         package-name: ${{ inputs.package-name }}
         package-version: ${{ matrix.package-version }}
         python-version: ${{ matrix.python-version }}
 
+    - name: Show python config
+      shell: bash
+      run: |
+        inv show-python-config
+
     - name: Show installed packages
       shell: bash
       run: |
-        poetry show
-        poetry show --tree
+        inv show-installed-packages
