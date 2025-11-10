@@ -1,4 +1,3 @@
-import sys
 from collections import Counter
 from typing import Union
 
@@ -6,8 +5,6 @@ import pytest
 
 from objectory import OBJECT_TARGET
 from objectory.utils import is_object_config
-
-py310_plus = pytest.mark.skipif(sys.version_info < (3, 10), reason="Requires python 3.10+")
 
 
 def create_list() -> list:
@@ -50,7 +47,6 @@ def test_is_object_config_true(config: dict, cls: type[object]) -> None:
     assert is_object_config(config, cls)
 
 
-@py310_plus
 def test_is_object_config_true_union_type() -> None:
     assert is_object_config(
         {OBJECT_TARGET: "tests.unit.utils.test_config.create_list_union2"}, tuple
