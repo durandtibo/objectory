@@ -188,6 +188,7 @@ lint.fixable = [
     "TD",
     "TID",
     "TRY",
+    "UP",
     "W",
 ]
 lint.unfixable = []
