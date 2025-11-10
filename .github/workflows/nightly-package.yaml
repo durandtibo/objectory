@@ -8,122 +8,39 @@ permissions:
   contents: read
 
 jobs:
-  stable:
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 10
-    strategy:
-      max-parallel: 8
-      fail-fast: false
-      matrix:
-        os: [
-          ubuntu-latest,
-          ubuntu-24.04,
-          ubuntu-22.04,
-          ubuntu-24.04-arm,
-          ubuntu-22.04-arm,
-          macos-latest,
-          macos-26,
-          macos-15,
-          macos-14,
-          macos-15-intel,
-        ]
-        python-version: [ '3.14', '3.13', '3.12', '3.11', '3.10' ]
+  get-versions:
+    uses: ./.github/workflows/get-versions.yaml
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v5
+  cyclic-imports:
+    uses: ./.github/workflows/cyclic-imports.yaml
 
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: ${{ matrix.python-version }}
+  stable-all:
+    needs: get-versions
+    uses: ./.github/workflows/test-package-dep.yaml
+    with:
+      install-cmd: uv pip install objectory[all]
 
-      - name: Install package
-        run: |
-          pip install objectory
+  stable-min:
+    needs: get-versions
+    uses: ./.github/workflows/test-package-dep.yaml
+    with:
+      install-cmd: uv pip install objectory
 
-      - name: Run short experiment
-        run: |
-          python tests/package_checks.py
+  latest-all:
+    needs: get-versions
+    uses: ./.github/workflows/test-package-dep.yaml
+    with:
+      install-cmd: uv pip install --pre objectory[all]
 
-
-  latest:
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 10
-    strategy:
-      max-parallel: 8
-      fail-fast: false
-      matrix:
-        os: [
-          ubuntu-latest,
-          ubuntu-24.04,
-          ubuntu-22.04,
-          ubuntu-24.04-arm,
-          ubuntu-22.04-arm,
-          macos-latest,
-          macos-26,
-          macos-15,
-          macos-14,
-          macos-15-intel,
-        ]
-        python-version: [ '3.14', '3.13', '3.12', '3.11', '3.10' ]
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: Install package
-        run: |
-          pip install --pre objectory
-
-      - name: Run short experiment
-        run: |
-          python tests/package_checks.py
-
+  latest-min:
+    needs: get-versions
+    uses: ./.github/workflows/test-package-dep.yaml
+    with:
+      install-cmd: uv pip install --pre objectory
 
   tornado:
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 10
-    strategy:
-      max-parallel: 8
-      fail-fast: false
-      matrix:
-        os: [ ubuntu-latest ]
-        python-version: [ '3.14', '3.13', '3.12', '3.11', '3.10' ]
-        tornado-version: [
-          '6.5.2',
-          '6.4.2',
-          '6.3.3',
-          '6.2',
-          '6.1',
-          '6.0.4',
-        ]
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: Install package
-        run: |
-          pip install objectory
-
-      - name: Install valid package version
-        uses: durandtibo/pip-install-package-action@v0.4.0
-        with:
-          package-name: 'tornado'
-          package-version: ${{ matrix.tornado-version }}
-          python-version: ${{ matrix.python-version }}
-
-      - name: Run short experiment
-        run: |
-          python tests/package_checks.py
+    needs: get-versions
+    uses: ./.github/workflows/test-package-dep.yaml
+    with:
+      package-name: tornado
+      package-versions: ${{ toJson(fromJson(needs.get-versions.outputs.package_versions).tornado) }}
