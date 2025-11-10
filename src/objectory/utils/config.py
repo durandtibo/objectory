@@ -6,14 +6,9 @@ from __future__ import annotations
 __all__ = ["is_object_config"]
 
 import inspect
-import sys
+from types import UnionType
 from typing import _UnionGenericAlias as UnionGenericAlias
 from typing import get_type_hints
-
-if sys.version_info >= (3, 10):
-    from types import UnionType
-else:  # pragma: no cover
-    UnionType = UnionGenericAlias
 
 from objectory.constants import OBJECT_TARGET
 from objectory.utils.object_helpers import import_object

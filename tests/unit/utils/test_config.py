@@ -1,4 +1,5 @@
-import sys
+from __future__ import annotations
+
 from collections import Counter
 from typing import Union
 
@@ -7,14 +8,12 @@ import pytest
 from objectory import OBJECT_TARGET
 from objectory.utils import is_object_config
 
-py310_plus = pytest.mark.skipif(sys.version_info < (3, 10), reason="Requires python 3.10+")
-
 
 def create_list() -> list:
     return [1, 2, 3, 4]
 
 
-def create_list_union() -> Union[list, tuple]:  # noqa: FA100
+def create_list_union() -> Union[list, tuple]:  # noqa: UP007
     return [1, 2, 3, 4]
 
 
@@ -22,10 +21,8 @@ def create_list_without_type_hint():  # noqa: ANN201
     return [1, 2, 3, 4]
 
 
-if sys.version_info >= (3, 10):
-
-    def create_list_union2() -> list | tuple:  # noqa: FA102
-        return [1, 2, 3, 4]
+def create_list_union2() -> list | tuple:
+    return [1, 2, 3, 4]
 
 
 ######################################
@@ -52,7 +49,6 @@ def test_is_object_config_true(config: dict, cls: type[object]) -> None:
     assert is_object_config(config, cls)
 
 
-@py310_plus
 def test_is_object_config_true_union_type() -> None:
     assert is_object_config(
         {OBJECT_TARGET: "tests.unit.utils.test_config.create_list_union2"}, tuple

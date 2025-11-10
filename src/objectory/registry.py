@@ -6,7 +6,7 @@ __all__ = ["Registry"]
 
 import inspect
 import logging
-from typing import Any, Callable, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from objectory.errors import (
     IncorrectObjectFactoryError,
@@ -22,6 +22,9 @@ from objectory.utils import (
     is_lambda_function,
     resolve_name,
 )
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 logger = logging.getLogger(__name__)
 

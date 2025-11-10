@@ -12,11 +12,14 @@ __all__ = [
 
 import inspect
 import logging
-from typing import Any, Callable
+from typing import TYPE_CHECKING, Any
 
 from tornado.util import import_object as tornado_import_object
 
 from objectory.errors import AbstractClassFactoryError, IncorrectObjectFactoryError
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 logger = logging.getLogger(__name__)
 
