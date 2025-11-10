@@ -15,25 +15,21 @@ jobs:
     uses: ./.github/workflows/cyclic-imports.yaml
 
   stable-all:
-    needs: get-versions
     uses: ./.github/workflows/test-package-dep.yaml
     with:
       install-cmd: uv pip install objectory[all]
 
   stable-min:
-    needs: get-versions
     uses: ./.github/workflows/test-package-dep.yaml
     with:
       install-cmd: uv pip install objectory
 
   latest-all:
-    needs: get-versions
     uses: ./.github/workflows/test-package-dep.yaml
     with:
       install-cmd: uv pip install --pre objectory[all]
 
   latest-min:
-    needs: get-versions
     uses: ./.github/workflows/test-package-dep.yaml
     with:
       install-cmd: uv pip install --pre objectory
