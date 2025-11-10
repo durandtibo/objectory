@@ -3,20 +3,11 @@ on:
   workflow_call:
     inputs:
       package-name:
-        default: ""
-        description: "Optional package name to install"
-        required: false
         type: string
+        required: true
       package-versions:
-        default: ""
-        description: "Optional package versions to install"
-        required: false
         type: string
-      install-cmd:
-        default: "uv pip install objectory"
-        description: "Command used to install the objectory package"
-        required: false
-        type: string
+        required: true
 
 permissions:
   contents: read
@@ -45,10 +36,9 @@ jobs:
 
       - name: Install package
         run: |
-          ${{ inputs.install-cmd }}
+          uv pip install objectory
 
       - name: Install valid package version
-        if: ${{ inputs.package-name != '' }}
         uses: durandtibo/uv-install-package-action@v0.1.1
         with:
           package-name: ${{ inputs.package-name }}
