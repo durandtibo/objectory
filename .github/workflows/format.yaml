@@ -19,10 +19,10 @@ jobs:
         with:
           python-version: '3.13'
 
-      - name: Format
+      - name: Check format
         run: |
-          make format
+          inv check-format
 
-      - name: Lint
+      - name: Check lint
         run: |
-          make lint
+          inv check-lint

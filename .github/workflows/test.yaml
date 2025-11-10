@@ -39,7 +39,7 @@ jobs:
 
       - name: Run unit tests
         run: |
-          make unit-test-cov
+          inv unit-test --cov
 
   min:
     runs-on: ${{ matrix.os }}
@@ -74,4 +74,4 @@ jobs:
 
       - name: Run unit tests
         run: |
-          make unit-test-cov
+          inv unit-test --cov
