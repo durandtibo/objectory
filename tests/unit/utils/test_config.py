@@ -1,6 +1,5 @@
 import sys
 from collections import Counter
-from typing import Union
 
 import pytest
 
@@ -14,7 +13,7 @@ def create_list() -> list:
     return [1, 2, 3, 4]
 
 
-def create_list_union() -> Union[list, tuple]:  # noqa: FA100
+def create_list_union() -> list | tuple:  # noqa: FA100
     return [1, 2, 3, 4]
 
 
@@ -22,10 +21,8 @@ def create_list_without_type_hint():  # noqa: ANN201
     return [1, 2, 3, 4]
 
 
-if sys.version_info >= (3, 10):
-
-    def create_list_union2() -> list | tuple:  # noqa: FA102
-        return [1, 2, 3, 4]
+def create_list_union2() -> list | tuple:  # noqa: FA102
+    return [1, 2, 3, 4]
 
 
 ######################################
