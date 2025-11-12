@@ -36,7 +36,7 @@ jobs:
         uses: ./.github/actions/setup-env
         with:
           python-version: '3.13'
-          install-docs: true
+          install-docs-deps: true
 
       - name: Setup doc deploy
         env:
