@@ -273,7 +273,7 @@ class Registry:
 
         ```
         """
-        for class_to_register in [cls] + list(all_child_classes(cls)):
+        for class_to_register in [cls, *list(all_child_classes(cls))]:
             if ignore_abstract_class and inspect.isabstract(class_to_register):
                 continue
             self.register_object(class_to_register)

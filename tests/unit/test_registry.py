@@ -266,7 +266,7 @@ def test_get_attribute_invalid_subregistry() -> None:
     with pytest.raises(
         InvalidAttributeRegistryError,
         match=(
-            "The attribute `other` is not a registry. You can use this function "
+            r"The attribute `other` is not a registry. You can use this function "
             "only to access a Registry object."
         ),
     ):
@@ -438,7 +438,7 @@ def test_factory_unregistered_incorrect_package() -> None:
     with pytest.raises(
         UnregisteredObjectFactoryError,
         match=(
-            "Unable to create the object `my_incorrect_package.MyClass` "
+            r"Unable to create the object `my_incorrect_package.MyClass` "
             "because it is not registered."
         ),
     ):

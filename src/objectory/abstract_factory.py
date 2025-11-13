@@ -30,7 +30,7 @@ if TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 
 
-class AbstractFactory(ABCMeta):  # noqa: B024
+class AbstractFactory(ABCMeta):
     r"""Implement the abstract factory metaclass to create automatically
     factories.
 
@@ -377,7 +377,7 @@ def register_child_classes(
         )
         raise AbstractFactoryTypeError(msg)
 
-    for class_to_register in [cls] + list(all_child_classes(cls)):
+    for class_to_register in [cls, *list(all_child_classes(cls))]:
         if ignore_abstract_class and inspect.isabstract(class_to_register):
             continue
         factory_cls.register_object(class_to_register)
