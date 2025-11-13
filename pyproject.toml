@@ -40,10 +40,10 @@ dev = [
     "docformatter[tomli] >=1.7,<2.0 ; python_version < '3.14'",
     "feu[all] >=0.4.2,<1.0",
     "invoke >=2.2.0,<3.0",
-    "pre-commit >=4.3,<5.0",
+    "pre-commit >=4.4,<5.0",
     "pygments >=2.19,<3.0",
     "pytest >=9.0,<10.0",
-    "pytest-cov >=7,<8",
+    "pytest-cov >=7.0,<8.0",
     "pytest-timeout >=2.4,<3.0",
     "ruff >=0.14,<1.0",
     "xdoctest >=1.3,<2.0",
@@ -51,8 +51,8 @@ dev = [
 
 docs = [
     "mike >=2.1,<3.0",
-    "mkdocs-material >=9.5,<10.0",
-    "mkdocstrings[python] >=0.29,<1.0",
+    "mkdocs-material >=9.7,<10.0",
+    "mkdocstrings[python] >=0.30,<1.0",
 ]
 
 [project.urls]
@@ -117,8 +117,10 @@ lint.select = [
     "BLE", # flake8-blind-except
     "C4", # flake8-comprehensions
     "D", # pydocstyle
+    "DTZ", # flake8-datetimez
     "E", # pycodestyle (Error)
     "EM", # flake8-errmsg
+    "EXE", # flake8-executable
     "F", # pyflakes
     "FA", # flake8-future-annotations
     "FURB", # refurb
@@ -127,6 +129,7 @@ lint.select = [
     "ISC", # flake8-implicit-str-concat
     "LOG", # logging
     "N", # naming
+    "NPY", # NumPy-specific rules
     "PD", # pandas-vet
     "PERF", # Perflint
     "PGH", # pygrep-hooks
@@ -138,6 +141,7 @@ lint.select = [
     "Q", # flake8-quotes
     "RET", # flake8-return
     "RSE", # flake8-raise
+    "RUF", # Ruff-specific rules
     "S", # flake8-bandit
     "SIM", # flake8-simplify
     "T20", # flake8-print
@@ -167,42 +171,47 @@ lint.ignore = [
 
 # Allow autofix for all enabled rules (when `--fix`) is provided.
 lint.fixable = [
-    "A",
-    "ANN",
-    "ARG",
-    "B",
-    "BLE",
-    "C4",
-    "D",
-    "E",
-    "EM",
-    "F",
-    "FA",
-    "FURB",
-    "ICN",
-    "INP",
-    "ISC",
-    "LOG",
-    "PD",
-    "PERF",
-    "PGH",
-    "PIE",
-    "PL",
-    "PT",
-    "PTH",
-    "PYI",
-    "Q",
-    "RET",
-    "RSE",
-    "S",
-    "SIM",
-    "T20",
-    "TCH",
-    "TD",
-    "TID",
-    "TRY",
-    "UP",
-    "W",
+    "A", # builtins
+    "ANN", # annotations
+    "ARG", # flake8-unused-arguments
+    "B", # bugbear
+    "BLE", # flake8-blind-except
+    "C4", # flake8-comprehensions
+    "D", # pydocstyle
+    "DTZ", # flake8-datetimez
+    "E", # pycodestyle (Error)
+    "EM", # flake8-errmsg
+    "EXE", # flake8-executable
+    "F", # pyflakes
+    "FA", # flake8-future-annotations
+    "FURB", # refurb
+    "ICN", # flake8-import-conventions
+    "INP", # flake8-no-pep420
+    "ISC", # flake8-implicit-str-concat
+    "LOG", # logging
+    "N", # naming
+    "NPY", # NumPy-specific rules
+    "PD", # pandas-vet
+    "PERF", # Perflint
+    "PGH", # pygrep-hooks
+    "PIE", # flake8-pie
+    "PL", # Pylint
+    "PT", # flake8-pytest-style
+    "PTH", # pathlib
+    "PYI", # flake8-pyi
+    "Q", # flake8-quotes
+    "RET", # flake8-return
+    "RSE", # flake8-raise
+    "RUF", # Ruff-specific rules
+    "S", # flake8-bandit
+    "SIM", # flake8-simplify
+    "T20", # flake8-print
+    "TCH", # flake8-type-checking
+    "TD", # flake8-todos
+    "TID", # flake8-tidy-imports
+    "TRY", # tryceratops
+    "UP", # pyupgrade
+    "W", # pycodestyle (Warning)
 ]
 lint.unfixable = []
 
