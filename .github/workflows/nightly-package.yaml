@@ -8,6 +8,12 @@ permissions:
   contents: read
 
 jobs:
+  get-versions:
+    uses: ./.github/workflows/get-versions.yaml
+
+  cyclic-imports:
+    uses: ./.github/workflows/cyclic-imports.yaml
+
   stable:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
@@ -33,16 +39,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
-      - name: Set up Python
-        uses: actions/setup-python@v6
+      - name: Install uv and set the python version
+        uses: astral-sh/setup-uv@v7
         with:
           python-version: ${{ matrix.python-version }}
+          activate-environment: true
 
       - name: Install package
         run: |
-          pip install objectory
+          uv pip install objectory
 
-      - name: Run short experiment
+      - name: Run some checks
         run: |
           python tests/package_checks.py
 
@@ -72,58 +79,24 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
-      - name: Set up Python
-        uses: actions/setup-python@v6
+      - name: Install uv and set the python version
+        uses: astral-sh/setup-uv@v7
         with:
           python-version: ${{ matrix.python-version }}
+          activate-environment: true
 
       - name: Install package
         run: |
-          pip install --pre objectory
+          uv pip install --pre objectory
 
-      - name: Run short experiment
+      - name: Run some checks
         run: |
           python tests/package_checks.py
 
 
   tornado:
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 10
-    strategy:
-      max-parallel: 8
-      fail-fast: false
-      matrix:
-        os: [ ubuntu-latest ]
-        python-version: [ '3.14', '3.13', '3.12', '3.11', '3.10' ]
-        tornado-version: [
-          '6.5.2',
-          '6.4.2',
-          '6.3.3',
-          '6.2',
-          '6.1',
-          '6.0.4',
-        ]
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: Install package
-        run: |
-          pip install objectory
-
-      - name: Install valid package version
-        uses: durandtibo/pip-install-package-action@v0.4.0
-        with:
-          package-name: 'tornado'
-          package-version: ${{ matrix.tornado-version }}
-          python-version: ${{ matrix.python-version }}
-
-      - name: Run short experiment
-        run: |
-          python tests/package_checks.py
+    needs: get-versions
+    uses: ./.github/workflows/test-package-dep.yaml
+    with:
+      package-name: tornado
+      package-versions: ${{ toJson(fromJson(needs.get-versions.outputs.package_versions).tornado) }}
