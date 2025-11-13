@@ -6,7 +6,7 @@ mechanism.
 
 from __future__ import annotations
 
-__all__ = ["resolve_name", "find_matches"]
+__all__ = ["find_matches", "resolve_name"]
 
 
 from objectory.utils.object_helpers import full_object_name, import_object
@@ -48,7 +48,7 @@ def resolve_name(name: str, object_names: set[str], allow_import: bool = True) -
         return name
 
     if len(matches := find_matches(name, object_names)) == 1:
-        return list(matches)[0]
+        return next(iter(matches))
 
     if (obj := import_object(name)) is not None:
         object_name = full_object_name(obj)

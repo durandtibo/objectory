@@ -32,7 +32,7 @@ class BaseClass(metaclass=AbstractFactory):
     pass
 
 
-class BaseClassWithArgument(metaclass=AbstractFactory):  # noqa: B903
+class BaseClassWithArgument(metaclass=AbstractFactory):
     def __init__(self, arg1: int) -> None:
         self.arg1 = arg1
 
@@ -49,7 +49,7 @@ class AbstractChildClass(ABC, BaseClassWithArgument):
         """Abstract method."""
 
 
-class Class1(metaclass=AbstractFactory):  # noqa: B903
+class Class1(metaclass=AbstractFactory):
     def __init__(self, arg2: int, arg3: int = 0) -> None:
         self.arg2 = arg2
         self.arg3 = arg3
@@ -253,7 +253,7 @@ def test_factory_unregistered_incorrect_package() -> None:
     with pytest.raises(
         UnregisteredObjectFactoryError,
         match=(
-            "Unable to create the object `my_incorrect_package.MyClass` "
+            r"Unable to create the object `my_incorrect_package.MyClass` "
             "because it is not registered."
         ),
     ):
@@ -363,7 +363,7 @@ def test_decorator_register_function() -> None:
 
 def test_decorator_register_class() -> None:
     @register(BaseClass)
-    class MyClass:  # noqa: B903
+    class MyClass:
         def __init__(self, arg: int) -> None:
             self.arg = arg
 
@@ -492,7 +492,7 @@ def test_register_child_classes_incorrect_factory_class() -> None:
     with pytest.raises(
         AbstractFactoryTypeError,
         match=(
-            "It is not possible to register child classes because the factory class does "
+            r"It is not possible to register child classes because the factory class does "
             "not implement the AbstractFactory metaclass"
         ),
     ):
