@@ -42,17 +42,23 @@ runs:
       run: |
         make install-invoke
 
-    - name: Install packages
+    - name: Install minimal dependencies
       if: ${{ !inputs.install-optional-deps }}
       shell: bash
       run: |
-        inv install --all-deps
+        inv install
 
-    - name: Install packages including docs
+    - name: Install all dependencies
       if: ${{ inputs.install-optional-deps }}
       shell: bash
       run: |
         inv install --all-deps --docs
+
+    - name: Install all dependencies
+      if: ${{ inputs.install-docs-deps }}
+      shell: bash
+      run: |
+        inv install --docs
 
     - name: Install valid package version
       if: ${{ inputs.package-name != '' }}
