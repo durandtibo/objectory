@@ -16,8 +16,6 @@ jobs:
 
       - name: Setup python environment
         uses: ./.github/actions/setup-env
-        with:
-          python-version: '3.13'
 
       - name: Check format
         run: |
