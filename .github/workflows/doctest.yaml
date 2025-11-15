@@ -17,8 +17,6 @@ jobs:
 
       - name: Setup python environment
         uses: ./.github/actions/setup-env
-        with:
-          python-version: '3.13'
 
       - name: Run doctest on source code
         run: |
@@ -35,7 +33,6 @@ jobs:
       - name: Setup python environment
         uses: ./.github/actions/setup-env
         with:
-          python-version: '3.13'
           install-docs-deps: true
 
       - name: Setup doc deploy
