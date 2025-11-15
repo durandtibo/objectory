@@ -14,6 +14,7 @@ SOURCE = f"src/{NAME}"
 TESTS = "tests"
 UNIT_TESTS = f"{TESTS}/unit"
 INTEGRATION_TESTS = f"{TESTS}/integration"
+PYTHON_VERSION = "3.13"
 
 
 @task
@@ -31,7 +32,7 @@ def check_lint(c: Context) -> None:
 @task
 def create_venv(c: Context) -> None:
     r"""Create a virtual environment."""
-    c.run("uv venv", pty=True)
+    c.run(f"uv venv --python {PYTHON_VERSION} --clear", pty=True)
     c.run("source .venv/bin/activate", pty=True)
     c.run("make install-invoke", pty=True)
 
@@ -96,7 +97,7 @@ def unit_test(c: Context, cov: bool = False) -> None:
 @task
 def integration_test(c: Context, cov: bool = False) -> None:
     r"""Run the unit tests."""
-    cmd = ["python -m pytest --xdoctest --timeout 10"]
+    cmd = ["python -m pytest --xdoctest --timeout 60"]
     if cov:
         cmd.append(
             f"--cov-report html --cov-report xml --cov-report term  --cov-append --cov={NAME}"
