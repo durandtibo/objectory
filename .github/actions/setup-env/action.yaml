@@ -77,3 +77,8 @@ runs:
       shell: bash
       run: |
         inv show-installed-packages
+
+    - name: Show dependency tree
+      shell: bash
+      run: |
+        uv pip tree
