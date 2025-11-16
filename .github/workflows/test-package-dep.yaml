@@ -45,6 +45,11 @@ jobs:
           package-version: ${{ matrix.package-version }}
           python-version: ${{ matrix.python-version }}
 
+      - name: Show dependency tree
+        shell: bash
+        run: |
+          uv pip tree
+
       - name: Run some checks
         run: |
           python tests/package_checks.py
