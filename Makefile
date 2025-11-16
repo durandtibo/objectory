@@ -55,7 +55,7 @@ publish-doc-latest :
 .PHONY : setup-venv
 setup-venv :
 	$(MAKE) update-uv
-	uv venv --python 3.13 --system --clear
+	uv venv --python 3.13 --clear
 	$(MAKE) install-invoke
 	.venv/bin/inv create-venv
 	.venv/bin/inv install --all-deps
