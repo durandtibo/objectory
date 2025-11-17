@@ -12,84 +12,29 @@ jobs:
     uses: ./.github/workflows/get-versions.yaml
 
   stable:
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 10
-    strategy:
-      max-parallel: 8
-      fail-fast: false
-      matrix:
-        os: [
-          ubuntu-latest,
-          ubuntu-24.04,
-          ubuntu-22.04,
-          ubuntu-24.04-arm,
-          ubuntu-22.04-arm,
-          macos-latest,
-          macos-26,
-          macos-15,
-          macos-14,
-          macos-15-intel,
-        ]
-        python-version: [ '3.14', '3.13', '3.12', '3.11', '3.10' ]
+    uses: ./.github/workflows/test-package.yaml
+    with:
+      install-cmd: 'uv pip install batcharray'
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-
-      - name: Install uv and set the python version
-        uses: astral-sh/setup-uv@v7
-        with:
-          python-version: ${{ matrix.python-version }}
-          activate-environment: true
-
-      - name: Install package
-        run: |
-          uv pip install objectory
-
-      - name: Run some checks
-        run: |
-          python tests/package_checks.py
-
+  stable-all:
+    uses: ./.github/workflows/test-package.yaml
+    with:
+      install-cmd: 'uv pip install "batcharray[all]"'
 
   latest:
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 10
-    strategy:
-      max-parallel: 8
-      fail-fast: false
-      matrix:
-        os: [
-          ubuntu-latest,
-          ubuntu-24.04,
-          ubuntu-22.04,
-          ubuntu-24.04-arm,
-          ubuntu-22.04-arm,
-          macos-latest,
-          macos-26,
-          macos-15,
-          macos-14,
-          macos-15-intel,
-        ]
-        python-version: [ '3.14', '3.13', '3.12', '3.11', '3.10' ]
+    uses: ./.github/workflows/test-package.yaml
+    with:
+      install-cmd: 'uv pip install --pre batcharray'
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v5
+  latest-all:
+    uses: ./.github/workflows/test-package.yaml
+    with:
+      install-cmd: 'uv pip install --pre "batcharray[all]"'
 
-      - name: Install uv and set the python version
-        uses: astral-sh/setup-uv@v7
-        with:
-          python-version: ${{ matrix.python-version }}
-          activate-environment: true
 
-      - name: Install package
-        run: |
-          uv pip install --pre objectory
-
-      - name: Run some checks
-        run: |
-          python tests/package_checks.py
-
+  ########################
+  #     Dependencies     #
+  ########################
 
   tornado:
     needs: get-versions
