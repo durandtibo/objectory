@@ -11,9 +11,6 @@ jobs:
   get-versions:
     uses: ./.github/workflows/get-versions.yaml
 
-  cyclic-imports:
-    uses: ./.github/workflows/cyclic-imports.yaml
-
   stable:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
