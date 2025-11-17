@@ -718,7 +718,7 @@ wheels = [
 
 [[package]]
 name = "objectory"
-version = "0.2.2a0"
+version = "0.2.3a0"
 source = { editable = "." }
 dependencies = [
     { name = "tornado" },
