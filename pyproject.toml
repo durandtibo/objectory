@@ -1,3 +1,12 @@
+[build-system]
+requires = ["hatchling >= 1.27", "hatchling-autoextras-hook>=0.0.1"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.sdist]
+only-include = ["src"]
+
+[tool.hatch.metadata.hooks.autoextras]
+
 [project]
 name = "objectory"
 version = "0.2.3a0"
@@ -24,6 +33,8 @@ classifiers = [
     "Topic :: Scientific/Engineering",
     "Topic :: Software Development :: Libraries",
 ]
+
+dynamic = ["maintainers"]
 
 requires-python = ">=3.10"
 
@@ -59,10 +70,6 @@ docs = [
 homepage = "https://github.com/durandtibo/objectory"
 repository = "https://github.com/durandtibo/objectory"
 documentation = "https://durandtibo.github.io/objectory/"
-
-[build-system]
-requires = ["hatchling >= 1.26"]
-build-backend = "hatchling.build"
 
 [tool.uv.pip]
 torch-backend = "auto"
