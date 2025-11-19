@@ -30,7 +30,7 @@ def all_child_classes(cls: type) -> set[type]:
     Based on: https://stackoverflow.com/a/3862957
 
     Args:
-        cls: Specifies the class whose child classes you want to get.
+        cls: The class whose child classes are to be retrieved.
 
     Returns:
         The set of all the child classes of the given class.
@@ -63,8 +63,8 @@ def full_object_name(obj: Any) -> str:
     This function works for class and function objects.
 
     Args:
-        obj: Specifies the class/function that you want to compute
-            the full name.
+        obj: The class or function for which the full name is to be
+            computed.
 
     Returns:
         The full name of the object.
@@ -101,8 +101,8 @@ def _full_object_name(obj: object | type) -> str:
     Based on: https://gist.github.com/clbarnes/edd28ea32010eb159b34b075687bb49e
 
     Args:
-        obj: Specifies the class/function that you want to compute
-            the full class name.
+        obj: The class or function for which the full name is to be
+            computed.
 
     Returns:
         The full class name.
@@ -122,7 +122,7 @@ def import_object(object_path: str) -> Any:
     the object path does not respect this structure.
 
     Args:
-        object_path: Specifies the path of the object to import.
+        object_path: The path of the object to import.
 
     Returns:
         The object if the import was successful otherwise ``None``.
@@ -155,10 +155,9 @@ def instantiate_object(
     r"""Instantiate dynamically an object from its configuration.
 
     Args:
-        obj: Specifies the class to instantiate
-            or the function to call.
+        obj: The class to instantiate or the function to call.
         *args: Variable length argument list.
-        _init_: Specifies the function to use to
+        _init_: The function or method to use to
             create the object. This input is ignored if ``obj`` is a
             function. If ``"__init__"``, the object is created by
             calling the constructor.
@@ -200,11 +199,11 @@ def _instantiate_class_object(
     ``__init__`` (default) or ``__new__`` or a class method.
 
     Args:
-        cls: Specifies the class of the object to instantiate.
+        cls: The class of the object to instantiate.
         *args: Variable length argument list.
-        _init_: Specifies the function to use to
-            create the object. If ``"__init__"``, the object is
-            created by calling the constructor.
+        _init_: The function to use to create the object.
+            If ``"__init__"``, the object is created by calling the
+            constructor.
         **kwargs: Arbitrary keyword arguments.
 
     Returns:
@@ -240,7 +239,7 @@ def is_lambda_function(obj: Any) -> bool:
     Adapted from https://stackoverflow.com/a/23852434
 
     Args:
-        obj: Specifies the object to check.
+        obj: The object to check.
 
     Returns:
         ``True`` if the input is a lambda function,
