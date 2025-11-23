@@ -9,7 +9,8 @@ from __future__ import annotations
 __all__ = ["find_matches", "resolve_name"]
 
 
-from objectory.utils.object_helpers import full_object_name, import_object
+from objectory.utils.introspection import get_fully_qualified_name
+from objectory.utils.object_helpers import import_object
 
 
 def resolve_name(name: str, object_names: set[str], allow_import: bool = True) -> str | None:
@@ -51,7 +52,7 @@ def resolve_name(name: str, object_names: set[str], allow_import: bool = True) -
         return next(iter(matches))
 
     if (obj := import_object(name)) is not None:
-        object_name = full_object_name(obj)
+        object_name = get_fully_qualified_name(obj)
         if allow_import or object_name in object_names:
             return object_name
     return None
