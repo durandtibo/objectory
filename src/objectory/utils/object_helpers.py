@@ -4,7 +4,6 @@ from __future__ import annotations
 
 __all__ = [
     "all_child_classes",
-    "full_object_name",
     "import_object",
     "instantiate_object",
 ]
@@ -16,7 +15,6 @@ from typing import TYPE_CHECKING, Any
 from tornado.util import import_object as tornado_import_object
 
 from objectory.errors import AbstractClassFactoryError, IncorrectObjectFactoryError
-from objectory.utils.introspection import get_fully_qualified_name
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -55,44 +53,6 @@ def all_child_classes(cls: type) -> set[type]:
     return set(cls.__subclasses__()).union(
         [s for c in cls.__subclasses__() for s in all_child_classes(c)]
     )
-
-
-def full_object_name(obj: Any) -> str:
-    r"""Compute the full name of an object.
-
-    This function works for class and function objects.
-
-    Args:
-        obj: The class or function for which the full name is to be
-            computed.
-
-    Returns:
-        The full name of the object.
-
-    Raises:
-        TypeError: if the object is not a class or a function.
-
-    Example usage:
-
-    ```pycon
-    >>> from objectory.utils import full_object_name
-    >>> class MyClass:
-    ...     pass
-    ...
-    >>> full_object_name(MyClass)
-    '....MyClass'
-    >>> def my_function():
-    ...     pass
-    ...
-    >>> full_object_name(my_function)
-    '....my_function'
-
-    ```
-    """
-    if inspect.isclass(obj) or inspect.isfunction(obj):
-        return get_fully_qualified_name(obj)
-    msg = f"Incorrect object type: {obj}"
-    raise TypeError(msg)
 
 
 def import_object(object_path: str) -> Any:
