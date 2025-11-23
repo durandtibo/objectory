@@ -6,6 +6,7 @@ naming change.
 Example usage:
 
 ```pycon
+
 >>> from objectory import factory, OBJECT_TARGET
 >>> config = {OBJECT_TARGET: "collections.Counter", "a": 4, "b": 2}
 >>> obj = factory(**config)
