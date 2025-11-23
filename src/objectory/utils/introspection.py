@@ -3,8 +3,9 @@ fully qualified names."""
 
 from __future__ import annotations
 
-__all__ = ["get_fully_qualified_name"]
+__all__ = ["get_fully_qualified_name", "is_lambda_function"]
 
+import inspect
 from typing import Any
 
 
@@ -24,7 +25,7 @@ def get_fully_qualified_name(obj: Any) -> str:
 
     ```pycon
 
-    >>> from objectory.utils.introspection import get_fully_qualified_name
+    >>> from objectory.utils import get_fully_qualified_name
     >>> import collections
     >>> get_fully_qualified_name(collections.Counter)
     'collections.Counter'
@@ -51,3 +52,37 @@ def get_fully_qualified_name(obj: Any) -> str:
         return f"{module}.{qualname}"
 
     return qualname
+
+
+def is_lambda_function(obj: Any) -> bool:
+    r"""Indicate if the object is a lambda function or not.
+
+    Adapted from https://stackoverflow.com/a/23852434
+
+    Args:
+        obj: The object to check.
+
+    Returns:
+        ``True`` if the input is a lambda function,
+            otherwise ``False``
+
+    Example usage:
+
+    ```pycon
+
+    >>> from objectory.utils import is_lambda_function
+    >>> is_lambda_function(lambda value: value + 1)
+    True
+    >>> def my_function(value: int) -> int:
+    ...     return value + 1
+    ...
+    >>> is_lambda_function(my_function)
+    False
+    >>> is_lambda_function(1)
+    False
+
+    ```
+    """
+    if not inspect.isfunction(obj):
+        return False
+    return obj.__name__ == "<lambda>"
