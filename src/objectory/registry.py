@@ -73,6 +73,7 @@ class Registry:
         Example usage:
 
         ```pycon
+
         >>> from collections import Counter
         >>> registry = Registry()
         >>> registry.other.register_object(Counter)
@@ -98,6 +99,7 @@ class Registry:
         Example usage:
 
         ```pycon
+
         >>> from objectory import Registry
         >>> from collections import Counter
         >>> registry = Registry()
@@ -122,6 +124,7 @@ class Registry:
         Example usage:
 
         ```pycon
+
         >>> from objectory import Registry
         >>> registry = Registry()
         >>> # Clear the main registry.
@@ -149,6 +152,7 @@ class Registry:
         Example usage:
 
         ```pycon
+
         >>> from objectory import Registry
         >>> registry = Registry()
         >>> # Clear the filters of the main registry.
@@ -193,6 +197,7 @@ class Registry:
         Example usage:
 
         ```pycon
+
         >>> from objectory import Registry
         >>> registry = Registry()
         >>> @registry.register()
@@ -223,6 +228,7 @@ class Registry:
         Example usage:
 
         ```pycon
+
         >>> from objectory import Registry
         >>> registry = Registry()
         >>> @registry.register()
@@ -266,6 +272,7 @@ class Registry:
         Example usage:
 
         ```pycon
+
         >>> from objectory import Registry
         >>> registry = Registry()
         >>> registry.register_child_classes(dict)
@@ -293,6 +300,7 @@ class Registry:
         Example usage:
 
         ```pycon
+
         >>> from objectory import Registry
         >>> registry = Registry()
         >>> class ClassToRegister:
@@ -342,6 +350,7 @@ class Registry:
         Example usage:
 
         ```pycon
+
         >>> from objectory import Registry
         >>> registry = Registry()
         >>> registry.registered_names()
@@ -374,6 +383,7 @@ class Registry:
         Example usage:
 
         ```pycon
+
         >>> from objectory import Registry
         >>> from collections import Counter
         >>> registry = Registry()
@@ -407,6 +417,7 @@ class Registry:
         Example usage:
 
         ```pycon
+
         >>> from collections import Counter, OrderedDict
         >>> from objectory import Registry
         >>> registry = Registry()

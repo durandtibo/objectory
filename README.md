@@ -64,6 +64,7 @@ The current implementation contains both abstract factory and registry approache
 **factory**
 
 ```pycon
+
 >>> from objectory import factory
 >>> obj = factory("builtins.list")
 >>> print(obj)
@@ -77,6 +78,7 @@ The current implementation contains both abstract factory and registry approache
 **[abstract factory](https://durandtibo.github.io/objectory/abstract_factory/)**
 
 ```pycon
+
 >>> from objectory import AbstractFactory
 >>> class BaseClass(metaclass=AbstractFactory):
 ...     pass
@@ -93,6 +95,7 @@ The current implementation contains both abstract factory and registry approache
 **[registry](https://durandtibo.github.io/objectory/registry/)**
 
 ```pycon
+
 >>> from objectory import Registry
 >>> registry = Registry()
 >>> @registry.register()
