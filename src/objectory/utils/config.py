@@ -24,8 +24,8 @@ def is_object_config(config: dict, cls: type) -> bool:
     the class.
 
     Args:
-        config: Specifies the configuration to check.
-        cls: Specifies the object class.
+        config: The configuration to check.
+        cls: The object class.
 
     Returns:
         ``True`` if the input configuration is a configuration

@@ -43,14 +43,14 @@ class AbstractFactory(ABCMeta):
     attribute or the function.
 
     Args:
-        name: Specifies the class name. This becomes the
-            ``__name__`` attribute of the class.
-        bases: Specifies a tuple of the base classes from
-            which the class inherits.
-            This becomes the ``__bases__`` attribute of the class.
-        dct: Specifies a namespace dictionary containing
-            definitions for the class body.
-            This becomes the ``__dict__`` attribute of the class.
+        name: The class name. This becomes the ``__name__`` attribute
+            of the class.
+        bases: A tuple of the base classes from which the class
+            inherits. This becomes the ``__bases__`` attribute of the
+            class.
+        dct: A namespace dictionary containing definitions for the
+            class body. This becomes the ``__dict__`` attribute of the
+            class.
 
     Example usage:
 
@@ -106,11 +106,11 @@ class AbstractFactory(ABCMeta):
         Please read the documentation for more information.
 
         Args:
-            _target_: Specifies the name of the object
-                (class or function) to instantiate.
-                It can be the class name or the full class name.
+            _target_: The name of the object (class or function) to
+                instantiate. It can be the class name or the full
+                class name.
             *args: Variable length argument list.
-            _init_: Specifies the function to use to create the object.
+            _init_: The function to use to create the object.
                 If ``"__init__"``, the object is created by calling
                 the constructor.
             **kwargs: Arbitrary keyword arguments.
@@ -119,9 +119,9 @@ class AbstractFactory(ABCMeta):
             The instantiated object with the given parameters.
 
         Raises:
-            AbstractClassAbstractFactoryError: if you try to
-                instantiate an abstract class.
-            UnregisteredClassAbstractFactoryError: if the target
+            AbstractClassAbstractFactoryError: when an abstract
+                class is instantiated.
+            UnregisteredClassAbstractFactoryError: when the target
                 is not found.
 
         Example usage:
@@ -154,8 +154,7 @@ class AbstractFactory(ABCMeta):
         3rd party library.
 
         Args:
-            obj: Specifies the class or function to register to the
-                factory.
+            obj: The class or function to register to the factory.
 
         Raises:
             IncorrectObjectAbstractFactoryError: if the object
@@ -193,9 +192,9 @@ class AbstractFactory(ABCMeta):
         This is an experimental function and may change in the future.
 
         Args:
-            name: Specifies the name of the object to remove.
-                This function uses the name resolution mechanism to
-                find the full name if only the short name is given.
+            name: The name of the object to remove. This function uses
+                the name resolution mechanism to find the full name if
+                only the short name is given.
 
         Example usage:
 
@@ -226,7 +225,7 @@ class AbstractFactory(ABCMeta):
         """Get the class or function to used given its name.
 
         Args:
-            name: Specifies the name of the class or function.
+            name: The name of the class or function.
 
         Returns:
             The class or function.
@@ -258,11 +257,10 @@ class AbstractFactory(ABCMeta):
         and registered it if it is not registered yet.
 
         Args:
-            name: Specifies the name of the class or function
-                to resolve.
+            name: The name of the class or function to resolve.
 
         Returns:
-            It returns the name to use to get the object if the
+            The name to use to get the object if the
                 resolution was successful, otherwise ``None``.
         """
         return resolve_name(name, set(cls._abstractfactory_inheritors.keys()))
@@ -271,7 +269,7 @@ class AbstractFactory(ABCMeta):
         r"""Indicate if the name exists or not in the factory .
 
         Args:
-            name: Specifies the name to check.
+            name: The name to check.
 
         Returns:
             ``True`` if the name exists otherwise ``False``.
@@ -286,7 +284,7 @@ class AbstractFactory(ABCMeta):
         valid.
 
         Args:
-            obj: Specifies the object to check.
+            obj: The object to check.
 
         Raises:
             IncorrectObjectFactoryError: if it is an invalid
@@ -310,11 +308,11 @@ def register(cls: AbstractFactory) -> Callable:
     an object of a class registered in the factory.
 
     Args:
-        cls (objectory.AbstractFactory): Specifies the class where to
+        cls (objectory.AbstractFactory): The class where to
             register the function.
 
     Returns:
-        collections.abc.Callable: The decorated function.
+        The decorated function.
 
     Example usage:
 
@@ -350,9 +348,9 @@ def register_child_classes(
     classes of the child classes, etc.
 
     Args:
-        factory_cls: Specifies the factory class. The child classes
+        factory_cls: The factory class. The child classes
             will be registered to this class.
-        cls: Specifies the class to register its child classes.
+        cls: The class to register its child classes.
         ignore_abstract_class: Indicate if the abstract class
             should be ignored or not. Be default, the abstract classes
             are not registered because they cannot be instantiated.
@@ -390,7 +388,7 @@ def is_abstract_factory(cls: Any) -> bool:
     r"""Indicate if a class implements the ``AbstractFactory`` metaclass.
 
     Args:
-        cls: Specifies the class to check.
+        cls: The class to check.
 
     Returns:
         ``True`` if the class implements the ``AbstractFactory``
