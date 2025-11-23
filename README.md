@@ -68,6 +68,9 @@ The current implementation contains both abstract factory and registry approache
 >>> obj = factory("builtins.list")
 >>> print(obj)
 []
+>>> obj = factory("builtins.list", [4, 2])
+>>> print(obj)
+[4, 2]
 
 ```
 
@@ -135,9 +138,17 @@ The following is the corresponding `objectory` versions and supported dependenci
 | `0.1.2`     | `>=6.0,<7.0` | `>=3.9,<3.13`  |
 | `0.1.1`     | `>=6.0,<7.0` | `>=3.9,<3.13`  |
 | `0.1.0`     | `>=6.0,<7.0` | `>=3.9,<3.13`  |
-| `0.0.9`     | `>=6.0,<7.0` | `>=3.9,<3.13`  |
-| `0.0.8`     | `>=6.0,<7.0` | `>=3.9,<3.13`  |
-| `0.0.7`     | `>=6.0,<7.0` | `>=3.9,<3.12`  |
+
+<details>
+    <summary>older versions</summary>
+
+| `objectory` | `tornado`    | `python`      |
+|-------------|--------------|---------------|
+| `0.0.9`     | `>=6.0,<7.0` | `>=3.9,<3.13` |
+| `0.0.8`     | `>=6.0,<7.0` | `>=3.9,<3.13` |
+| `0.0.7`     | `>=6.0,<7.0` | `>=3.9,<3.12` |
+
+</details>
 
 ## Contributing
 
