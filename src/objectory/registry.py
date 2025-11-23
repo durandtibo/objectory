@@ -40,6 +40,7 @@ class Registry:
     Example usage:
 
     ```pycon
+
     >>> from objectory import Registry
     >>> from collections import Counter
     >>> registry = Registry()

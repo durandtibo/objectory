@@ -35,6 +35,7 @@ def resolve_name(name: str, object_names: set[str], allow_import: bool = True) -
     Example usage:
 
     ```pycon
+
     >>> from objectory.utils import resolve_name
     >>> resolve_name("OrderedDict", {"collections.OrderedDict", "collections.Counter"})
     collections.OrderedDict
@@ -78,6 +79,7 @@ def find_matches(query: str, object_names: set[str]) -> set[str]:
     Example usage:
 
     ```pycon
+
     >>> from objectory.utils.name_resolution import find_matches
     >>> find_matches("OrderedDict", {"collections.Counter", "math.isclose"})
     set()

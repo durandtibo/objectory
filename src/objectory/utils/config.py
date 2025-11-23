@@ -34,6 +34,7 @@ def is_object_config(config: dict, cls: type) -> bool:
     Example usage:
 
     ```pycon
+
     >>> from objectory.utils import is_object_config
     >>> from collections import Counter
     >>> is_object_config({"_target_": "collections.Counter", "iterable": [1, 2, 1, 3]}, Counter)

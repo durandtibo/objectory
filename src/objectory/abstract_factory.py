@@ -55,6 +55,7 @@ class AbstractFactory(ABCMeta):
     Example usage:
 
     ```pycon
+
     >>> from objectory import AbstractFactory
     >>> class BaseClass(metaclass=AbstractFactory):
     ...     pass
@@ -318,6 +319,7 @@ def register(cls: AbstractFactory) -> Callable:
     Example usage:
 
     ```pycon
+
     >>> from objectory.abstract_factory import AbstractFactory, register
     >>> class BaseClass(metaclass=AbstractFactory):
     ...     pass
@@ -362,6 +364,7 @@ def register_child_classes(
     Example usage:
 
     ```pycon
+
     >>> from objectory.abstract_factory import AbstractFactory, register_child_classes
     >>> class BaseClass(metaclass=AbstractFactory):
     ...     pass
@@ -396,6 +399,7 @@ def is_abstract_factory(cls: Any) -> bool:
     Example usage:
 
     ```pycon
+
     >>> from objectory.abstract_factory import AbstractFactory, is_abstract_factory
     >>> class BaseClass(metaclass=AbstractFactory):
     ...     pass

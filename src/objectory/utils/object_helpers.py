@@ -23,6 +23,7 @@ def all_child_classes(cls: type) -> set[type]:
     Example usage:
 
     ```pycon
+
     >>> from objectory.utils import all_child_classes
     >>> class Foo:
     ...     pass
