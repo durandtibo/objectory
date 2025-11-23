@@ -13,10 +13,9 @@ __all__ = [
 ]
 
 from objectory.utils.config import is_object_config
+from objectory.utils.instantiation import import_object, instantiate_object
 from objectory.utils.introspection import get_fully_qualified_name, is_lambda_function
 from objectory.utils.name_resolution import resolve_name
 from objectory.utils.object_helpers import (
     all_child_classes,
-    import_object,
-    instantiate_object,
 )
