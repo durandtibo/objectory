@@ -16,7 +16,7 @@ from objectory.errors import (
 )
 from objectory.utils import (
     all_child_classes,
-    full_object_name,
+    get_fully_qualified_name,
     import_object,
     instantiate_object,
     is_lambda_function,
@@ -312,7 +312,7 @@ class Registry:
         """
         self._check_object(obj)
         if name is None:
-            name = full_object_name(obj)
+            name = get_fully_qualified_name(obj)
         elif not isinstance(name, str):
             msg = f"The name has to be a string (received: {name})"
             raise TypeError(msg)
@@ -449,7 +449,7 @@ class Registry:
 
         filter_class = self._filters.get(self._CLASS_FILTER, None)
         if filter_class is not None and not issubclass(obj, filter_class):
-            class_name = full_object_name(filter_class)
+            class_name = get_fully_qualified_name(filter_class)
             msg = f"All the registered objects should inherit {class_name} class (received {obj})"
             raise IncorrectObjectFactoryError(msg)
 

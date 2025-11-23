@@ -17,7 +17,7 @@ from objectory.errors import (
 )
 from objectory.utils import (
     all_child_classes,
-    full_object_name,
+    get_fully_qualified_name,
     import_object,
     instantiate_object,
     is_lambda_function,
@@ -177,7 +177,7 @@ class AbstractFactory(ABCMeta):
         ```
         """
         cls._abstractfactory_check_object(obj)
-        name = full_object_name(obj)
+        name = get_fully_qualified_name(obj)
         if (
             cls._abstractfactory_is_name_registered(name)
             and cls._abstractfactory_inheritors[name] != obj
