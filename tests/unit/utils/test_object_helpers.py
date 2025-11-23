@@ -9,7 +9,6 @@ import pytest
 from objectory.errors import AbstractClassFactoryError, IncorrectObjectFactoryError
 from objectory.utils import (
     all_child_classes,
-    full_object_name,
     import_object,
     instantiate_object,
 )
@@ -64,37 +63,6 @@ def test_all_child_classes() -> None:
     class Bing(Bar): ...
 
     assert all_child_classes(Foo) == {Bar, Baz, Bing}
-
-
-############################
-#     full_object_name     #
-############################
-
-
-def test_full_object_name_builtin() -> None:
-    assert full_object_name(int) == "builtins.int"
-
-
-def test_full_object_name_class() -> None:
-    assert full_object_name(FakeClass) == "tests.unit.utils.test_object_helpers.FakeClass"
-
-
-def test_full_object_name_local_class() -> None:
-    class FakeClass: ...
-
-    assert (
-        full_object_name(FakeClass)
-        == "tests.unit.utils.test_object_helpers.test_full_object_name_local_class.<locals>.FakeClass"
-    )
-
-
-def test_full_object_name_function() -> None:
-    assert full_object_name(fake_function) == "tests.unit.utils.test_object_helpers.fake_function"
-
-
-def test_full_object_name_incorrect_type() -> None:
-    with pytest.raises(TypeError, match=r"Incorrect object type:"):
-        full_object_name(1)
 
 
 #########################
