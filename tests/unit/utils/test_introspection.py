@@ -1,6 +1,10 @@
 from __future__ import annotations
 
-from objectory.utils.introspection import get_fully_qualified_name
+from typing import Any
+
+import pytest
+
+from objectory.utils import get_fully_qualified_name, is_lambda_function
 
 
 class Fake:
@@ -103,3 +107,21 @@ def test_get_fully_qualified_name_main_module_fallback() -> None:
         get_fully_qualified_name(Fake)
         == "test_get_fully_qualified_name_main_module_fallback.<locals>.Fake"
     )
+
+
+########################################
+#     Tests for is_lambda_function     #
+########################################
+
+
+def test_is_lambda_function_lambda() -> None:
+    assert is_lambda_function(lambda x: x)
+
+
+def test_is_lambda_function_regular_function() -> None:
+    assert not is_lambda_function(fake_func)
+
+
+@pytest.mark.parametrize("obj", [-1, "abc", Fake])
+def test_is_lambda_function_non_function(obj: Any) -> None:
+    assert not is_lambda_function(obj)

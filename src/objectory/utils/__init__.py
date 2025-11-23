@@ -5,6 +5,7 @@ from __future__ import annotations
 __all__ = [
     "all_child_classes",
     "full_object_name",
+    "get_fully_qualified_name",
     "import_object",
     "instantiate_object",
     "is_lambda_function",
@@ -13,11 +14,11 @@ __all__ = [
 ]
 
 from objectory.utils.config import is_object_config
+from objectory.utils.introspection import get_fully_qualified_name, is_lambda_function
 from objectory.utils.name_resolution import resolve_name
 from objectory.utils.object_helpers import (
     all_child_classes,
     full_object_name,
     import_object,
     instantiate_object,
-    is_lambda_function,
 )

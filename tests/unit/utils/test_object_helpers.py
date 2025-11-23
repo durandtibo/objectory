@@ -3,7 +3,6 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from collections import Counter
 from math import isclose
-from typing import Any
 from unittest.mock import Mock
 
 import pytest
@@ -14,7 +13,6 @@ from objectory.utils import (
     full_object_name,
     import_object,
     instantiate_object,
-    is_lambda_function,
 )
 
 
@@ -264,21 +262,3 @@ def test_instantiate_object_incorrect_type() -> None:
         TypeError, match=r"Incorrect type: .*. The valid types are class and function"
     ):
         instantiate_object(FakeClass(12))
-
-
-########################################
-#     Tests for is_lambda_function     #
-########################################
-
-
-def test_is_lambda_function_lambda() -> None:
-    assert is_lambda_function(lambda x: x)
-
-
-def test_is_lambda_function_regular_function() -> None:
-    assert not is_lambda_function(fake_function)
-
-
-@pytest.mark.parametrize("obj", [-1, "abc", FakeClass])
-def test_is_lambda_function_non_function(obj: Any) -> None:
-    assert not is_lambda_function(obj)

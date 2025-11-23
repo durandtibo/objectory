@@ -7,7 +7,6 @@ __all__ = [
     "full_object_name",
     "import_object",
     "instantiate_object",
-    "is_lambda_function",
 ]
 
 import inspect
@@ -231,36 +230,3 @@ def _instantiate_class_object(
     if _init_ == "__new__":
         return init_fn(cls, *args, **kwargs)
     return init_fn(*args, **kwargs)
-
-
-def is_lambda_function(obj: Any) -> bool:
-    r"""Indicate if the object is a lambda function or not.
-
-    Adapted from https://stackoverflow.com/a/23852434
-
-    Args:
-        obj: The object to check.
-
-    Returns:
-        ``True`` if the input is a lambda function,
-            otherwise ``False``
-
-    Example usage:
-
-    ```pycon
-    >>> from objectory.utils import is_lambda_function
-    >>> is_lambda_function(lambda value: value + 1)
-    True
-    >>> def my_function(value: int) -> int:
-    ...     return value + 1
-    ...
-    >>> is_lambda_function(my_function)
-    False
-    >>> is_lambda_function(1)
-    False
-
-    ```
-    """
-    if not inspect.isfunction(obj):
-        return False
-    return obj.__name__ == "<lambda>"
