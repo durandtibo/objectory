@@ -9,8 +9,8 @@ from __future__ import annotations
 __all__ = ["find_matches", "resolve_name"]
 
 
+from objectory.utils import import_object
 from objectory.utils.introspection import get_fully_qualified_name
-from objectory.utils.object_helpers import import_object
 
 
 def resolve_name(name: str, object_names: set[str], allow_import: bool = True) -> str | None:

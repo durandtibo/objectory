@@ -11,7 +11,7 @@ from typing import _UnionGenericAlias as UnionGenericAlias
 from typing import get_type_hints
 
 from objectory.constants import OBJECT_TARGET
-from objectory.utils.object_helpers import import_object
+from objectory.utils.instantiation import import_object
 
 
 def is_object_config(config: dict, cls: type) -> bool:
