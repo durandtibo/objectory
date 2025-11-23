@@ -3,8 +3,6 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from collections import Counter
 from math import isclose
-from typing import Any
-from unittest.mock import Mock
 
 import pytest
 
@@ -14,7 +12,6 @@ from objectory.utils import (
     full_object_name,
     import_object,
     instantiate_object,
-    is_lambda_function,
 )
 
 
@@ -93,12 +90,6 @@ def test_full_object_name_local_class() -> None:
 
 def test_full_object_name_function() -> None:
     assert full_object_name(fake_function) == "tests.unit.utils.test_object_helpers.fake_function"
-
-
-def test_full_object_name_builtin_module() -> None:
-    assert (
-        full_object_name(Mock(spec=type, __qualname__="name", __module__="__builtin__")) == "name"
-    )
 
 
 def test_full_object_name_incorrect_type() -> None:
@@ -264,21 +255,3 @@ def test_instantiate_object_incorrect_type() -> None:
         TypeError, match=r"Incorrect type: .*. The valid types are class and function"
     ):
         instantiate_object(FakeClass(12))
-
-
-########################################
-#     Tests for is_lambda_function     #
-########################################
-
-
-def test_is_lambda_function_lambda() -> None:
-    assert is_lambda_function(lambda x: x)
-
-
-def test_is_lambda_function_regular_function() -> None:
-    assert not is_lambda_function(fake_function)
-
-
-@pytest.mark.parametrize("obj", [-1, "abc", FakeClass])
-def test_is_lambda_function_non_function(obj: Any) -> None:
-    assert not is_lambda_function(obj)

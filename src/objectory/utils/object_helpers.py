@@ -7,7 +7,6 @@ __all__ = [
     "full_object_name",
     "import_object",
     "instantiate_object",
-    "is_lambda_function",
 ]
 
 import inspect
@@ -17,6 +16,7 @@ from typing import TYPE_CHECKING, Any
 from tornado.util import import_object as tornado_import_object
 
 from objectory.errors import AbstractClassFactoryError, IncorrectObjectFactoryError
+from objectory.utils.introspection import get_fully_qualified_name
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -90,27 +90,9 @@ def full_object_name(obj: Any) -> str:
     ```
     """
     if inspect.isclass(obj) or inspect.isfunction(obj):
-        return _full_object_name(obj)
+        return get_fully_qualified_name(obj)
     msg = f"Incorrect object type: {obj}"
     raise TypeError(msg)
-
-
-def _full_object_name(obj: object | type) -> str:
-    r"""Compute the full class name of a class/function.
-
-    Based on: https://gist.github.com/clbarnes/edd28ea32010eb159b34b075687bb49e
-
-    Args:
-        obj: The class or function for which the full name is to be
-            computed.
-
-    Returns:
-        The full class name.
-    """
-    name = obj.__qualname__
-    if (module := obj.__module__) is not None and module != "__builtin__":
-        name = module + "." + name
-    return name
 
 
 def import_object(object_path: str) -> Any:
@@ -231,36 +213,3 @@ def _instantiate_class_object(
     if _init_ == "__new__":
         return init_fn(cls, *args, **kwargs)
     return init_fn(*args, **kwargs)
-
-
-def is_lambda_function(obj: Any) -> bool:
-    r"""Indicate if the object is a lambda function or not.
-
-    Adapted from https://stackoverflow.com/a/23852434
-
-    Args:
-        obj: The object to check.
-
-    Returns:
-        ``True`` if the input is a lambda function,
-            otherwise ``False``
-
-    Example usage:
-
-    ```pycon
-    >>> from objectory.utils import is_lambda_function
-    >>> is_lambda_function(lambda value: value + 1)
-    True
-    >>> def my_function(value: int) -> int:
-    ...     return value + 1
-    ...
-    >>> is_lambda_function(my_function)
-    False
-    >>> is_lambda_function(1)
-    False
-
-    ```
-    """
-    if not inspect.isfunction(obj):
-        return False
-    return obj.__name__ == "<lambda>"
