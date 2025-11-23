@@ -22,11 +22,11 @@ def resolve_name(name: str, object_names: set[str], allow_import: bool = True) -
     resolution mechanism.
 
     Args:
-        name: Specifies the query name to use to find a match
-            in the set of object names.
-        object_names: Specifies the set of object names.
-        allow_import: If ``True``, the parent package
-            is installed if it was not imported previously.
+        name: The query name to use to find a match in the set of
+            object names.
+        object_names: The set of object names.
+        allow_import: If ``True``, the parent package is installed
+            if it was not imported previously.
 
     Returns:
         The resolved name if the resolution was successful,
@@ -35,6 +35,7 @@ def resolve_name(name: str, object_names: set[str], allow_import: bool = True) -
     Example usage:
 
     ```pycon
+
     >>> from objectory.utils import resolve_name
     >>> resolve_name("OrderedDict", {"collections.OrderedDict", "collections.Counter"})
     collections.OrderedDict
@@ -68,9 +69,9 @@ def find_matches(query: str, object_names: set[str]) -> set[str]:
     that can match with the query name.
 
     Args:
-        query: Specifies the query.
-        object_names: Specifies the set of object names where
-            to look for the query.
+        query: The query.
+        object_names: The set of object names where to look for the
+            query.
 
     Returns:
         The list of names that matches with the query.
@@ -78,6 +79,7 @@ def find_matches(query: str, object_names: set[str]) -> set[str]:
     Example usage:
 
     ```pycon
+
     >>> from objectory.utils.name_resolution import find_matches
     >>> find_matches("OrderedDict", {"collections.Counter", "math.isclose"})
     set()

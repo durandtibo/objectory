@@ -32,6 +32,7 @@ def import_object(object_path: str) -> Any:
     Example usage:
 
     ```pycon
+
     >>> from objectory.utils import import_object
     >>> obj = import_object("collections.Counter")
     >>> obj()
@@ -75,6 +76,7 @@ def instantiate_object(
     Example usage:
 
     ```pycon
+
     >>> from collections import Counter
     >>> from objectory.utils import instantiate_object
     >>> instantiate_object(Counter, [1, 2, 1])

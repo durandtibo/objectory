@@ -40,6 +40,7 @@ class Registry:
     Example usage:
 
     ```pycon
+
     >>> from objectory import Registry
     >>> from collections import Counter
     >>> registry = Registry()
@@ -60,7 +61,7 @@ class Registry:
         r"""Get the registry associated to a key.
 
         Args:
-            key: Specifies the key.
+            key: The key.
 
         Returns:
             The registry associated to the key.
@@ -171,21 +172,21 @@ class Registry:
         Please read the documentation for more information.
 
         Args:
-            _target_ : Specifies the name of the object
-                (class or function) to instantiate.
-                It can be the class name or the full class name.
+            _target_ : The name of the object (class or function) to
+                instantiate. It can be the class name or the full
+                class name.
             *args: Variable length argument list.
-            _init_: Specifies the function to use to
-                create the object. If ``"__init__"``, the object is
-                created by calling the constructor.
+            _init_: The function to use to create the object.
+                If ``"__init__"``, the object is created by calling
+                the constructor.
             **kwargs: Arbitrary keyword arguments.
 
         Returns:
             The instantiated object with the given parameters.
 
         Raises:
-            AbstractClassAbstractFactoryError: if you try to
-                instantiate an abstract class.
+            AbstractClassAbstractFactoryError: when an abstract
+                class is instantiated.
             UnregisteredClassAbstractFactoryError: if the target
                 name is not found.
 
@@ -212,7 +213,7 @@ class Registry:
         registry.
 
         Args:
-            name: Specifies the name to use to register the object.
+            name: The name to use to register the object.
                 If ``None``, the full name of the object is used as
                 name.
 
@@ -256,7 +257,7 @@ class Registry:
         objects. It will use the full name of each object.
 
         Args:
-            cls: Specifies the class to register its child classes.
+            cls: The class to register its child classes.
             ignore_abstract_class: Indicate if the abstract
                 class should be ignored or not. Be default, the
                 abstract classes are not registered because they
@@ -284,11 +285,10 @@ class Registry:
         Please read the documentation for more information.
 
         Args:
-            obj: Specifies the object to register. The object is
-                expected to be a class or a function.
-            name: Specifies the name to use to register the object.
-                If ``None``, the full name of the object is used as
-                name.
+            obj: The object to register. The object is expected to
+                be a class or a function.
+            name: The name to use to register the object. If ``None``,
+                the full name of the object is used as name.
 
         Example usage:
 
@@ -332,12 +332,12 @@ class Registry:
         r"""Get the names of all the registered objects.
 
         Args:
-            include_registry: Specifies if the other (sub-)registries
+            include_registry: Indicates if the other (sub-)registries
                 should be included in the set. By default, the other
                 (sub-)registries are included.
 
         Returns:
-            set: The names of the registered objects.
+            The names of the registered objects.
 
         Example usage:
 
@@ -363,9 +363,9 @@ class Registry:
         r"""Remove a registered object.
 
         Args:
-            name: Specifies the name of the object to remove.
-                This function uses the name resolution mechanism to
-                find the full name if only the short name is given.
+            name: The name of the object to remove. This function uses
+                the name resolution mechanism to find the full name if
+                only the short name is given.
 
         Raises:
             UnregisteredObjectFactoryError: if the name does not
@@ -398,7 +398,7 @@ class Registry:
         To unset this filter, you can use ``set_class_filter(None)``.
 
         Args:
-            cls: Specifies the class to use as filter. Only the child
+            cls: The class to use as filter. Only the child
                 classes of this class can be registered.
 
         Raises:
@@ -434,7 +434,7 @@ class Registry:
         valid.
 
         Args:
-            obj: Specifies the object to check.
+            obj: The object to check.
 
         Raises:
             IncorrectObjectFactoryError: if it is an invalid
@@ -457,7 +457,7 @@ class Registry:
         r"""Get the class or function to used given its name.
 
         Args:
-            name: Specifies the name of the class or function.
+            name: The name of the class or function.
 
         Returns:
             The class or function.
@@ -482,7 +482,7 @@ class Registry:
         r"""Indicate if the name exists or not in the registry .
 
         Args:
-            name: Specifies the name to check.
+            name: The name to check.
 
         Returns:
             ``True`` if the name exists, otherwise ``False``.
@@ -493,7 +493,7 @@ class Registry:
         r"""Indicate if the given is used as sub-registry.
 
         Args:
-            name: Specifies the name to check.
+            name: The name to check.
 
         Returns:
             ``True`` if the name is used as sub-registry,
@@ -512,11 +512,10 @@ class Registry:
         and registered it if it is not registered yet.
 
         Args:
-            name: Specifies the name to resolve.
+            name: The name to resolve.
 
         Returns:
-            It returns the name to use to get the
-                object if the resolution was successful,
-                otherwise ``None``.
+            The name to use to get the object if the resolution was
+                successful, otherwise ``None``.
         """
         return resolve_name(name, self.registered_names(include_registry=False))

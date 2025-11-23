@@ -13,12 +13,12 @@ def factory(_target_: str, *args: Any, _init_: str = "__init__", **kwargs: Any) 
     r"""Instantiate dynamically an object given its configuration.
 
     Args:
-        _target_: Specifies the name of the object (class or
-            function) to instantiate. It can be the class name or
-            the full class name.
+        _target_: The name of the object (class or function) to
+            instantiate. It can be the class name or the full
+            class name.
         *args: Variable length argument list.
-        _init_: Specifies the function to use to create the
-            object. If ``"__init__"``, the object is created by
+        _init_: The function to use to create the object.
+            If ``"__init__"``, the object is created by
             calling the constructor.
         **kwargs: Arbitrary keyword arguments.
 
@@ -31,6 +31,7 @@ def factory(_target_: str, *args: Any, _init_: str = "__init__", **kwargs: Any) 
     Example usage:
 
     ```pycon
+
     >>> from objectory import factory
     >>> factory("collections.Counter", [1, 2, 1, 3])
     Counter({1: 2, 2: 1, 3: 1})
