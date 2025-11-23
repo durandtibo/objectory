@@ -86,6 +86,7 @@ class AbstractFactory(ABCMeta):
         Example usage:
 
         ```pycon
+
         >>> from objectory import AbstractFactory
         >>> class BaseClass(metaclass=AbstractFactory):
         ...     pass
@@ -127,6 +128,7 @@ class AbstractFactory(ABCMeta):
         Example usage:
 
         ```pycon
+
         >>> from objectory import AbstractFactory
         >>> class BaseClass(metaclass=AbstractFactory):
         ...     pass
@@ -163,6 +165,7 @@ class AbstractFactory(ABCMeta):
         Example usage:
 
         ```pycon
+
         >>> from objectory import AbstractFactory
         >>> class BaseClass(metaclass=AbstractFactory):
         ...     pass
@@ -199,6 +202,7 @@ class AbstractFactory(ABCMeta):
         Example usage:
 
         ```pycon
+
         >>> from objectory import AbstractFactory
         >>> class BaseClass(metaclass=AbstractFactory):
         ...     pass
