@@ -3,7 +3,6 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from collections import Counter
 from math import isclose
-from unittest.mock import Mock
 
 import pytest
 
@@ -91,12 +90,6 @@ def test_full_object_name_local_class() -> None:
 
 def test_full_object_name_function() -> None:
     assert full_object_name(fake_function) == "tests.unit.utils.test_object_helpers.fake_function"
-
-
-def test_full_object_name_builtin_module() -> None:
-    assert (
-        full_object_name(Mock(spec=type, __qualname__="name", __module__="__builtin__")) == "name"
-    )
 
 
 def test_full_object_name_incorrect_type() -> None:

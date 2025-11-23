@@ -16,6 +16,7 @@ from typing import TYPE_CHECKING, Any
 from tornado.util import import_object as tornado_import_object
 
 from objectory.errors import AbstractClassFactoryError, IncorrectObjectFactoryError
+from objectory.utils.introspection import get_fully_qualified_name
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -89,27 +90,9 @@ def full_object_name(obj: Any) -> str:
     ```
     """
     if inspect.isclass(obj) or inspect.isfunction(obj):
-        return _full_object_name(obj)
+        return get_fully_qualified_name(obj)
     msg = f"Incorrect object type: {obj}"
     raise TypeError(msg)
-
-
-def _full_object_name(obj: object | type) -> str:
-    r"""Compute the full class name of a class/function.
-
-    Based on: https://gist.github.com/clbarnes/edd28ea32010eb159b34b075687bb49e
-
-    Args:
-        obj: The class or function for which the full name is to be
-            computed.
-
-    Returns:
-        The full class name.
-    """
-    name = obj.__qualname__
-    if (module := obj.__module__) is not None and module != "__builtin__":
-        name = module + "." + name
-    return name
 
 
 def import_object(object_path: str) -> Any:
