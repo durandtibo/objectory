@@ -18,13 +18,16 @@ if TYPE_CHECKING:
 def import_object(object_path: str) -> Any:
     r"""Import an object given its path.
 
-    This function can be used to dynamically import a class or a
-    function. The object path should have the following structure:
-    ``module_path.object_name``. This function returns ``None`` if
-    the object path does not respect this structure.
+    This function dynamically imports a class, function, or other
+    Python object using its fully qualified name. The object path
+    should have the structure ``module_path.object_name`` (e.g.,
+    "collections.Counter" or "math.isclose"). If the path is invalid
+    or the object cannot be imported, the function returns ``None``
+    instead of raising an exception.
 
     Args:
-        object_path: The path of the object to import.
+        object_path: The fully qualified path of the object to import.
+            Must be a string in the format "module.path.ObjectName".
 
     Returns:
         The object if the import was successful otherwise ``None``.
@@ -57,14 +60,23 @@ def instantiate_object(
 ) -> Any:
     r"""Instantiate dynamically an object from its configuration.
 
+    This function creates an instance of a class or calls a function
+    with the provided arguments. For classes, it supports different
+    instantiation methods (constructor, __new__, or class methods).
+    For functions, it simply calls them with the given arguments.
+
     Args:
-        obj: The class to instantiate or the function to call.
-        *args: Variable length argument list.
-        _init_: The function or method to use to
-            create the object. This input is ignored if ``obj`` is a
-            function. If ``"__init__"``, the object is created by
-            calling the constructor.
-        **kwargs: Arbitrary keyword arguments.
+        obj: The class to instantiate or the function to call. Must
+            be a class or function object.
+        *args: Positional arguments to pass to the class constructor
+            or function.
+        _init_: The function or method to use to create the object.
+            This parameter is ignored if ``obj`` is a function. For
+            classes, if ``"__init__"`` (default), the object is
+            created by calling the constructor. Can also be
+            ``"__new__"`` or the name of a class method.
+        **kwargs: Keyword arguments to pass to the class constructor
+            or function.
 
     Returns:
         The instantiated object if ``obj`` is a class name, otherwise

@@ -12,15 +12,23 @@ from objectory.utils import import_object, instantiate_object
 def factory(_target_: str, *args: Any, _init_: str = "__init__", **kwargs: Any) -> Any:
     r"""Instantiate dynamically an object given its configuration.
 
+    This function provides a universal factory that can instantiate
+    any class or call any function by its fully qualified name. Unlike
+    the AbstractFactory or Registry approaches, this function does not
+    require prior registration of classes.
+
     Args:
-        _target_: The name of the object (class or function) to
-            instantiate. It can be the class name or the full
-            class name.
-        *args: Variable length argument list.
-        _init_: The function to use to create the object.
-            If ``"__init__"``, the object is created by
-            calling the constructor.
-        **kwargs: Arbitrary keyword arguments.
+        _target_: The fully qualified name of the object (class or
+            function) to instantiate, e.g., "collections.Counter" or
+            "math.isclose".
+        *args: Positional arguments to pass to the class constructor
+            or function.
+        _init_: The function or method to use to create the object.
+            If ``"__init__"`` (default), the object is created by
+            calling the constructor. Can also be ``"__new__"`` or the
+            name of a class method.
+        **kwargs: Keyword arguments to pass to the class constructor
+            or function.
 
     Returns:
         The instantiated object with the given parameters.

@@ -173,17 +173,25 @@ class Registry:
     def factory(self, _target_: str, *args: Any, _init_: str = "__init__", **kwargs: Any) -> Any:
         r"""Instantiate dynamically an object given its configuration.
 
-        Please read the documentation for more information.
+        This method creates an instance of a registered class or calls
+        a registered function. The target can be specified using either
+        the short name or the fully qualified name. If the target is
+        not yet registered, it will attempt to import and register it
+        automatically.
 
         Args:
             _target_ : The name of the object (class or function) to
                 instantiate. It can be the class name or the full
-                class name.
-            *args: Variable length argument list.
-            _init_: The function to use to create the object.
-                If ``"__init__"``, the object is created by calling
-                the constructor.
-            **kwargs: Arbitrary keyword arguments.
+                class name. Supports name resolution for registered
+                objects.
+            *args: Positional arguments to pass to the class
+                constructor or function.
+            _init_: The function or method to use to create the object.
+                If ``"__init__"`` (default), the object is created by
+                calling the constructor. Can also be ``"__new__"`` or
+                the name of a class method.
+            **kwargs: Keyword arguments to pass to the class
+                constructor or function.
 
         Returns:
             The instantiated object with the given parameters.
@@ -214,8 +222,7 @@ class Registry:
         )
 
     def register(self, name: str | None = None) -> Callable:
-        r"""Define a decorator to add a class or a function to the
-        registry.
+        r"""Define a decorator to add a class or a function to the registry.
 
         Args:
             name: The name to use to register the object.
@@ -254,8 +261,7 @@ class Registry:
         return function_wrapper
 
     def register_child_classes(self, cls: type, ignore_abstract_class: bool = True) -> None:
-        r"""Register a given class and its child classes of a given
-        class.
+        r"""Register a given class and its child classes.
 
         This function registers all the child classes including the
         child classes of the child classes, etc. If you use this
@@ -289,13 +295,18 @@ class Registry:
     def register_object(self, obj: type | Callable, name: str | None = None) -> None:
         r"""Register an object.
 
-        Please read the documentation for more information.
+        This method adds a class or function to the registry, making
+        it available for instantiation through the factory method. You
+        can optionally specify a custom name for the object; otherwise,
+        its fully qualified name will be used. If a class filter is
+        set, the object must be a subclass of the filter class.
 
         Args:
-            obj: The object to register. The object is expected to
-                be a class or a function.
+            obj: The object to register. The object must be a class
+                or a function (not a lambda function).
             name: The name to use to register the object. If ``None``,
-                the full name of the object is used as name.
+                the fully qualified name of the object is used.
+                Cannot conflict with sub-registry names.
 
         Example usage:
 
@@ -371,10 +382,15 @@ class Registry:
     def unregister(self, name: str) -> None:
         r"""Remove a registered object.
 
+        This method removes a class or function from the registry. The
+        object will no longer be available for instantiation through
+        the factory method.
+
         Args:
-            name: The name of the object to remove. This function uses
-                the name resolution mechanism to find the full name if
-                only the short name is given.
+            name: The name of the object to remove. Can be either the
+                short name or the fully qualified name. This function
+                uses the name resolution mechanism to find the full
+                name if only the short name is given.
 
         Raises:
             UnregisteredObjectFactoryError: if the name does not
@@ -401,8 +417,7 @@ class Registry:
         self._state.pop(resolved_name)
 
     def set_class_filter(self, cls: type | None) -> None:
-        r"""Set the class filter so only the child classes of this class
-        can be registered.
+        r"""Set the class filter so only the child classes of this class can be registered.
 
         If you set this filter, you cannot register functions.
         To unset this filter, you can use ``set_class_filter(None)``.
@@ -438,8 +453,7 @@ class Registry:
         self._filters[self._CLASS_FILTER] = cls
 
     def _check_object(self, obj: type | Callable) -> None:
-        r"""Check if the object is valid for this registry before to
-        register it.
+        r"""Check if the object is valid for this registry before registering it.
 
         This function will raise an exception if the object is not
         valid.

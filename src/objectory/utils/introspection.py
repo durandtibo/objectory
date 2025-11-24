@@ -1,5 +1,9 @@
-r"""Utilities for introspecting Python objects and retrieving their
-fully qualified names."""
+r"""Utilities for introspecting Python objects and retrieving their fully qualified names.
+
+This module provides functions to retrieve information about Python
+objects, including their fully qualified names and checking if objects
+are lambda functions.
+"""
 
 from __future__ import annotations
 
@@ -12,11 +16,15 @@ from typing import Any
 def get_fully_qualified_name(obj: Any) -> str:
     r"""Return the fully qualified name of a Python object.
 
-    Supports functions, classes, methods, and instances.
-    For instances, returns the fully qualified class name.
+    This function computes the fully qualified name (module path +
+    object name) for various Python objects including functions,
+    classes, methods, and instances. For instances, it returns the
+    fully qualified name of their class. The format is
+    "module.path.ObjectName" (e.g., "collections.Counter").
 
     Args:
-        obj: The object whose name is to be computed.
+        obj: The object whose fully qualified name is to be computed.
+            Can be a class, function, method, or instance.
 
     Returns:
         The fully qualified name.
@@ -57,10 +65,14 @@ def get_fully_qualified_name(obj: Any) -> str:
 def is_lambda_function(obj: Any) -> bool:
     r"""Indicate if the object is a lambda function or not.
 
-    Adapted from https://stackoverflow.com/a/23852434
+    This function checks whether a given object is a lambda function
+    by examining its type and name. Lambda functions are not allowed
+    in factories because they cannot be reliably serialized or
+    referenced by name. Adapted from
+    https://stackoverflow.com/a/23852434
 
     Args:
-        obj: The object to check.
+        obj: The object to check. Can be any Python object.
 
     Returns:
         ``True`` if the input is a lambda function,

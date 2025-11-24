@@ -1,5 +1,8 @@
-r"""Implement the ``AbstractFactory`` metaclass used to create abstract
-factories."""
+r"""Implement the ``AbstractFactory`` metaclass used to create abstract factories.
+
+This module provides an abstract factory implementation that allows
+automatic registration and instantiation of classes and functions.
+"""
 
 from __future__ import annotations
 
@@ -31,8 +34,7 @@ logger = logging.getLogger(__name__)
 
 
 class AbstractFactory(ABCMeta):
-    r"""Implement the abstract factory metaclass to create automatically
-    factories.
+    r"""Implement the abstract factory metaclass to create factories automatically.
 
     Please read the documentation about this abstract factory to
     learn how it works and how to use it.
@@ -104,17 +106,25 @@ class AbstractFactory(ABCMeta):
     def factory(cls, _target_: str, *args: Any, _init_: str = "__init__", **kwargs: Any) -> Any:
         r"""Instantiate dynamically an object given its configuration.
 
-        Please read the documentation for more information.
+        This method creates an instance of a registered class or calls
+        a registered function. The target can be specified using either
+        the short name (e.g., "MyClass") or the fully qualified name
+        (e.g., "mymodule.MyClass"). If the target is not yet registered,
+        it will attempt to import and register it automatically.
 
         Args:
             _target_: The name of the object (class or function) to
                 instantiate. It can be the class name or the full
-                class name.
-            *args: Variable length argument list.
-            _init_: The function to use to create the object.
-                If ``"__init__"``, the object is created by calling
-                the constructor.
-            **kwargs: Arbitrary keyword arguments.
+                class name. Supports name resolution for registered
+                objects.
+            *args: Positional arguments to pass to the class
+                constructor or function.
+            _init_: The function or method to use to create the object.
+                If ``"__init__"`` (default), the object is created by
+                calling the constructor. Can also be ``"__new__"`` or
+                the name of a class method.
+            **kwargs: Keyword arguments to pass to the class
+                constructor or function.
 
         Returns:
             The instantiated object with the given parameters.
@@ -147,20 +157,24 @@ class AbstractFactory(ABCMeta):
         )
 
     def register_object(cls, obj: type | Callable) -> None:
-        r"""Register a class or function to the factory. It is useful if
-        you are using a 3rd party library.
+        r"""Register a class or function to the factory.
 
-        For example, you use a 3rd party library, and you cannot
-        modify the classes to add ``AbstractFactory``. You can use
-        this function to register some classes or functions of a
-        3rd party library.
+        This method manually registers a class or function with the
+        factory, making it available for instantiation. This is
+        particularly useful when working with third-party libraries
+        where you cannot modify the source code to inherit from the
+        factory. The object is registered using its fully qualified
+        name. If an object with the same name already exists, it will
+        be replaced with a warning.
 
         Args:
             obj: The class or function to register to the factory.
+                Must be a valid class or function object (not a lambda
+                function).
 
         Raises:
-            IncorrectObjectAbstractFactoryError: if the object
-                is not a class.
+            IncorrectObjectAbstractFactoryError: if the object is not
+                a class or function, or if it is a lambda function.
 
         Example usage:
 
@@ -192,10 +206,15 @@ class AbstractFactory(ABCMeta):
     def unregister(cls, name: str) -> None:
         r"""Remove a registered object from the factory.
 
-        This is an experimental function and may change in the future.
+        This method removes a class or function from the factory's
+        registry. The object will no longer be available for
+        instantiation through the factory. This is an experimental
+        function and may change in the future.
 
         Args:
-            name: The name of the object to remove. This function uses
+            name: The name of the object to remove. Can be either the
+                short name (e.g., "MyClass") or the fully qualified
+                name (e.g., "mymodule.MyClass"). This function uses
                 the name resolution mechanism to find the full name if
                 only the short name is given.
 
@@ -281,8 +300,7 @@ class AbstractFactory(ABCMeta):
         return name in cls._abstractfactory_inheritors
 
     def _abstractfactory_check_object(cls, obj: type) -> None:
-        r"""Check if the object is valid for this factory before to
-        register it.
+        r"""Check if the object is valid for this factory before registering it.
 
         This function will raise an exception if the object is not
         valid.
