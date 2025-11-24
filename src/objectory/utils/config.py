@@ -1,4 +1,5 @@
-r"""Implement a function to check if a configuration matches a given class.
+r"""Implement a function to check if a configuration matches a given
+class.
 
 This module provides functionality to indicate if the input
 configuration is a configuration for a given class.
@@ -18,7 +19,8 @@ from objectory.utils.instantiation import import_object
 
 
 def is_object_config(config: dict, cls: type) -> bool:
-    r"""Indicate if the input configuration is a configuration for a given class.
+    r"""Indicate if the input configuration is a configuration for a
+    given class.
 
     This function only checks if the value of the key  ``_target_``
     is valid. It does not check the other values. If ``_target_``
