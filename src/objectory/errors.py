@@ -14,28 +14,42 @@ __all__ = [
 
 
 class FactoryError(Exception):
-    r"""Define an exception that can be used to catch all the factory
-    errors."""
+    r"""Define an exception that can be used to catch all factory errors.
+
+    This is the base exception for all factory-related errors.
+    """
 
 
 class UnregisteredObjectFactoryError(FactoryError):
-    r"""Define an exception that is raised when you try to initialize or
-    unregister an object which is not registered to the factory."""
+    r"""Define an exception that is raised when you try to initialize or unregister an object.
+
+    This exception is raised when you try to initialize or unregister an
+    object which is not registered to the factory.
+    """
 
 
 class IncorrectObjectFactoryError(FactoryError):
-    r"""Define an exception that is raised when you try to register an
-    object which cannot be registered."""
+    r"""Define an exception that is raised when you try to register an invalid object.
+
+    This exception is raised when you try to register an object which
+    cannot be registered.
+    """
 
 
 class AbstractClassFactoryError(FactoryError):
-    r"""Define an exception that is raised when you try to initialize an
-    abstract class."""
+    r"""Define an exception that is raised when you try to initialize an abstract class.
+
+    This exception is raised when you try to initialize an abstract
+    class that cannot be instantiated.
+    """
 
 
 class InvalidNameFactoryError(FactoryError):
-    r"""Define an exception that is raised when you try to use an
-    invalid name to register an object to a factory."""
+    r"""Define an exception that is raised when you try to use an invalid name.
+
+    This exception is raised when you try to use an invalid name to
+    register an object to a factory.
+    """
 
 
 ###########################
@@ -44,8 +58,11 @@ class InvalidNameFactoryError(FactoryError):
 
 
 class AbstractFactoryTypeError(FactoryError):
-    r"""Define an exception that is raised when an object does not of
-    type ``AbstractFactory``."""
+    r"""Define an exception that is raised when an object is not of the correct type.
+
+    This exception is raised when an object is not of type
+    ``AbstractFactory``.
+    """
 
 
 ####################
@@ -54,5 +71,8 @@ class AbstractFactoryTypeError(FactoryError):
 
 
 class InvalidAttributeRegistryError(FactoryError):
-    r"""Define an exception that is raised when you try to access a non
-    Registry object in the registry."""
+    r"""Define an exception that is raised when you try to access an invalid attribute.
+
+    This exception is raised when you try to access a non-Registry
+    object in the registry.
+    """

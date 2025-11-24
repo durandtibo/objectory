@@ -1,4 +1,4 @@
-"""Implement the name resolution mechanism.
+r"""Implement the name resolution mechanism.
 
 Please read the documentation to learn more about the name resolution
 mechanism.
@@ -16,17 +16,21 @@ from objectory.utils.introspection import get_fully_qualified_name
 def resolve_name(name: str, object_names: set[str], allow_import: bool = True) -> str | None:
     r"""Find a match of the query name in the set of object names.
 
-    The resolution is successful only if there is only one object
-    name that can match with the query name.
-    Please read the documentation to learn more about the name
-    resolution mechanism.
+    This function implements a name resolution mechanism that allows
+    short names (e.g., "MyClass") to be resolved to fully qualified
+    names (e.g., "mymodule.MyClass"). The resolution is successful
+    only if there is exactly one object name that matches the query.
+    If the name is a fully qualified name not in the set, it will
+    attempt to import the module and return the resolved name.
 
     Args:
         name: The query name to use to find a match in the set of
-            object names.
-        object_names: The set of object names.
-        allow_import: If ``True``, the parent package is installed
-            if it was not imported previously.
+            object names. Can be a short name or fully qualified name.
+        object_names: The set of registered object names to search
+            through.
+        allow_import: If ``True`` (default), the function will attempt
+            to import the module if the name appears to be a fully
+            qualified name not in the set.
 
     Returns:
         The resolved name if the resolution was successful,
@@ -62,16 +66,17 @@ def resolve_name(name: str, object_names: set[str], allow_import: bool = True) -
 def find_matches(query: str, object_names: set[str]) -> set[str]:
     r"""Find the set of potential names that ends with the given query.
 
-    This function is used when the user only specify a valid object
-    identifier. For example, the user only gives the class name
-    instead of the full name (module name + class name).
-    This function will try to find the list of registered objects
-    that can match with the query name.
+    This function searches for all registered object names that end
+    with the given query string. It is used when a short identifier
+    is provided (e.g., "MyClass") to find all fully qualified names
+    that could match (e.g., "pkg1.MyClass", "pkg2.MyClass"). The
+    query must be a valid Python identifier.
 
     Args:
-        query: The query.
-        object_names: The set of object names where to look for the
-            query.
+        query: The query string to search for. Must be a valid Python
+            identifier (e.g., "MyClass", not "pkg.MyClass").
+        object_names: The set of registered object names to search
+            through.
 
     Returns:
         The list of names that matches with the query.
