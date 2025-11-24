@@ -222,7 +222,8 @@ class Registry:
         )
 
     def register(self, name: str | None = None) -> Callable:
-        r"""Define a decorator to add a class or a function to the registry.
+        r"""Define a decorator to add a class or a function to the
+        registry.
 
         Args:
             name: The name to use to register the object.
@@ -417,7 +418,8 @@ class Registry:
         self._state.pop(resolved_name)
 
     def set_class_filter(self, cls: type | None) -> None:
-        r"""Set the class filter so only the child classes of this class can be registered.
+        r"""Set the class filter so only the child classes of this class
+        can be registered.
 
         If you set this filter, you cannot register functions.
         To unset this filter, you can use ``set_class_filter(None)``.
@@ -453,7 +455,8 @@ class Registry:
         self._filters[self._CLASS_FILTER] = cls
 
     def _check_object(self, obj: type | Callable) -> None:
-        r"""Check if the object is valid for this registry before registering it.
+        r"""Check if the object is valid for this registry before
+        registering it.
 
         This function will raise an exception if the object is not
         valid.

@@ -1,4 +1,5 @@
-r"""Utilities for introspecting Python objects and retrieving their fully qualified names.
+r"""Utilities for introspecting Python objects and retrieving their fully
+qualified names.
 
 This module provides functions to retrieve information about Python
 objects, including their fully qualified names and checking if objects

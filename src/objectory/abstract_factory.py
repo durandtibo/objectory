@@ -1,4 +1,5 @@
-r"""Implement the ``AbstractFactory`` metaclass used to create abstract factories.
+r"""Implement the ``AbstractFactory`` metaclass used to create abstract
+factories.
 
 This module provides an abstract factory implementation that allows
 automatic registration and instantiation of classes and functions.
@@ -34,7 +35,8 @@ logger = logging.getLogger(__name__)
 
 
 class AbstractFactory(ABCMeta):
-    r"""Implement the abstract factory metaclass to create factories automatically.
+    r"""Implement the abstract factory metaclass to create factories
+    automatically.
 
     Please read the documentation about this abstract factory to
     learn how it works and how to use it.
@@ -300,7 +302,8 @@ class AbstractFactory(ABCMeta):
         return name in cls._abstractfactory_inheritors
 
     def _abstractfactory_check_object(cls, obj: type) -> None:
-        r"""Check if the object is valid for this factory before registering it.
+        r"""Check if the object is valid for this factory before
+        registering it.
 
         This function will raise an exception if the object is not
         valid.
