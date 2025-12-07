@@ -95,16 +95,12 @@ def main() -> None:
 
     # Example 4: Create objects from main registry
     print("\n4. Creating EmailNotifier:")
-    notifier = registry.factory(
-        _target_="EmailNotifier", smtp_server="smtp.example.com"
-    )
+    notifier = registry.factory(_target_="EmailNotifier", smtp_server="smtp.example.com")
     print(f"   {notifier.notify('Hello from Email!')}")
 
     # Example 5: Create objects from sub-registry
     print("\n5. Creating TwilioSMSNotifier:")
-    notifier = registry.sms.factory(
-        _target_="TwilioSMSNotifier", account_sid="AC123456"
-    )
+    notifier = registry.sms.factory(_target_="TwilioSMSNotifier", account_sid="AC123456")
     print(f"   {notifier.notify('Hello from SMS!')}")
 
     # Example 6: Create with custom name

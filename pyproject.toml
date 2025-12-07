@@ -258,6 +258,11 @@ src = ["src"]
     "PL", # Pylint
     "S101", # flake8-bandit
 ]
+# Allow print statements and /tmp paths in examples
+"examples/**" = [
+    "T20", # flake8-print
+    "S108", # hardcoded-temp-file
+]
 
 [tool.ruff.lint.mccabe]
 max-complexity = 10

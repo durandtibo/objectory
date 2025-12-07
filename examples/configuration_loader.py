@@ -22,11 +22,13 @@ CONFIGS = {
     },
     "cache": {"_target_": "collections.defaultdict", "default_factory": int},
     "data_structures": {
-        "counter": {"_target_": "collections.Counter", "": [1, 2, 2, 3, 3, 3]},
-        "deque": {"_target_": "collections.deque", "": [1, 2, 3], "maxlen": 5},
-        "chain_map": {
-            "_target_": "collections.ChainMap",
-            "": [{"a": 1}, {"b": 2}, {"c": 3}],
+        "counter": {"_target_": "collections.Counter"},
+        "deque": {"_target_": "collections.deque", "maxlen": 5},
+        "ordered_dict": {
+            "_target_": "collections.OrderedDict",
+            "a": 1,
+            "b": 2,
+            "c": 3,
         },
     },
 }
@@ -51,22 +53,22 @@ def load_object_from_config(config: dict[str, Any]) -> Any:
     args = []
     if "" in config:
         args_value = config.pop("")
-        if isinstance(args_value, list):
-            args = args_value
-        else:
-            args = [args_value]
+        args = args_value if isinstance(args_value, list) else [args_value]
 
     # Handle special case for default_factory (needs to be a callable)
     if "default_factory" in config:
-        factory_name = config.pop("default_factory")
-        if isinstance(factory_name, str):
-            # Import the callable
-            if factory_name == "int":
-                config["default_factory"] = int
-            elif factory_name == "list":
-                config["default_factory"] = list
-            elif factory_name == "dict":
-                config["default_factory"] = dict
+        factory_obj = config.pop("default_factory")
+        if isinstance(factory_obj, str):
+            # Import the callable and add it as first argument for defaultdict
+            if factory_obj == "int":
+                args.insert(0, int)
+            elif factory_obj == "list":
+                args.insert(0, list)
+            elif factory_obj == "dict":
+                args.insert(0, dict)
+        elif callable(factory_obj):
+            # If it's already a callable, use it directly
+            args.insert(0, factory_obj)
 
     # Create the object
     return factory(target, *args, **config)
@@ -110,6 +112,9 @@ def main() -> None:
     print("\n2. Loading cache configuration as defaultdict:")
     cache_config = CONFIGS["cache"].copy()
     cache_obj = load_object_from_config(cache_config)
+    # Access keys to demonstrate default factory behavior
+    _ = cache_obj["hits"]  # This will create entry with default value 0
+    _ = cache_obj["misses"]  # This will create entry with default value 0
     cache_obj["hits"] += 5
     cache_obj["misses"] += 2
     print(f"   Type: {type(cache_obj).__name__}")
@@ -129,7 +134,7 @@ def main() -> None:
         _target_: collections.OrderedDict
         host: db.example.com
         port: 5432
-    
+
     Cache Config:
         _target_: collections.defaultdict
         default_factory: int
@@ -171,7 +176,8 @@ def main() -> None:
     print("\n" + "=" * 60)
     print("Configuration Loading Best Practices:")
     print("=" * 60)
-    print("""
+    print(
+        """
 1. Always validate configurations before loading
 2. Use '_target_' key to specify the fully qualified name
 3. Store positional args with empty string key: "": [arg1, arg2]
@@ -179,7 +185,8 @@ def main() -> None:
 5. Consider using a schema validator (e.g., Pydantic)
 6. Log loaded configurations for debugging
 7. Use try-except blocks for error handling
-    """)
+    """
+    )
 
     print("All examples completed successfully!")
     print("=" * 60)

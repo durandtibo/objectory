@@ -157,9 +157,7 @@ def main() -> None:
     print("\n2. Validation and filtering pipeline:")
     manager.clear_plugins()
 
-    manager.load_plugin(
-        {"_target_": "ValidationPlugin", "required_keys": ["message", "user"]}
-    )
+    manager.load_plugin({"_target_": "ValidationPlugin", "required_keys": ["message", "user"]})
     manager.load_plugin({"_target_": "FilterPlugin", "min_length": 5})
     manager.load_plugin({"_target_": "LoggingPlugin"})
 
@@ -171,9 +169,7 @@ def main() -> None:
 
     # Test with invalid data
     manager.clear_plugins()
-    manager.load_plugin(
-        {"_target_": "ValidationPlugin", "required_keys": ["message", "user"]}
-    )
+    manager.load_plugin({"_target_": "ValidationPlugin", "required_keys": ["message", "user"]})
     context = {"message": "Hi"}
     print(f"\nInvalid data: {context}")
     result = manager.execute_pipeline(context)

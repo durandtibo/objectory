@@ -107,7 +107,7 @@ def main() -> None:
     print("\n6. Factory can be called from any child class:")
     processor = UppercaseProcessor.factory("LowercaseProcessor")
     result = processor.process(data)
-    print(f"   Created LowercaseProcessor from UppercaseProcessor.factory()")
+    print("   Created LowercaseProcessor from UppercaseProcessor.factory()")
     print(f"   Output: {result}")
 
     print("\n" + "=" * 60)
