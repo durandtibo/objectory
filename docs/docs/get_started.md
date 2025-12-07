@@ -4,60 +4,128 @@ It is highly recommended to install in
 a [virtual environment](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/)
 to keep your system in order.
 
+## Requirements
+
+- Python >= 3.10
+- tornado >= 6.0, < 7.0
+
 ## Installing with `pip` (recommended)
 
-The following command installs the latest version of the library:
+The following command installs the latest stable version of the library:
 
 ```shell
 pip install objectory
 ```
 
+To install the latest development version from GitHub:
+
+```shell
+pip install git+https://github.com/durandtibo/objectory.git
+```
+
+To install a specific version:
+
+```shell
+pip install objectory==0.2.2
+```
+
+## Verifying Installation
+
+After installation, you can verify that objectory is correctly installed by running:
+
+```python
+python -c "import objectory; print(objectory.__version__)"
+```
+
+Or try a simple example:
+
+```python
+from objectory import factory
+
+# Create a Counter object from the standard library
+counter = factory("collections.Counter", [1, 2, 1, 3])
+print(counter)  # Output: Counter({1: 2, 2: 1, 3: 1})
+```
 
 ## Installing from source
 
-To install `objectory` from source, you can follow the steps below. First, you will need to
-install [`poetry`](https://python-poetry.org/docs/master/). `poetry` is used to manage and install
-the dependencies.
-If `poetry` is already installed on your machine, you can skip this step. There are several ways to
-install `poetry` so you can use the one that you prefer. You can check the `poetry` installation by
-running the following command:
+To install `objectory` from source, you can follow the steps below.
+
+### Prerequisites
+
+This project uses [`uv`](https://docs.astral.sh/uv/) for dependency management. If you don't have it installed, you can install it with:
 
 ```shell
-poetry --version
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-Then, you can clone the git repository:
+Or on Windows:
+
+```powershell
+powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+
+### Clone the Repository
 
 ```shell
 git clone git@github.com:durandtibo/objectory.git
+cd objectory
 ```
 
-It is recommended to create a Python 3.8+ virtual environment. This step is optional so you
-can skip it. To create a virtual environment, you can use the following command:
+### Create a Virtual Environment
+
+It is recommended to create a Python 3.10+ virtual environment:
+
+```shell
+make setup-venv
+```
+
+This command creates a virtual environment using `uv` and installs all dependencies including development tools.
+
+Alternatively, you can create a conda virtual environment:
 
 ```shell
 make conda
-```
-
-It automatically creates a conda virtual environment. When the virtual environment is created, you
-can activate it with the following command:
-
-```shell
 conda activate objectory
+make install
 ```
 
-This example uses `conda` to create a virtual environment, but you can use other tools or
-configurations. Then, you should install the required package to use `objectory` with the following
-command:
+### Install Dependencies
+
+To install only the core dependencies:
 
 ```shell
 make install
 ```
 
-This command will install all the required packages. You can also use this command to update the
-required packages. This command will check if there is a more recent package available and will
-install it. Finally, you can test the installation with the following command:
+To install all dependencies including documentation tools:
+
+```shell
+make install-all
+```
+
+### Verify Installation
+
+You can test the installation with the following command:
 
 ```shell
 make unit-test-cov
 ```
+
+This will run the test suite with coverage reporting.
+
+## Development Setup
+
+If you plan to contribute to objectory, please also install the development tools:
+
+```shell
+pip install -e ".[dev,docs]"
+```
+
+Then install the pre-commit hooks:
+
+```shell
+pre-commit install
+```
+
+See [CONTRIBUTING.md](https://github.com/durandtibo/objectory/blob/main/.github/CONTRIBUTING.md) for more information about contributing.

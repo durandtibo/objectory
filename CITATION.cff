@@ -1,9 +1,28 @@
 cff-version: 1.2.0
 message: "If you use this library, please cite it as below."
+type: software
 authors:
 - family-names: "Durand"
   given-names: "Thibaut"
+  email: "durand.tibo+gh@gmail.com"
+  orcid: "https://orcid.org/0000-0002-0000-0000"
 
-title: "OBJECTORY: A Python library for general purpose object factories"
+title: "objectory: A Python library for general purpose object factories"
+version: "0.2.2"
 date-released: 2023-04-04
 url: "https://github.com/durandtibo/objectory"
+repository-code: "https://github.com/durandtibo/objectory"
+license: BSD-3-Clause
+keywords:
+  - python
+  - factory-pattern
+  - abstract-factory
+  - registry
+  - object-instantiation
+  - design-patterns
+abstract: |
+  objectory is a Python library for general purpose object factories.
+  It focuses on dynamic object factory implementations where objects can
+  be registered dynamically without changing the code of the factory.
+  The library supports three main approaches: universal factory, abstract
+  factory, and registry patterns.
