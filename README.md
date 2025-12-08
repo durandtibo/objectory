@@ -17,7 +17,7 @@
     <a href="https://durandtibo.github.io/objectory/">
         <img alt="Documentation" src="https://github.com/durandtibo/objectory/workflows/Documentation%20(stable)/badge.svg">
     </a>
-    <a href="https://durandtibo.github.io/objectory/">
+    <a href="https://durandtibo.github.io/objectory/dev/">
         <img alt="Documentation" src="https://github.com/durandtibo/objectory/workflows/Documentation%20(unstable)/badge.svg">
     </a>
     <br/>
