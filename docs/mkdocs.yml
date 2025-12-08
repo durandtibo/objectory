@@ -20,9 +20,11 @@ nav:
   - Home: index.md
   - get_started.md
   - User Guide:
+      - universal_factory.md
       - abstract_factory.md
       - registry.md
       - name_resolution.md
+  - faq.md
   - Reference:
       - refs/index.md
       - refs/abstract_factory.md
