@@ -189,8 +189,6 @@ cache = factory(**config["cache"])
 print(type(cache))  # <class 'collections.defaultdict'>
 ```
 
-See the [configuration_loader.py example](https://github.com/durandtibo/objectory/blob/main/examples/configuration_loader.py) for more details.
-
 ## Best Practices
 
 ### 1. Use Full Qualified Names
@@ -310,4 +308,3 @@ path = create_path()
 - [AbstractFactory](abstract_factory.md) - For inheritance-based factories
 - [Registry](registry.md) - For manual registration with more control
 - [Name Resolution](name_resolution.md) - Understanding how names are resolved
-- [Examples](https://github.com/durandtibo/objectory/tree/main/examples) - Practical usage examples

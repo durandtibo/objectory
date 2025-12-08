@@ -113,7 +113,6 @@ approaches.
 
 - [Documentation](https://durandtibo.github.io/objectory/)
 - [Installation](#installation)
-- [Examples](examples/)
 - [Contributing](#contributing)
 - [API stability](#api-stability)
 - [License](#license)

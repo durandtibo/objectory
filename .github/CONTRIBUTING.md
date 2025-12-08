@@ -130,7 +130,6 @@ Then open http://localhost:8000 in your browser.
 - Update docstrings for any changed functions/classes
 - Add examples to docstrings when helpful
 - Update user guide pages for API changes
-- Add new examples to the `examples/` directory for significant features
 - Keep documentation clear and concise
 
 ## Issues
@@ -192,7 +191,6 @@ Releases are handled by maintainers:
 - Check the [FAQ](../docs/docs/faq.md)
 - Browse [existing issues](https://github.com/durandtibo/objectory/issues)
 - Open a [discussion](https://github.com/durandtibo/objectory/discussions)
-- Look at [examples](../examples/)
 
 ## License
 

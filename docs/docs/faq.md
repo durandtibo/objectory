@@ -146,8 +146,6 @@ with open("config.yaml") as f:
 obj = factory(**config)
 ```
 
-See the [configuration_loader.py](https://github.com/durandtibo/objectory/blob/main/examples/configuration_loader.py) example for more details.
-
 ## Advanced Questions
 
 ### How does name resolution work?
@@ -166,7 +164,7 @@ Yes, but be careful with registration. Register objects before starting threads 
 
 ### How do I create a plugin system with objectory?
 
-Check out the [plugin_system.py](https://github.com/durandtibo/objectory/blob/main/examples/plugin_system.py) example, which shows a complete plugin architecture.
+You can create a plugin system by using the AbstractFactory metaclass or Registry to register plugin classes dynamically, then instantiate them using the factory pattern based on configuration.
 
 ### Can I register functions, not just classes?
 
@@ -327,4 +325,4 @@ Yes! Open a [feature request issue](https://github.com/durandtibo/objectory/issu
 
 ### Are there more examples?
 
-Yes! Check the [examples directory](https://github.com/durandtibo/objectory/tree/main/examples) for practical examples covering various use cases.
+Check the documentation for code examples throughout the user guide pages (abstract factory, registry, universal factory, etc.).

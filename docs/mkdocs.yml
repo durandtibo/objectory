@@ -30,7 +30,6 @@ nav:
       - refs/abstract_factory.md
       - refs/registry.md
       - refs/utils.md
-  - Examples: https://github.com/durandtibo/objectory/tree/main/examples
   - GitHub: https://github.com/durandtibo/objectory
 
 repo_url: https://github.com/durandtibo/objectory
