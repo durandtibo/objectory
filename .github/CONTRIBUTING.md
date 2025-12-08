@@ -178,14 +178,13 @@ We follow the [Code of Conduct](../CODE_OF_CONDUCT.md).
 Releases are handled by maintainers:
 
 1. Update version in `pyproject.toml`
-2. Update `CHANGELOG.md`
-3. Create a git tag
-4. Publish to PyPI
-5. Update documentation
+2. Create a git tag
+3. Publish to PyPI
+4. Update documentation
 
 ## Getting Help
 
-- Check the [FAQ](../docs/docs/faq.md)
+- Check the [FAQ](../docs/docs/user/faq.md)
 - Browse [existing issues](https://github.com/durandtibo/objectory/issues)
 - Open a [discussion](https://github.com/durandtibo/objectory/discussions)
 

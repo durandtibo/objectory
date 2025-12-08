@@ -75,7 +75,7 @@ obj = factory("MyClass")
 print(obj)
 ```
 
-**[abstract factory](abstract_factory.md)**
+**[abstract factory](user/abstract_factory.md)**
 
 ```python
 from objectory import AbstractFactory
@@ -99,7 +99,7 @@ print(obj)
 <__main__.MyClass object at 0x...>
 ```
 
-**[registry](registry.md)**
+**[registry](user/registry.md)**
 
 ```python
 from objectory import Registry
