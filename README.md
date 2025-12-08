@@ -15,10 +15,10 @@
     </a>
     <br/>
     <a href="https://durandtibo.github.io/objectory/">
-        <img alt="Documentation" src="https://github.com/durandtibo/objectory/workflows/Documentation%20(stable)/badge.svg">
+        <img alt="Documentation" src="https://github.com/durandtibo/objectory/actions/workflows/docs.yaml/badge.svg">
     </a>
     <a href="https://durandtibo.github.io/objectory/dev/">
-        <img alt="Documentation" src="https://github.com/durandtibo/objectory/workflows/Documentation%20(unstable)/badge.svg">
+        <img alt="Documentation" src="https://github.com/durandtibo/objectory/actions/workflows/docs-dev.yaml/badge.svg">
     </a>
     <br/>
     <a href="https://github.com/psf/black">
