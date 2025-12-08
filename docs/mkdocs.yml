@@ -25,6 +25,7 @@ nav:
       - registry.md
       - name_resolution.md
   - faq.md
+  - github_workflows.md
   - Reference:
       - refs/index.md
       - refs/abstract_factory.md

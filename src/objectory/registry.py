@@ -267,14 +267,14 @@ class Registry:
         This function registers all the child classes including the
         child classes of the child classes, etc. If you use this
         function, you cannot choose the names used to register the
-        objects. It will use the full name of each object.
+        objects. It will use the fully qualified name of each object.
 
         Args:
-            cls: The class to register its child classes.
-            ignore_abstract_class: Indicate if the abstract
-                class should be ignored or not. Be default, the
-                abstract classes are not registered because they
-                cannot be instantiated.
+            cls: The class to register along with its child classes.
+            ignore_abstract_class: Indicate if the abstract classes
+                should be ignored or not. By default, the abstract
+                classes are not registered because they cannot be
+                instantiated.
 
         Example usage:
 
@@ -482,7 +482,7 @@ class Registry:
             raise IncorrectObjectFactoryError(msg)
 
     def _get_target_from_name(self, name: str) -> Any:
-        r"""Get the class or function to used given its name.
+        r"""Get the class or function to use given its name.
 
         Args:
             name: The name of the class or function.
@@ -507,7 +507,7 @@ class Registry:
         return self._state[resolved_name]
 
     def _is_name_registered(self, name: str) -> bool:
-        r"""Indicate if the name exists or not in the registry .
+        r"""Indicate if the name exists or not in the registry.
 
         Args:
             name: The name to check.
@@ -518,13 +518,13 @@ class Registry:
         return name in self._state
 
     def _is_registry(self, name: str) -> bool:
-        r"""Indicate if the given is used as sub-registry.
+        r"""Indicate if the given name is used as a sub-registry.
 
         Args:
             name: The name to check.
 
         Returns:
-            ``True`` if the name is used as sub-registry,
+            ``True`` if the name is used as a sub-registry,
                 otherwise ``False``.
         """
         return isinstance(self._state[name], Registry)
