@@ -335,9 +335,3 @@ Please describe:
 
 - Open a [discussion](https://github.com/durandtibo/objectory/discussions) on GitHub
 - Open an [issue](https://github.com/durandtibo/objectory/issues) for bugs or feature requests
-- Check existing documentation and examples
-
-### Are there more examples?
-
-Check the documentation for code examples throughout the user guide pages (abstract factory,
-registry, universal factory, etc.).

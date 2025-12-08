@@ -24,8 +24,8 @@ nav:
       - abstract_factory.md
       - registry.md
       - name_resolution.md
-  - faq.md
-  - github_workflows.md
+  - FAQ:
+    - faq.md
   - Reference:
       - refs/index.md
       - refs/abstract_factory.md
