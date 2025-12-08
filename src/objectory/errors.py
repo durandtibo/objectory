@@ -21,10 +21,10 @@ class FactoryError(Exception):
 
 
 class UnregisteredObjectFactoryError(FactoryError):
-    r"""Define an exception that is raised when you try to initialize or
+    r"""Define an exception that is raised when you try to instantiate or
     unregister an object.
 
-    This exception is raised when you try to initialize or unregister an
+    This exception is raised when you try to instantiate or unregister an
     object which is not registered to the factory.
     """
 
@@ -39,10 +39,10 @@ class IncorrectObjectFactoryError(FactoryError):
 
 
 class AbstractClassFactoryError(FactoryError):
-    r"""Define an exception that is raised when you try to initialize an
+    r"""Define an exception that is raised when you try to instantiate an
     abstract class.
 
-    This exception is raised when you try to initialize an abstract
+    This exception is raised when you try to instantiate an abstract
     class that cannot be instantiated.
     """
 
