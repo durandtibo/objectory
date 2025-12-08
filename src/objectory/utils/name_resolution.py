@@ -64,7 +64,7 @@ def resolve_name(name: str, object_names: set[str], allow_import: bool = True) -
 
 
 def find_matches(query: str, object_names: set[str]) -> set[str]:
-    r"""Find the set of potential names that ends with the given query.
+    r"""Find the set of potential names that end with the given query.
 
     This function searches for all registered object names that end
     with the given query string. It is used when a short identifier
@@ -79,7 +79,7 @@ def find_matches(query: str, object_names: set[str]) -> set[str]:
             through.
 
     Returns:
-        The list of names that matches with the query.
+        The set of names that match with the query.
 
     Example usage:
 

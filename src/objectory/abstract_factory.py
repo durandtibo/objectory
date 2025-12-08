@@ -247,7 +247,7 @@ class AbstractFactory(ABCMeta):
         cls._abstractfactory_inheritors.pop(resolved_name)
 
     def _abstractfactory_get_target_from_name(cls, name: str) -> type | Callable:
-        """Get the class or function to used given its name.
+        """Get the class or function to use given its name.
 
         Args:
             name: The name of the class or function.
@@ -291,13 +291,13 @@ class AbstractFactory(ABCMeta):
         return resolve_name(name, set(cls._abstractfactory_inheritors.keys()))
 
     def _abstractfactory_is_name_registered(cls, name: str) -> bool:
-        r"""Indicate if the name exists or not in the factory .
+        r"""Indicate if the name exists or not in the factory.
 
         Args:
             name: The name to check.
 
         Returns:
-            ``True`` if the name exists otherwise ``False``.
+            ``True`` if the name exists, otherwise ``False``.
         """
         return name in cls._abstractfactory_inheritors
 
@@ -329,12 +329,12 @@ class AbstractFactory(ABCMeta):
 def register(cls: AbstractFactory) -> Callable:
     r"""Define a decorator to register a function to a factory.
 
-    This decorator is designed to register functions that returns
+    This decorator is designed to register functions that return
     an object of a class registered in the factory.
 
     Args:
-        cls (objectory.AbstractFactory): The class where to
-            register the function.
+        cls: The class where to register the function. Must be a
+            class that uses the ``AbstractFactory`` metaclass.
 
     Returns:
         The decorated function.
@@ -367,17 +367,17 @@ def register(cls: AbstractFactory) -> Callable:
 def register_child_classes(
     factory_cls: AbstractFactory | type, cls: type, ignore_abstract_class: bool = True
 ) -> None:
-    r"""Register the given class and its child classes of a given class.
+    r"""Register the given class and its child classes.
 
     This function registers all the child classes including the child
     classes of the child classes, etc.
 
     Args:
-        factory_cls: The factory class. The child classes
-            will be registered to this class.
-        cls: The class to register its child classes.
-        ignore_abstract_class: Indicate if the abstract class
-            should be ignored or not. Be default, the abstract classes
+        factory_cls: The factory class. The child classes will be
+            registered to this class.
+        cls: The class to register along with its child classes.
+        ignore_abstract_class: Indicate if the abstract classes
+            should be ignored or not. By default, the abstract classes
             are not registered because they cannot be instantiated.
 
     Raises:
