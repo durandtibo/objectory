@@ -180,7 +180,7 @@ class Registry:
         automatically.
 
         Args:
-            _target_ : The name of the object (class or function) to
+            _target_: The name of the object (class or function) to
                 instantiate. It can be the class name or the full
                 class name. Supports name resolution for registered
                 objects.

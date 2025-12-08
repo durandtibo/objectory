@@ -269,8 +269,6 @@ from my_package import child1
 from my_package import child2
 ```
 
-Another solution is to use the [import package tool](#import-a-package).
-
 ## Factory
 
 This section explains how to instantiate dynamically a class registered in a `AbstractFactory`.
