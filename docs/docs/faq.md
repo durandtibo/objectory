@@ -30,6 +30,12 @@ objectory supports Python 3.10 and later. See the [get_started](get_started.md) 
 
 ### How do I install objectory?
 
+Using `uv`:
+```shell
+uv pip install objectory
+```
+
+Using `pip`:
 ```shell
 pip install objectory
 ```
@@ -53,11 +59,14 @@ pip install -e .
 ```python
 from objectory import factory
 
-# Using full module path
+# Using full module path with positional arguments
 obj = factory("collections.Counter", [1, 2, 3])
 
-# With keyword arguments
+# Using a single positional argument
 obj = factory("pathlib.Path", "/tmp/example")
+
+# With keyword arguments
+obj = factory("collections.OrderedDict", a=1, b=2)
 ```
 
 ### Can I use custom class methods for initialization?
@@ -109,13 +118,13 @@ linear = BaseModule.factory("torch.nn.Linear", in_features=10, out_features=5)
 
 ### How do I see what's registered in a factory?
 
-For AbstractFactory:
+For `AbstractFactory`:
 
 ```python
 print(BaseClass.inheritors)
 ```
 
-For Registry:
+For `Registry`:
 
 ```python
 print(registry.registered_names())
@@ -153,7 +162,7 @@ See the [name resolution](name_resolution.md) documentation for details.
 
 ### Can I use objectory in a multithreaded environment?
 
-Yes, but be careful with registration. Register objects before starting threads to avoid race conditions. Factory calls themselves are thread-safe as they only read from the registry.
+Be careful with registration. Register objects before starting threads to avoid race conditions. Factory calls themselves are thread-safe as they only read from the registry.
 
 ### How do I create a plugin system with objectory?
 
@@ -161,7 +170,7 @@ Check out the [plugin_system.py](https://github.com/durandtibo/objectory/blob/ma
 
 ### Can I register functions, not just classes?
 
-Yes! Both AbstractFactory and Registry support function registration:
+Yes! Both `AbstractFactory` and `Registry` support function registration:
 
 ```python
 from objectory import Registry
@@ -177,13 +186,13 @@ result = registry.factory(_target_="my_function", x=1, y=2)
 
 ### How do I unregister objects?
 
-For AbstractFactory:
+For `AbstractFactory`:
 
 ```python
 BaseClass.unregister("MyClass")
 ```
 
-For Registry:
+For `Registry`:
 
 ```python
 registry.unregister("MyClass")
@@ -191,7 +200,7 @@ registry.unregister("MyClass")
 
 ### Can I clear all registered objects?
 
-For Registry:
+For `Registry`:
 
 ```python
 # Clear current registry
@@ -201,7 +210,7 @@ registry.clear()
 registry.clear(nested=True)
 ```
 
-For AbstractFactory, objects are registered permanently and cannot be cleared (this is by design).
+For `AbstractFactory`, objects are registered permanently and cannot be cleared (this is by design).
 
 ### How do I handle circular dependencies?
 

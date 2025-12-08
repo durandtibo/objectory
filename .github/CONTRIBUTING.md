@@ -46,16 +46,7 @@ Once you implement and test your feature or bug-fix, please submit a Pull Reques
    pre-commit install
    ```
 
-### Alternative setup with pip
 
-If you prefer using pip directly:
-
-```shell
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-pip install -e ".[dev,docs]"
-pre-commit install
-```
 
 ## Pull Requests
 
@@ -71,11 +62,11 @@ We actively welcome your pull requests.
    ```
 6. Make sure your code lints:
    ```shell
-   make lint
+   inv check-lint
    ```
 7. Format your code:
    ```shell
-   make format
+   inv check-format
    ```
 8. Run the pre-commit hooks:
    ```shell
@@ -109,17 +100,7 @@ Pre-commit hooks will automatically check formatting and run linters.
 
 Run all tests:
 ```shell
-make unit-test-cov
-```
-
-Run specific test file:
-```shell
-pytest tests/unit/test_abstract_factory.py
-```
-
-Run tests with specific markers:
-```shell
-pytest -m "not slow"
+inv unit-test --cov
 ```
 
 ### Writing Tests
@@ -130,18 +111,7 @@ pytest -m "not slow"
 - Aim for high code coverage
 - Test edge cases and error conditions
 
-Example test structure:
-```python
-def test_feature_name():
-    # Given
-    setup_code()
-    
-    # When
-    result = function_to_test()
-    
-    # Then
-    assert result == expected_value
-```
+
 
 ## Documentation
 
@@ -150,7 +120,7 @@ def test_feature_name():
 Build the documentation locally:
 ```shell
 cd docs
-mkdocs serve
+mike serve
 ```
 
 Then open http://localhost:8000 in your browser.
@@ -196,23 +166,7 @@ For feature requests, please include:
 
 Please be patient - maintainers review PRs as time permits.
 
-## Commit Message Guidelines
 
-Write clear, descriptive commit messages:
-
-- Use present tense ("Add feature" not "Added feature")
-- Use imperative mood ("Move cursor to..." not "Moves cursor to...")
-- Limit first line to 72 characters
-- Reference issues and PRs when relevant
-
-Examples:
-```
-Add universal factory function
-
-Fix registry clear() to handle nested registries
-
-Update documentation for Python 3.12 support
-```
 
 ## Community Guidelines
 

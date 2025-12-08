@@ -4,12 +4,7 @@ It is highly recommended to install in
 a [virtual environment](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/)
 to keep your system in order.
 
-## Requirements
-
-- Python >= 3.10
-- tornado >= 6.0, < 7.0
-
-## Installing with `pip` (recommended)
+## Installing with `pip`
 
 The following command installs the latest stable version of the library:
 
@@ -53,17 +48,7 @@ To install `objectory` from source, you can follow the steps below.
 
 ### Prerequisites
 
-This project uses [`uv`](https://docs.astral.sh/uv/) for dependency management. If you don't have it installed, you can install it with:
-
-```shell
-curl -LsSf https://astral.sh/uv/install.sh | sh
-```
-
-Or on Windows:
-
-```powershell
-powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
-```
+This project uses [`uv`](https://docs.astral.sh/uv/) for dependency management. Please refer to the [uv installation documentation](https://docs.astral.sh/uv/getting-started/installation/) for installation instructions.
 
 ### Clone the Repository
 
