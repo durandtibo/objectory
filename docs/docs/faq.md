@@ -158,10 +158,6 @@ The name resolution mechanism tries to find objects in this order:
 
 See the [name resolution](name_resolution.md) documentation for details.
 
-### Can I use objectory in a multithreaded environment?
-
-Yes, but be careful with registration. Register objects before starting threads to avoid race conditions. Factory calls themselves are thread-safe as they only read from the registry.
-
 ### How do I create a plugin system with objectory?
 
 You can create a plugin system by using the AbstractFactory metaclass or Registry to register plugin classes dynamically, then instantiate them using the factory pattern based on configuration.
