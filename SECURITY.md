@@ -59,10 +59,12 @@ ALLOWED_CLASSES = {
     # Add your safe classes here
 }
 
+
 def safe_factory(target: str, *args, **kwargs):
     if target not in ALLOWED_CLASSES:
         raise ValueError(f"Class {target} is not allowed")
     return factory(target, *args, **kwargs)
+
 
 # Use the safe wrapper instead of factory directly
 obj = safe_factory("collections.Counter", [1, 2, 3])

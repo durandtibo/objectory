@@ -77,10 +77,11 @@ Yes! Use the `_init_` parameter:
 class MyClass:
     def __init__(self, value):
         self.value = value
-    
+
     @classmethod
     def from_string(cls, s):
         return cls(int(s))
+
 
 # Using custom initializer
 obj = BaseClass.factory(_target_="MyClass", _init_="from_string", s="42")
@@ -106,8 +107,10 @@ Yes! Use `register_object()`:
 import torch
 from objectory import AbstractFactory
 
+
 class BaseModule(torch.nn.Module, metaclass=AbstractFactory):
     pass
+
 
 # Register PyTorch's Linear
 BaseModule.register_object(torch.nn.Linear)
@@ -171,9 +174,11 @@ from objectory import Registry
 
 registry = Registry()
 
+
 @registry.register()
 def my_function(x, y):
     return x + y
+
 
 result = registry.factory(_target_="my_function", x=1, y=2)
 ```
@@ -222,11 +227,12 @@ Yes! For better IDE support:
 from typing import TypeVar
 from objectory import AbstractFactory
 
-T = TypeVar('T', bound='BaseClass')
+T = TypeVar("T", bound="BaseClass")
+
 
 class BaseClass(metaclass=AbstractFactory):
     @classmethod
-    def factory(cls, _target_: str, *args, **kwargs) -> 'BaseClass':
+    def factory(cls, _target_: str, *args, **kwargs) -> "BaseClass":
         return super().factory(_target_, *args, **kwargs)
 ```
 

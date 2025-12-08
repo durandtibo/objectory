@@ -20,6 +20,7 @@ print(path)  # /tmp/data
 
 ## Function Signature
 
+<!-- blacken-docs:off -->
 ```python
 def factory(
     _target_: str,
@@ -28,6 +29,7 @@ def factory(
     **kwargs: Any
 ) -> Any
 ```
+<!-- blacken-docs:on -->
 
 ### Parameters
 
@@ -86,17 +88,19 @@ You can specify a different initialization method using the `_init_` parameter:
 ```python
 from objectory import factory
 
+
 class MyClass:
     def __init__(self, value: int):
         self.value = value
-    
+
     @classmethod
     def from_string(cls, s: str):
         return cls(int(s))
-    
+
     @classmethod
     def default(cls):
         return cls(0)
+
 
 # Register the class (for this example, we'll use it directly)
 # In practice, you'd have it in a module
@@ -260,13 +264,16 @@ from typing import Any
 from objectory import factory
 from pathlib import Path
 
+
 def create_path(path_str: str, **kwargs: Any) -> Path:
     """Create a Path object."""
     return factory("pathlib.Path", path_str, **kwargs)
 
+
 def create_counter(items: list, **kwargs: Any):
     """Create a Counter object."""
     return factory("collections.Counter", items, **kwargs)
+
 
 # Usage
 path = create_path("/tmp/data")
@@ -281,11 +288,15 @@ Create a factory function that delays instantiation:
 from typing import Any, Callable
 from objectory import factory
 
+
 def lazy_factory(target: str, *args: Any, **kwargs: Any) -> Callable:
     """Return a function that creates the object when called."""
+
     def create():
         return factory(target, *args, **kwargs)
+
     return create
+
 
 # Create lazy constructors
 create_counter = lazy_factory("collections.Counter", [1, 2, 3])

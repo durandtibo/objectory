@@ -48,7 +48,7 @@ pip install objectory==0.2.2
 
 After installation, you can verify that objectory is correctly installed by running:
 
-```python
+```shell
 python -c "import objectory; print(objectory.__version__)"
 ```
 

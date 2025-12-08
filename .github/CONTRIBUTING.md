@@ -33,7 +33,7 @@ Once you implement and test your feature or bug-fix, please submit a Pull Reques
    ```shell
    make setup-venv
    ```
-   
+
    This will create a virtual environment and install all dependencies.
 
 4. Activate the virtual environment:
