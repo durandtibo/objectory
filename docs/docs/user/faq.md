@@ -29,7 +29,7 @@ objectory is useful when you need to:
 
 ### What Python versions are supported?
 
-objectory supports Python 3.10 and later. See the [get_started](get_started.md) page for the
+objectory supports Python 3.10 and later. See the [get_started](../get_started.md) page for the
 compatibility matrix.
 
 ### How do I install objectory?
@@ -46,7 +46,7 @@ Using `pip`:
 pip install objectory
 ```
 
-For more installation options, see the [get_started](get_started.md) page.
+For more installation options, see the [get_started](../get_started.md) page.
 
 ### Can I use objectory without installing it?
 

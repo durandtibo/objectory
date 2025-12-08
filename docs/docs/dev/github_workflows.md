@@ -13,10 +13,10 @@ composite action for setting up the development environment.
 
 ```
 .github/
-├── actions/                    # Custom composite actions
+├── actions/                   # Custom composite actions
 │   └── setup-env/             # Reusable action for environment setup
 │       └── action.yaml
-├── workflows/                  # GitHub Actions workflow definitions
+├── workflows/                 # GitHub Actions workflow definitions
 │   ├── build.yaml             # Build and package tests
 │   ├── ci.yaml                # Main CI workflow
 │   ├── coverage.yaml          # Code coverage reporting

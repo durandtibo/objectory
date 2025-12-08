@@ -185,7 +185,7 @@ Releases are handled by maintainers:
 
 ## Getting Help
 
-- Check the [FAQ](../docs/docs/faq.md)
+- Check the [FAQ](../docs/docs/user/faq.md)
 - Browse [existing issues](https://github.com/durandtibo/objectory/issues)
 - Open a [discussion](https://github.com/durandtibo/objectory/discussions)
 

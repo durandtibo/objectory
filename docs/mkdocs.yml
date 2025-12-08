@@ -20,12 +20,13 @@ nav:
   - Home: index.md
   - get_started.md
   - User Guide:
-      - universal_factory.md
-      - abstract_factory.md
-      - registry.md
-      - name_resolution.md
-  - FAQ:
-    - faq.md
+      - user/universal_factory.md
+      - user/abstract_factory.md
+      - user/registry.md
+      - user/name_resolution.md
+      - user/faq.md
+  - Dev Guide:
+    - dev/github_workflows.md
   - Reference:
       - refs/index.md
       - refs/abstract_factory.md
