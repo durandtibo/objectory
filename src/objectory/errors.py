@@ -24,8 +24,8 @@ class UnregisteredObjectFactoryError(FactoryError):
     r"""Define an exception that is raised when you try to instantiate or
     unregister an object.
 
-    This exception is raised when you try to instantiate or unregister an
-    object which is not registered to the factory.
+    This exception is raised when you try to instantiate or unregister
+    an object which is not registered to the factory.
     """
 
 
