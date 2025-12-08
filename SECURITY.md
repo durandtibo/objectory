@@ -87,6 +87,5 @@ Security updates will be released as patch versions and announced via:
 
 - GitHub Security Advisories
 - Release notes
-- The CHANGELOG.md file
 
 Thank you for helping keep objectory and its users safe!

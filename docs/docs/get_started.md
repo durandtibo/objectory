@@ -4,6 +4,26 @@ It is highly recommended to install in
 a [virtual environment](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/)
 to keep your system in order.
 
+## Installing with `uv` (recommended)
+
+The following command installs the latest stable version of the library:
+
+```shell
+uv pip install objectory
+```
+
+To install the latest development version from GitHub:
+
+```shell
+uv pip install git+https://github.com/durandtibo/objectory.git
+```
+
+To install a specific version:
+
+```shell
+uv pip install objectory==0.2.2
+```
+
 ## Installing with `pip`
 
 The following command installs the latest stable version of the library:
@@ -101,7 +121,15 @@ This will run the test suite with coverage reporting.
 
 ## Development Setup
 
-If you plan to contribute to objectory, please also install the development tools:
+If you plan to contribute to objectory, please also install the development tools.
+
+Using `uv`:
+
+```shell
+uv pip install -e ".[dev,docs]"
+```
+
+Using `pip`:
 
 ```shell
 pip install -e ".[dev,docs]"
