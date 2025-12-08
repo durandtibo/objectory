@@ -4,7 +4,10 @@
 
 ### What is objectory?
 
-objectory is a Python library that provides general-purpose object factories. It allows you to instantiate objects dynamically without hardcoding class names, making your code more flexible and maintainable. It supports three main approaches: universal factory, abstract factory, and registry patterns.
+objectory is a Python library that provides general-purpose object factories. It allows you to
+instantiate objects dynamically without hardcoding class names, making your code more flexible and
+maintainable. It supports three main approaches: universal factory, abstract factory, and registry
+patterns.
 
 ### When should I use objectory?
 
@@ -26,16 +29,19 @@ objectory is useful when you need to:
 
 ### What Python versions are supported?
 
-objectory supports Python 3.10 and later. See the [get_started](get_started.md) page for the compatibility matrix.
+objectory supports Python 3.10 and later. See the [get_started](get_started.md) page for the
+compatibility matrix.
 
 ### How do I install objectory?
 
 Using `uv`:
+
 ```shell
 uv pip install objectory
 ```
 
 Using `pip`:
+
 ```shell
 pip install objectory
 ```
@@ -163,7 +169,8 @@ See the [name resolution](name_resolution.md) documentation for details.
 
 ### How do I create a plugin system with objectory?
 
-You can create a plugin system by using the AbstractFactory metaclass or Registry to register plugin classes dynamically, then instantiate them using the factory pattern based on configuration.
+You can create a plugin system by using the AbstractFactory metaclass or Registry to register plugin
+classes dynamically, then instantiate them using the factory pattern based on configuration.
 
 ### Can I register functions, not just classes?
 
@@ -275,7 +282,8 @@ The registry lookup is O(1) for exact matches and O(n) for name resolution. For 
 
 ### Is it safe to use user input with factory functions?
 
-⚠️ **No!** Never pass untrusted user input directly to factory functions. The factory can instantiate any Python object, which could be a security risk.
+⚠️ **No!** Never pass untrusted user input directly to factory functions. The factory can
+instantiate any Python object, which could be a security risk.
 
 Always validate and sanitize input:
 
@@ -292,13 +300,16 @@ if user_class not in ALLOWED_CLASSES:
 obj = factory(user_class)
 ```
 
-See [SECURITY.md](https://github.com/durandtibo/objectory/blob/main/SECURITY.md) for more security guidelines.
+See [SECURITY.md](https://github.com/durandtibo/objectory/blob/main/SECURITY.md) for more security
+guidelines.
 
 ## Contributing
 
 ### How can I contribute to objectory?
 
-We welcome contributions! See [CONTRIBUTING.md](https://github.com/durandtibo/objectory/blob/main/.github/CONTRIBUTING.md) for guidelines.
+We welcome contributions!
+See [CONTRIBUTING.md](https://github.com/durandtibo/objectory/blob/main/.github/CONTRIBUTING.md) for
+guidelines.
 
 ### I found a bug, what should I do?
 
@@ -311,7 +322,8 @@ Please [open an issue](https://github.com/durandtibo/objectory/issues) on GitHub
 
 ### Can I request a feature?
 
-Yes! Open a [feature request issue](https://github.com/durandtibo/objectory/issues) on GitHub. Please describe:
+Yes! Open a [feature request issue](https://github.com/durandtibo/objectory/issues) on GitHub.
+Please describe:
 
 - The use case
 - Why existing features don't work
@@ -327,4 +339,5 @@ Yes! Open a [feature request issue](https://github.com/durandtibo/objectory/issu
 
 ### Are there more examples?
 
-Check the documentation for code examples throughout the user guide pages (abstract factory, registry, universal factory, etc.).
+Check the documentation for code examples throughout the user guide pages (abstract factory,
+registry, universal factory, etc.).

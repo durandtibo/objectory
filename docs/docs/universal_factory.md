@@ -1,6 +1,8 @@
 # Universal Factory
 
-The universal factory is the simplest way to use objectory. It provides a single `factory()` function that can instantiate any Python object by its fully qualified name, without requiring prior registration.
+The universal factory is the simplest way to use objectory. It provides a single `factory()`
+function that can instantiate any Python object by its fully qualified name, without requiring prior
+registration.
 
 ## Basic Usage
 
@@ -21,23 +23,25 @@ print(path)  # /tmp/data
 ## Function Signature
 
 <!-- blacken-docs:off -->
+
 ```python
 def factory(
-    _target_: str,
-    *args: Any,
-    _init_: str = "__init__",
-    **kwargs: Any
+        _target_: str,
+        *args: Any,
+        _init_: str = "__init__",
+        **kwargs: Any
 ) -> Any
 ```
+
 <!-- blacken-docs:on -->
 
 ### Parameters
 
 - **_target_** (str): The fully qualified name of the object (class or function) to instantiate
-  - Examples: `"collections.Counter"`, `"pathlib.Path"`, `"builtins.list"`
+    - Examples: `"collections.Counter"`, `"pathlib.Path"`, `"builtins.list"`
 - **\*args**: Positional arguments to pass to the constructor or function
 - **_init_** (str, optional): The initialization method to use (default: `"__init__"`)
-  - Can be `"__init__"`, `"__new__"`, or the name of a class method
+    - Can be `"__init__"`, `"__new__"`, or the name of a class method
 - **\*\*kwargs**: Keyword arguments to pass to the constructor or function
 
 ### Returns
@@ -120,6 +124,7 @@ obj3 = factory("__main__.MyClass", _init_="default")
 ### Universal Factory vs AbstractFactory
 
 **Universal Factory:**
+
 - ✅ No registration needed
 - ✅ Works with any importable object
 - ✅ Simple to use
@@ -127,6 +132,7 @@ obj3 = factory("__main__.MyClass", _init_="default")
 - ❌ No automatic discovery
 
 **AbstractFactory:**
+
 - ✅ Automatic registration through inheritance
 - ✅ Organized object families
 - ✅ Supports short names
@@ -136,6 +142,7 @@ obj3 = factory("__main__.MyClass", _init_="default")
 ### Universal Factory vs Registry
 
 **Universal Factory:**
+
 - ✅ No registration needed
 - ✅ Works immediately
 - ✅ Simple API
@@ -143,6 +150,7 @@ obj3 = factory("__main__.MyClass", _init_="default")
 - ❌ No sub-registries
 
 **Registry:**
+
 - ✅ Fine-grained control
 - ✅ Sub-registries for organization
 - ✅ Class filters
@@ -164,6 +172,7 @@ Use the universal factory when:
 The universal factory works great with YAML/JSON configuration files:
 
 **config.yaml:**
+
 ```yaml
 database:
   _target_: collections.OrderedDict
@@ -177,6 +186,7 @@ cache:
 ```
 
 **Loading configuration:**
+
 ```python
 import yaml
 from objectory import factory

@@ -68,7 +68,9 @@ To install `objectory` from source, you can follow the steps below.
 
 ### Prerequisites
 
-This project uses [`uv`](https://docs.astral.sh/uv/) for dependency management. Please refer to the [uv installation documentation](https://docs.astral.sh/uv/getting-started/installation/) for installation instructions.
+This project uses [`uv`](https://docs.astral.sh/uv/) for dependency management. Please refer to
+the [uv installation documentation](https://docs.astral.sh/uv/getting-started/installation/) for
+installation instructions.
 
 ### Clone the Repository
 
@@ -85,7 +87,8 @@ It is recommended to create a Python 3.10+ virtual environment:
 make setup-venv
 ```
 
-This command creates a virtual environment using `uv` and installs all dependencies including development tools.
+This command creates a virtual environment using `uv` and installs all dependencies including
+development tools.
 
 Alternatively, you can create a conda virtual environment:
 
@@ -141,4 +144,5 @@ Then install the pre-commit hooks:
 pre-commit install
 ```
 
-See [CONTRIBUTING.md](https://github.com/durandtibo/objectory/blob/main/.github/CONTRIBUTING.md) for more information about contributing.
+See [CONTRIBUTING.md](https://github.com/durandtibo/objectory/blob/main/.github/CONTRIBUTING.md) for
+more information about contributing.

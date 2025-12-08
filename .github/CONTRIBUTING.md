@@ -46,8 +46,6 @@ Once you implement and test your feature or bug-fix, please submit a Pull Reques
    pre-commit install
    ```
 
-
-
 ## Pull Requests
 
 We actively welcome your pull requests.
@@ -89,7 +87,8 @@ This project follows these style guidelines:
 
 - **Code formatting**: [Black](https://github.com/psf/black) with 100 character line length
 - **Linting**: [Ruff](https://github.com/astral-sh/ruff)
-- **Docstrings**: [Google style](https://google.github.io/styleguide/pyguide.html#s3.8-comments-and-docstrings)
+- **Docstrings
+  **: [Google style](https://google.github.io/styleguide/pyguide.html#s3.8-comments-and-docstrings)
 - **Type hints**: Required for all public APIs
 
 Pre-commit hooks will automatically check formatting and run linters.
@@ -99,6 +98,7 @@ Pre-commit hooks will automatically check formatting and run linters.
 ### Running Tests
 
 Run all tests:
+
 ```shell
 inv unit-test --cov
 ```
@@ -111,13 +111,12 @@ inv unit-test --cov
 - Aim for high code coverage
 - Test edge cases and error conditions
 
-
-
 ## Documentation
 
 ### Building Documentation
 
 Build the documentation locally:
+
 ```shell
 cd docs
 mike serve
@@ -164,8 +163,6 @@ For feature requests, please include:
 3. Once approved, a maintainer will merge your PR
 
 Please be patient - maintainers review PRs as time permits.
-
-
 
 ## Community Guidelines
 
