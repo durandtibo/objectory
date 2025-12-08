@@ -162,7 +162,7 @@ See the [name resolution](name_resolution.md) documentation for details.
 
 ### Can I use objectory in a multithreaded environment?
 
-Be careful with registration. Register objects before starting threads to avoid race conditions. Factory calls themselves are thread-safe as they only read from the registry.
+Yes, but be careful with registration. Register objects before starting threads to avoid race conditions. Factory calls themselves are thread-safe as they only read from the registry.
 
 ### How do I create a plugin system with objectory?
 
