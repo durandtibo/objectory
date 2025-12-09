@@ -565,11 +565,10 @@ def test_set_class_filter_register_invalid_object() -> None:
         IncorrectObjectFactoryError,
         match=r"All the registered objects should inherit builtins.dict",
     ):
-        # Should raise an error because ClassToRegister is not a child class of dict.
         registry.register_object(int)
 
 
-def test_set_class_filter_register_invalid_object_int() -> None:
+def test_set_class_filter_register_invalid_object_not_a_class() -> None:
     registry = Registry()
     registry.set_class_filter(dict)
     with pytest.raises(IncorrectObjectFactoryError, match=r"Expected a class but received"):
