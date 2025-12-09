@@ -162,8 +162,7 @@ jobs:
 
       - name: Install package
         run: |
-          WHEEL=(dist/*.whl)
-          echo $WHEEL
+          WHEEL=$(ls dist/*.whl | head -n1)
           uv pip install "${WHEEL}[${{ matrix.extra }}]"
 
       - name: Check package metadata
