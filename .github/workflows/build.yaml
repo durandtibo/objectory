@@ -28,7 +28,6 @@ jobs:
       - name: Check py.typed
         run: |
           unzip -l dist/*.whl | grep py.typed
-          unzip -l dist/*.whl | grep py.typed2
 
       - name: Install package
         run: |
@@ -46,6 +45,25 @@ jobs:
       - name: Import package
         run: |
           python -c "import objectory; print('OK')"
+
+      - name: Install dependencies
+        run: |
+          uv pip install pyright twine
+
+      - name: Check dist
+        run: |
+          twine check dist/*
+
+      - name: Write Pyright test file
+        run: |
+          cat > test_pyright_import.py << 'EOF'
+          from objectory import Registry
+
+          r = Registry()
+          EOF
+
+      - name: Check that Pyright recognizes the package as typed
+        run: pyright test_pyright_import.py
 
   extras:
     runs-on: ubuntu-latest
