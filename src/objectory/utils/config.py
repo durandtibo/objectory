@@ -11,8 +11,7 @@ __all__ = ["is_object_config"]
 
 import inspect
 from types import UnionType
-from typing import _UnionGenericAlias as UnionGenericAlias
-from typing import get_type_hints
+from typing import Union, get_args, get_origin, get_type_hints
 
 from objectory.constants import OBJECT_TARGET
 from objectory.utils.instantiation import import_object
@@ -54,6 +53,7 @@ def is_object_config(config: dict, cls: type) -> bool:
         target = get_type_hints(target).get("return")
     if target is None:
         return False
-    # Union and | -> (UnionGenericAlias, UnionType)
-    targets = target.__args__ if isinstance(target, (UnionGenericAlias, UnionType)) else [target]
+    origin = get_origin(target)
+    # Union[T1, T2] or T1 | T2
+    targets = get_args(target) if origin in (Union, UnionType) else (target,)
     return any(cls in target.__mro__ for target in targets)
