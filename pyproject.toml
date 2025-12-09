@@ -11,13 +11,11 @@ only-include = ["src"]
 [tool.hatch.build.targets.wheel]
 packages = ["objectory"]
 
-[tool.hatch.version]
-path = "src/objectory/__init__.py"
-
 [tool.hatch.metadata.hooks.autoextras]
 
 [project]
 name = "objectory"
+version = "0.2.3a0"
 description = "A light library for general purpose object factories"
 readme = "README.md"
 authors = [
@@ -26,7 +24,7 @@ authors = [
 keywords = ["factory", "abstract factory", "registry"]
 license = "BSD-3-Clause"
 
-dynamic = ["version"]
+dynamic = ["maintainers"]
 
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -45,7 +43,6 @@ classifiers = [
 ]
 
 requires-python = ">=3.10"
-
 dependencies = [
     "tornado >=6.0,<7.0",
 ]
