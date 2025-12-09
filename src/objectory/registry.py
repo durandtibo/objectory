@@ -6,7 +6,8 @@ __all__ = ["Registry"]
 
 import inspect
 import logging
-from typing import TYPE_CHECKING, Any, TypeVar
+from collections.abc import Callable
+from typing import Any, TypeVar
 
 from objectory.errors import (
     IncorrectObjectFactoryError,
@@ -23,12 +24,10 @@ from objectory.utils import (
     resolve_name,
 )
 
-if TYPE_CHECKING:
-    from collections.abc import Callable
-
 logger = logging.getLogger(__name__)
 
 T = TypeVar("T")
+Registerable = TypeVar("Registerable", type, Callable[..., Any])
 
 
 class Registry:
@@ -221,7 +220,7 @@ class Registry:
             self._get_target_from_name(_target_), *args, _init_=_init_, **kwargs
         )
 
-    def register(self, name: str | None = None) -> Callable:
+    def register(self, name: str | None = None) -> Callable[[Registerable], Registerable]:
         r"""Define a decorator to add a class or a function to the
         registry.
 
@@ -255,7 +254,7 @@ class Registry:
         ```
         """
 
-        def function_wrapper(obj: T) -> T:
+        def function_wrapper(obj: Registerable) -> Registerable:
             self.register_object(obj=obj, name=name)
             return obj
 
@@ -476,10 +475,15 @@ class Registry:
             raise IncorrectObjectFactoryError(msg)
 
         filter_class = self._filters.get(self._CLASS_FILTER, None)
-        if filter_class is not None and not issubclass(obj, filter_class):
-            class_name = get_fully_qualified_name(filter_class)
-            msg = f"All the registered objects should inherit {class_name} class (received {obj})"
-            raise IncorrectObjectFactoryError(msg)
+        if filter_class is not None:
+            if not isinstance(obj, type):
+                msg = f"Expected a class but received {obj}"
+                raise IncorrectObjectFactoryError(msg)
+
+            if not issubclass(obj, filter_class):
+                class_name = get_fully_qualified_name(filter_class)
+                msg = f"All the registered objects should inherit {class_name} (received {obj})"
+                raise IncorrectObjectFactoryError(msg)
 
     def _get_target_from_name(self, name: str) -> Any:
         r"""Get the class or function to use given its name.
