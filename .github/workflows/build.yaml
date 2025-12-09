@@ -28,6 +28,7 @@ jobs:
       - name: Check py.typed
         run: |
           unzip -l dist/*.whl | grep py.typed
+          unzip -l dist/*.whl | grep py.typed2
 
       - name: Install package
         run: |
