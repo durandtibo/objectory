@@ -25,12 +25,9 @@ jobs:
         run: |
           uv build
 
-      - name: Install twine
-        run: |
-          uv pip install twine
-
       - name: Check build with twine
         run: |
+          uv pip install twine
           twine check dist/*
 
   wheel:
