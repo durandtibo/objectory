@@ -8,7 +8,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
 
     steps:
@@ -24,6 +24,10 @@ jobs:
       - name: Build package
         run: |
           uv build
+
+      - name: Check py.typed
+        run: |
+          unzip -l dist/*.whl | grep py.typed
 
       - name: Install package
         run: |
