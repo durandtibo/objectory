@@ -2,11 +2,14 @@
 requires = ["hatchling >= 1.27", "hatchling-autoextras-hook>=0.0.1"]
 build-backend = "hatchling.build"
 
+[tool.hatch.build]
+sources = ["src"]
+
 [tool.hatch.build.targets.sdist]
 only-include = ["src"]
 
 [tool.hatch.build.targets.wheel]
-only-include = ["src"]
+packages = ["objectory"]
 
 [tool.hatch.metadata.hooks.autoextras]
 
