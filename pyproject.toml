@@ -18,7 +18,6 @@ path = "src/objectory/__init__.py"
 
 [project]
 name = "objectory"
-version = "0.2.3a0"
 description = "A light library for general purpose object factories"
 readme = "README.md"
 authors = [
@@ -26,6 +25,8 @@ authors = [
 ]
 keywords = ["factory", "abstract factory", "registry"]
 license = "BSD-3-Clause"
+
+dynamic = ["version"]
 
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -42,8 +43,6 @@ classifiers = [
     "Topic :: Scientific/Engineering",
     "Topic :: Software Development :: Libraries",
 ]
-
-dynamic = ["maintainers"]
 
 requires-python = ">=3.10"
 

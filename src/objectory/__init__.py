@@ -8,3 +8,5 @@ from objectory.abstract_factory import AbstractFactory
 from objectory.constants import OBJECT_INIT, OBJECT_TARGET
 from objectory.registry import Registry
 from objectory.universal import factory
+
+__version__ = "0.2.3a0"  # placeholder for Hatchling to overwrite
