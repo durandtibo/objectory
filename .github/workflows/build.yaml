@@ -108,13 +108,14 @@ jobs:
         uses: ./.github/actions/verify-built-package
 
   extras:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     strategy:
       max-parallel: 8
       fail-fast: false
       matrix:
         extra: [ 'all' ]
+        dist-type: [ sdist, wheel ]
 
     steps:
       - name: Checkout
@@ -132,8 +133,12 @@ jobs:
 
       - name: Install package
         run: |
-          WHEEL=$(ls dist/*.whl | head -n1)
-          uv pip install "${WHEEL}[${{ matrix.extra }}]"
+          if [ "${{ matrix.dist-type }}" = "wheel" ]; then
+            TARGET=$(ls dist/*.whl | head -n1)
+          else
+            TARGET=$(ls dist/*.tar.gz | head -n1)
+          fi
+          uv pip install "${TARGET}[${{ matrix.extra }}]"
 
       - name: Verify built package
         uses: ./.github/actions/verify-built-package
