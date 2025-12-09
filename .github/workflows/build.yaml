@@ -15,6 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         dist-type: [ sdist, wheel ]
+        extra: [ '', 'all' ]
 
     steps:
       - name: Checkout
@@ -50,43 +51,11 @@ jobs:
 
       - name: Install built package
         run: |
-          uv pip install "${{ steps.dist.outputs.target }}"
-
-      - name: Verify built package
-        uses: ./.github/actions/verify-built-package
-
-  extras:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 10
-    strategy:
-      max-parallel: 8
-      fail-fast: false
-      matrix:
-        dist-type: [ sdist, wheel ]
-        extra: [ 'all' ]
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Install uv
-        uses: astral-sh/setup-uv@v7
-        with:
-          python-version: '3.13'
-          activate-environment: true
-
-      - name: Build package
-        run: |
-          uv build
-
-      - name: Install built package with extra
-        run: |
-          if [ "${{ matrix.dist-type }}" = "wheel" ]; then
-            TARGET=$(ls dist/*.whl | head -n1)
-          else
-            TARGET=$(ls dist/*.tar.gz | head -n1)
+          PKG="${{ steps.dist.outputs.target }}"
+          if [ -n "${{ matrix.extra }}" ]; then
+            PKG="${PKG}[${{ matrix.extra }}]"
           fi
-          uv pip install "${TARGET}[${{ matrix.extra }}]"
+          uv pip install "$PKG"
 
       - name: Verify built package
         uses: ./.github/actions/verify-built-package
