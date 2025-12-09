@@ -8,7 +8,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     timeout-minutes: 10
     strategy:
       max-parallel: 8
@@ -70,7 +70,7 @@ jobs:
         run: |
           dev/package/check_dependency_tree.sh
 
-      - name: Check package import
+      - name: Import package
         run: |
           python -c "import objectory; print(objectory.__version__)"
 
