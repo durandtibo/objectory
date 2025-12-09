@@ -28,12 +28,12 @@ jobs:
       - name: Check build with twine
         run: |
           uv pip install twine
-          twine check dist/
+          twine check dist/*
 
       - name: Check build with check-wheel-contents
         run: |
           pip install check-wheel-contents
-          check-wheel-contents dist/
+          check-wheel-contents dist/*.whl
 
       - name: Check build with auditwheel
         run: |
