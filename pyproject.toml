@@ -1,9 +1,15 @@
 [build-system]
-requires = ["hatchling >= 1.27", "hatchling-autoextras-hook>=0.0.1"]
+requires = ["hatchling >= 1.27", "hatchling-autoextras-hook>=0.0.2"]
 build-backend = "hatchling.build"
+
+[tool.hatch.build]
+sources = ["src"]
 
 [tool.hatch.build.targets.sdist]
 only-include = ["src"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["objectory"]
 
 [tool.hatch.metadata.hooks.autoextras]
 
@@ -17,6 +23,8 @@ authors = [
 ]
 keywords = ["factory", "abstract factory", "registry"]
 license = "BSD-3-Clause"
+
+dynamic = ["maintainers"]
 
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -34,10 +42,7 @@ classifiers = [
     "Topic :: Software Development :: Libraries",
 ]
 
-dynamic = ["maintainers"]
-
 requires-python = ">=3.10"
-
 dependencies = [
     "tornado >=6.0,<7.0",
 ]
@@ -92,6 +97,7 @@ exclude_lines = [
 
 [tool.pytest]
 minversion = "9.0"
+pythonpath = ["src"]
 testpaths = ["tests/"]
 log_format = "%(asctime)s - %(levelname)s - %(name)s - %(message)s"
 log_level = "DEBUG"
