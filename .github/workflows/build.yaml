@@ -40,7 +40,7 @@ jobs:
           fi
           echo "target=$TARGET" >> "$GITHUB_OUTPUT"
 
-      - name: Check py.typed
+      - name: Check py.typed in distribution
         run: |
           if [ "${{ matrix.dist-type }}" = "wheel" ]; then
             unzip -l "${{ steps.dist.outputs.target }}" | grep py.typed
@@ -48,7 +48,7 @@ jobs:
             tar -tzf "${{ steps.dist.outputs.target }}" | grep py.typed
           fi
 
-      - name: Install built sdist
+      - name: Install built package
         run: |
           uv pip install "${{ steps.dist.outputs.target }}"
 
@@ -79,7 +79,7 @@ jobs:
         run: |
           uv build
 
-      - name: Install built package
+      - name: Install built package with extra
         run: |
           if [ "${{ matrix.dist-type }}" = "wheel" ]; then
             TARGET=$(ls dist/*.whl | head -n1)
