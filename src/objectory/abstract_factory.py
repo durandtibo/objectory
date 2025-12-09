@@ -301,7 +301,7 @@ class AbstractFactory(ABCMeta):
         """
         return name in cls._abstractfactory_inheritors
 
-    def _abstractfactory_check_object(cls, obj: type) -> None:
+    def _abstractfactory_check_object(cls, obj: type | Callable) -> None:
         r"""Check if the object is valid for this factory before
         registering it.
 

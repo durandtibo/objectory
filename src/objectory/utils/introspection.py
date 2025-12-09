@@ -55,11 +55,10 @@ def get_fully_qualified_name(obj: Any) -> str:
     if qualname is None:
         cls = obj.__class__
         module = getattr(cls, "__module__", None)
-        qualname = getattr(cls, "__qualname__", None)
+        qualname = cls.__qualname__
 
     if module and module != "__main__":
         return f"{module}.{qualname}"
-
     return qualname
 
 
