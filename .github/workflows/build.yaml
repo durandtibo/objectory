@@ -57,5 +57,24 @@ jobs:
           fi
           uv pip install "$PKG"
 
-      - name: Verify built package
-        uses: ./.github/actions/verify-built-package
+      - name: Check build with twine
+        run: |
+          uv pip install twine
+          twine check dist/*
+
+      - name: Check package metadata
+        run: |
+          dev/package/check_metadata.sh
+
+      - name: Check dependency tree
+        run: |
+          dev/package/check_dependency_tree.sh
+
+      - name: Check package import
+        run: |
+          python -c "import objectory; print(objectory.__version__)"
+
+      - name: Check that pyright recognizes the package as typed
+        run: |
+          uv pip install pyright
+          dev/package/check_type.sh
