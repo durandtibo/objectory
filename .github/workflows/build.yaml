@@ -8,7 +8,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     strategy:
       max-parallel: 8
@@ -73,6 +73,10 @@ jobs:
       - name: Check package import
         run: |
           python -c "import objectory; print(objectory.__version__)"
+
+      - name: Check package version
+        run: |
+          python -c "import objectory; assert objectory.__version__ != '0.0.0'"
 
       - name: Check that pyright recognizes the package as typed
         run: |
