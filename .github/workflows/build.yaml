@@ -25,48 +25,117 @@ jobs:
         run: |
           uv build
 
-      - name: Check build
+      - name: Install twine
+        run: |
+          uv pip install twine
+
+      - name: Check build with twine
         run: |
           twine check dist/*
 
-      - name: Inspect wheel
-        run: unzip -l dist/*.whl
+  wheel:
+    # This workflow builds the package and checks the wheel can be installed properly
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
 
-      - name: Install package
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          python-version: '3.13'
+          activate-environment: true
+
+      - name: Build package
         run: |
-          uv pip install dist/*.whl
+          uv build
 
-      - name: Inspect package
+      # Check the structure of the wheel
+      - name: Locate wheel
+        id: wheel
         run: |
-          uv pip show objectory
-
-      - name: Show dependency tree
-        shell: bash
-        run: |
-          uv pip tree --package objectory --show-version-specifiers
-
-      - name: Check import package
-        run: |
-          python -c "import objectory; print('OK')"
-
-      - name: Install dependencies
-        run: |
-          uv pip install pyright twine
-
-      - name: Write pyright test file
-        run: |
-          cat > test_pyright_import.py << 'EOF'
-          from objectory import Registry
-
-          r = Registry()
-          EOF
-
-      - name: Check that pyright recognizes the package as typed
-        run: pyright test_pyright_import.py
+          WHEEL=$(ls dist/*.whl | head -n1)
+          echo "wheel=$WHEEL" >> "$GITHUB_OUTPUT"
 
       - name: Check py.typed
         run: |
-          unzip -l dist/*.whl | grep py.typed
+          unzip -l "${{ steps.wheel.outputs.wheel }}" | grep py.typed
+
+      # Install the built wheel and check its behavior
+      - name: Install built wheel
+        run: |
+          uv pip install "${{ steps.wheel.outputs.wheel }}"
+
+      - name: Check package metadata
+        run: |
+          dev/package/check_metadata.sh
+
+      - name: Check dependency tree
+        run: |
+          dev/package/check_dependency_tree.sh
+
+      - name: Check package import
+        run: |
+          python -c "import objectory; print(objectory.__version__)"
+
+      - name: Check that pyright recognizes the package as typed
+        run: |
+          uv pip install pyright
+          dev/package/check_type.sh
+
+  build-sdist:
+    # This workflow builds the package and checks the sdist can be installed properly
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          python-version: '3.13'
+          activate-environment: true
+
+      - name: Build package
+        run: |
+          uv build
+
+      # Check the structure of the sdist
+      - name: Locate sdist
+        id: sdist
+        run: |
+          SDIST=$(ls dist/*.tar.gz | head -n1)
+          echo "sdist=$SDIST" >> "$GITHUB_OUTPUT"
+
+      - name: Check py.typed
+        run: |
+          tar -tzf "${{ steps.sdist.outputs.sdist }}" | grep py.typed
+
+      # Install the built sdist and check its behavior
+      - name: Install built sdist
+        run: |
+          uv pip install "${{ steps.sdist.outputs.sdist }}"
+
+      - name: Check package metadata
+        run: |
+          dev/package/check_metadata.sh
+
+      - name: Check dependency tree
+        run: |
+          dev/package/check_dependency_tree.sh
+
+      - name: Check package import
+        run: |
+          python -c "import objectory; print(objectory.__version__)"
+
+      - name: Check that pyright recognizes the package as typed
+        run: |
+          uv pip install pyright
+          dev/package/check_type.sh
 
   extras:
     runs-on: ubuntu-latest
@@ -97,15 +166,14 @@ jobs:
           echo $WHEEL
           uv pip install "${WHEEL}[${{ matrix.extra }}]"
 
-      - name: Inspect package
+      - name: Check package metadata
         run: |
-          uv pip show objectory
+          dev/package/check_metadata.sh
 
-      - name: Show dependency tree
-        shell: bash
+      - name: Check dependency tree
         run: |
-          uv pip tree --package objectory --show-version-specifiers
+          dev/package/check_dependency_tree.sh
 
       - name: Import package
         run: |
-          python -c "import objectory; print('OK')"
+          python -c "import objectory; print(objectory.__version__)"
