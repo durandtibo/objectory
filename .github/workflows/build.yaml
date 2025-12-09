@@ -38,9 +38,24 @@ jobs:
         run: |
           uv pip tree --package objectory --show-version-specifiers
 
-      - name: Import package
+      - name: Check import package
         run: |
           python -c "import objectory; print('OK')"
+
+      - name: Install pyright
+        run: |
+          uv pip install pyright
+
+      - name: Write pyright test file
+        run: |
+          cat > test_pyright_import.py << 'EOF'
+          from objectory import Registry
+
+          r = Registry()
+          EOF
+
+      - name: Check that pyright recognizes the package as typed
+        run: pyright test_pyright_import.py
 
   check-wheel:
     runs-on: ubuntu-24.04
@@ -60,32 +75,17 @@ jobs:
         run: |
           uv build
 
+      - name: Install dependencies
+        run: |
+          uv pip install twine
+
       - name: Check py.typed
         run: |
           unzip -l dist/*.whl | grep py.typed
 
-      - name: Install package
-        run: |
-          uv pip install dist/*.whl
-
-      - name: Install dependencies
-        run: |
-          uv pip install pyright twine
-
       - name: Check dist
         run: |
           twine check dist/*
-
-      - name: Write Pyright test file
-        run: |
-          cat > test_pyright_import.py << 'EOF'
-          from objectory import Registry
-
-          r = Registry()
-          EOF
-
-      - name: Check that Pyright recognizes the package as typed
-        run: pyright test_pyright_import.py
 
   extras:
     runs-on: ubuntu-latest
