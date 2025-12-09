@@ -13,6 +13,6 @@ from objectory.universal import factory
 
 try:
     __version__ = version(__name__)
-except PackageNotFoundError:
+except PackageNotFoundError:  # pragma: no cover
     # Package is not installed, fallback if needed
     __version__ = "0.0.0"
