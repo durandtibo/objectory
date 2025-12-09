@@ -35,10 +35,9 @@ jobs:
           pip install check-wheel-contents
           check-wheel-contents dist/*.whl
 
-      - name: Check build with auditwheel
+      - name: Runs tests against the built package
         run: |
-          pip install auditwheel
-          auditwheel show dist/*.whl
+          pytest --pyargs objectory tests/
 
   wheel:
     # This workflow builds the package and checks the wheel can be installed properly
