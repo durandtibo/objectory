@@ -30,6 +30,16 @@ jobs:
           uv pip install twine
           twine check dist/*
 
+      - name: Check build with check-wheel-contents
+        run: |
+          pip install check-wheel-contents
+          check-wheel-contents show dist/*.whl
+
+      - name: Check build with auditwheel
+        run: |
+          pip install auditwheel
+          auditwheel show dist/*.whl
+
   wheel:
     # This workflow builds the package and checks the wheel can be installed properly
     runs-on: ubuntu-24.04
