@@ -35,10 +35,6 @@ jobs:
           pip install check-wheel-contents
           check-wheel-contents dist/*.whl
 
-      - name: Runs tests against the built package
-        run: |
-          pytest --pyargs objectory tests/
-
   wheel:
     # This workflow builds the package and checks the wheel can be installed properly
     runs-on: ubuntu-24.04
@@ -90,6 +86,11 @@ jobs:
         run: |
           uv pip install pyright
           dev/package/check_type.sh
+
+      - name: Runs unit tests against the built package
+        run: |
+          uv pip install pytest
+          pytest --pyargs objectory --timeout 10 tests/unit/
 
   sdist:
     # This workflow builds the package and checks the sdist can be installed properly
@@ -143,6 +144,11 @@ jobs:
           uv pip install pyright
           dev/package/check_type.sh
 
+      - name: Runs unit tests against the built package
+        run: |
+          uv pip install pytest
+          pytest --pyargs objectory --timeout 10 tests/unit/
+
   extras:
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -182,3 +188,8 @@ jobs:
       - name: Import package
         run: |
           python -c "import objectory; print(objectory.__version__)"
+
+      - name: Runs unit tests against the built package
+        run: |
+          uv pip install pytest
+          pytest --pyargs objectory --timeout 10 tests/unit/
