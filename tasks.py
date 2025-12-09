@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from invoke import task
+from invoke.tasks import task
 
 if TYPE_CHECKING:
     from invoke.context import Context
@@ -27,6 +27,12 @@ def check_format(c: Context) -> None:
 def check_lint(c: Context) -> None:
     r"""Check code format."""
     c.run("ruff check --output-format=github .", pty=True)
+
+
+@task
+def check_types(c: Context) -> None:
+    r"""Check code format."""
+    c.run("pyright src/", pty=True)
 
 
 @task
