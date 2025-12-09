@@ -109,6 +109,18 @@ def test_get_fully_qualified_name_main_module_fallback() -> None:
     )
 
 
+def test_get_fully_qualified_name_object_in_main_module_returns_qualname_only() -> None:
+    class MyClass:
+        pass
+
+    MyClass.__module__ = "__main__"  # override for testing
+    assert get_fully_qualified_name(MyClass) == MyClass.__qualname__
+
+
+def test_get_fully_qualified_name_builtin_function() -> None:
+    assert get_fully_qualified_name(map) == "builtins.map"
+
+
 ########################################
 #     Tests for is_lambda_function     #
 ########################################
