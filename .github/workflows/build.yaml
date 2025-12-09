@@ -85,7 +85,7 @@ jobs:
           uv pip install pyright
           dev/package/check_type.sh
 
-  build-sdist:
+  sdist:
     # This workflow builds the package and checks the sdist can be installed properly
     runs-on: ubuntu-24.04
     timeout-minutes: 10

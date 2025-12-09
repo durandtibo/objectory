@@ -11,6 +11,9 @@ only-include = ["src"]
 [tool.hatch.build.targets.wheel]
 packages = ["objectory"]
 
+[tool.hatch.version]
+path = "src/objectory/__init__.py"
+
 [tool.hatch.metadata.hooks.autoextras]
 
 [project]
