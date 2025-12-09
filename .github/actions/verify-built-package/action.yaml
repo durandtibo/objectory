@@ -4,6 +4,12 @@ description: "Check the built package and its metadata"
 runs:
   using: "composite"
   steps:
+    - name: Check build with twine
+      shell: bash
+      run: |
+        uv pip install twine
+        twine check dist/*
+
     - name: Check package metadata
       shell: bash
       run: |
