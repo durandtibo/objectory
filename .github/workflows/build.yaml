@@ -82,3 +82,7 @@ jobs:
         run: |
           uv pip install pyright
           dev/package/check_type.sh
+
+      - name: Run some checks
+        run: |
+          python tests/package_checks.py
