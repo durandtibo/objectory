@@ -102,7 +102,7 @@ A reusable composite action that handles the common setup steps for most workflo
 1. **build**:
     - Uses a matrix strategy to test:
         - Distribution types: `sdist` (source distribution) and `wheel`
-        - Extras: base installation (`''`) and `all` optional dependencies
+        - Extras: base installation (no extras) and `all` optional dependencies
     - Builds the package using `uv build`
     - Checks that `py.typed` is present in the distribution
     - Installs the built package (with or without extras)
@@ -111,7 +111,7 @@ A reusable composite action that handles the common setup steps for most workflo
     - Checks dependency tree
     - Verifies basic import works
     - Validates package version is not `0.0.0`
-    - Verifies that `pyright` recognizes the package as typed
+    - Verifies that `pyright` recognizes the package as typed via type checking
 
 ### Test Workflow (`test.yaml`)
 
