@@ -95,19 +95,23 @@ A reusable composite action that handles the common setup steps for most workflo
 - Called by other workflows (`workflow_call`)
 - Manual workflow dispatch
 
-**Purpose**: Validates that the package can be built and installed correctly.
+**Purpose**: Validates that the package can be built and installed correctly across different distribution types and configurations.
 
 **Jobs**:
 
 1. **build**:
+    - Uses a matrix strategy to test:
+        - Distribution types: `sdist` (source distribution) and `wheel`
+        - Extras: base installation (no extras) and `all` optional dependencies
     - Builds the package using `uv build`
-    - Installs the wheel package
+    - Checks that `py.typed` is present in the distribution
+    - Installs the built package (with or without extras)
+    - Validates the build with `twine check`
+    - Checks package metadata
+    - Checks dependency tree
     - Verifies basic import works
-    - Shows dependency tree
-
-2. **extras**:
-    - Tests installation with optional dependencies
-    - Matrix strategy for different extras (e.g., `all`)
+    - Validates package version is not `0.0.0`
+    - Verifies that `pyright` recognizes the package as typed via type checking
 
 ### Test Workflow (`test.yaml`)
 
