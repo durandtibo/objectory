@@ -53,21 +53,17 @@ def import_object(object_path: str) -> Any:
     if not isinstance(object_path, str):
         msg = f"`object_path` is not a string: {object_path}"
         raise TypeError(msg)
+
+    # If there's no dot, treat it as a module/package import.
     if "." not in object_path:
-        msg = f"Invalid fully qualified name: {object_path!r}"
-        raise ImportError(msg)
+        return importlib.import_module(object_path)
 
     module_name, _, attr = object_path.rpartition(".")
-    if not module_name or not attr:
-        msg = f"Invalid fully qualified name: {object_path!r}"
-        raise ImportError(msg)
-
     module = importlib.import_module(module_name)
-
     try:
         return getattr(module, attr)
     except AttributeError as err:
-        msg = f"Could not import {object_path}"
+        msg = f"Module {module_name!r} has no attribute {attr!r}"
         raise ImportError(msg) from err
 
 
