@@ -8,9 +8,6 @@ sources = ["src"]
 [tool.hatch.build.targets.sdist]
 only-include = ["src"]
 
-[tool.hatch.build.targets.wheel]
-packages = ["objectory"]
-
 [tool.hatch.metadata.hooks.autoextras]
 
 [project]
