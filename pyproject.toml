@@ -12,7 +12,7 @@ only-include = ["src"]
 
 [project]
 name = "objectory"
-version = "0.2.3a0"
+version = "0.3.0a0"
 description = "A light library for general purpose object factories"
 readme = "README.md"
 authors = [
@@ -40,9 +40,7 @@ classifiers = [
 ]
 
 requires-python = ">=3.10"
-dependencies = [
-    "tornado >=6.0,<7.0",
-]
+dependencies = []
 
 [project.optional-dependencies]
 

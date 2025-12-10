@@ -9,7 +9,6 @@ echo "$OUTPUT"
 # Add as many patterns as needed.
 PATTERNS=(
   '^objectory v[0-9]+(\.[0-9]+)*[A-Za-z0-9]*$'
-  '^└── tornado v[0-9]+(\.[0-9]+)*[[:space:]]+\[required:.*\]$'
 )
 
 # --- Validator ---
