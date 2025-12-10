@@ -1,3 +1,7 @@
+# Stable documentation deployment workflow.
+# Builds and deploys documentation for released versions to GitHub Pages.
+# Triggered by version tags and uses mike for documentation versioning.
+
 name: Documentation (stable)
 on:
   workflow_call:

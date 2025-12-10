@@ -1,3 +1,7 @@
+# Reusable workflow to retrieve package version configuration.
+# Reads the package version configuration from JSON file.
+# Used by dependency testing workflows to get version matrices.
+
 name: Get Versions
 on:
   workflow_call:

@@ -12,9 +12,16 @@ on:
   pull_request:
     branches: [ "main" ]
 
+# If using a dependency submission action in this workflow this permission will need to be set to:
+#
+# permissions:
+#   contents: write
+#
+# https://docs.github.com/en/enterprise-cloud@latest/code-security/supply-chain-security/understanding-your-software-supply-chain/using-the-dependency-submission-api
 permissions:
   contents: read
-  pull-requests: write # Required for posting PR comments
+  # Write permissions for pull-requests are required for using the `comment-summary-in-pr` option, comment out if you aren't using this option
+  pull-requests: write
 
 jobs:
   dependency-review:
@@ -22,8 +29,6 @@ jobs:
     steps:
       - name: 'Checkout repository'
         uses: actions/checkout@v6
-      
-      # Scan for security vulnerabilities in dependencies
       - name: 'Dependency Review'
         uses: actions/dependency-review-action@v4
         # Commonly enabled options, see https://github.com/actions/dependency-review-action#configuration-options for all available options.

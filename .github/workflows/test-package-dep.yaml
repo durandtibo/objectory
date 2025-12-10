@@ -1,3 +1,7 @@
+# Reusable workflow for testing installed package with specific dependency versions.
+# Tests the PyPI package with different versions of optional dependencies.
+# Ensures published package works across supported dependency version ranges.
+
 name: Test Package with Dependency Version
 on:
   workflow_call:

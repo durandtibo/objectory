@@ -1,3 +1,7 @@
+# Workflow run cleanup workflow.
+# Cancels stale queued workflow runs to save CI resources.
+# Runs every hour to keep the action queue clean.
+
 name: Cancel stale queued runs
 
 on:

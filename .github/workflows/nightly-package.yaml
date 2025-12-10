@@ -1,3 +1,7 @@
+# Nightly package testing workflow.
+# Tests the published package from PyPI every night.
+# Validates stable releases, pre-releases, and dependency compatibility.
+
 name: Nightly Package Tests
 on:
   schedule:

@@ -1,3 +1,7 @@
+# Comprehensive test suite workflow.
+# Runs unit and integration tests across multiple Python versions and operating systems.
+# Tests both with all dependencies and with minimal dependencies.
+
 name: Tests
 on:
   workflow_call:

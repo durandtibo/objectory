@@ -1,3 +1,7 @@
+# Type checking workflow.
+# Validates type annotations using mypy to ensure type safety.
+# Helps catch type-related bugs before runtime.
+
 name: Types
 on:
   workflow_call:

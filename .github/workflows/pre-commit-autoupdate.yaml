@@ -1,3 +1,7 @@
+# Pre-commit hooks auto-update workflow.
+# Automatically updates pre-commit hook versions weekly.
+# Creates a pull request with updated hook versions after validation.
+
 name: pre-commit auto-update
 
 on:

@@ -1,3 +1,7 @@
+# Package version generation workflow.
+# Generates configuration for testing different dependency versions.
+# Creates a pull request with updated version configuration weekly.
+
 name: Generate package versions
 on:
   schedule:

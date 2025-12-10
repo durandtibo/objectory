@@ -1,3 +1,7 @@
+# Documentation testing workflow.
+# Runs doctests on code examples in docstrings to ensure they work correctly.
+# Also validates that the documentation can be built without errors.
+
 name: Documentation Tests
 on:
   workflow_call:

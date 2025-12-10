@@ -1,3 +1,7 @@
+# Code formatting and linting workflow.
+# Checks code formatting with black and code quality with ruff.
+# Ensures code follows project style guidelines.
+
 name: Format
 on:
   workflow_call:

@@ -1,3 +1,7 @@
+# Code coverage workflow.
+# Runs tests with coverage tracking and uploads results to Codecov.
+# Only uploads coverage for the main repository to avoid spam from forks.
+
 name: Code Coverage
 on:
   workflow_call:

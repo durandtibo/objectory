@@ -1,3 +1,7 @@
+# Dependency compatibility testing workflow.
+# Tests the package with different versions of optional dependencies.
+# Ensures compatibility across supported dependency version ranges.
+
 name: Test - Dependencies
 on:
   workflow_call:
