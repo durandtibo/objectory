@@ -83,7 +83,7 @@ def test_import_object_incorrect_package_does_not_exist() -> None:
 
 
 def test_import_object_incorrect_type() -> None:
-    with pytest.raises(TypeError, match=r"`object_path` has to be a string"):
+    with pytest.raises(TypeError, match=r"`object_path` is not a string"):
         import_object(1)
 
 

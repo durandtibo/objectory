@@ -56,10 +56,13 @@ def resolve_name(name: str, object_names: set[str], allow_import: bool = True) -
     if len(matches := find_matches(name, object_names)) == 1:
         return next(iter(matches))
 
-    if (obj := import_object(name)) is not None:
-        object_name = get_fully_qualified_name(obj)
-        if allow_import or object_name in object_names:
-            return object_name
+    try:
+        obj = import_object(name)
+    except ImportError:
+        return None
+    object_name = get_fully_qualified_name(obj)
+    if allow_import or object_name in object_names:
+        return object_name
     return None
 
 
