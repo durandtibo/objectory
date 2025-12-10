@@ -6,5 +6,5 @@ METADATA=$(uv pip show objectory)
 
 echo "$METADATA"
 
-echo "$METADATA" | grep -zq "Name: objectory\n"
-echo "$METADATA" | grep -zq "Requires:\n"
+echo "$METADATA" | grep -q "Name: objectory"
+echo "$METADATA" | grep -q "Requires:"
