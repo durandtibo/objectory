@@ -47,6 +47,9 @@ def import_object(object_path: str) -> Any:
     >>> pi = import_object("math.pi")
     >>> pi
     3.141592653589793
+    >>> pkg = import_object("math")
+    >>> pkg
+    <module 'math' (built-in)>
 
     ```
     """
