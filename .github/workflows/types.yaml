@@ -17,6 +17,7 @@ jobs:
       - name: Setup python environment
         uses: ./.github/actions/setup-env
 
+      # Run mypy to check type annotations
       - name: Check types
         run: |
           inv check-types

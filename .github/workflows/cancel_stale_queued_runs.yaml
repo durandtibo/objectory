@@ -2,11 +2,11 @@ name: Cancel stale queued runs
 
 on:
   schedule:
-    - cron: "0 * * * *"   # runs every hour
-  workflow_dispatch:       # optional, for manual triggering
+    - cron: "0 * * * *"   # Run every hour to clean up queued runs
+  workflow_dispatch:      # Allow manual triggering
 
 permissions:
-  actions: write
+  actions: write   # Required to cancel workflow runs
   contents: read
 
 jobs:
@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
+      # Cancel queued workflow runs that are waiting to save CI resources
       - uses: durandtibo/cancel-queued-runs-action@v1.7
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

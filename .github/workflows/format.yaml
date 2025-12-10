@@ -17,10 +17,12 @@ jobs:
       - name: Setup python environment
         uses: ./.github/actions/setup-env
 
+      # Check code formatting with black
       - name: Check format
         run: |
           inv check-format
 
+      # Check code quality with ruff
       - name: Check lint
         run: |
           inv check-lint

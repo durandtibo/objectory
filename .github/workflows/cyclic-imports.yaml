@@ -17,12 +17,14 @@ jobs:
       - name: Setup python environment
         uses: ./.github/actions/setup-env
 
+      # Test main module imports to detect circular dependencies
       - name: check objectory
         run: |
           python -c "import objectory"
           python -c "from objectory import factory"
           python -c "from objectory import AbstractFactory"
 
+      # Test utils module imports
       - name: check objectory.utils
         run: |
           python -c "from objectory import utils"
