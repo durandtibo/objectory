@@ -4,10 +4,9 @@ from __future__ import annotations
 
 __all__ = ["import_object", "instantiate_object"]
 
+import importlib
 import inspect
 from typing import TYPE_CHECKING, Any
-
-from tornado.util import import_object as tornado_import_object
 
 from objectory.errors import AbstractClassFactoryError, IncorrectObjectFactoryError
 
@@ -21,16 +20,14 @@ def import_object(object_path: str) -> Any:
     This function dynamically imports a class, function, or other
     Python object using its fully qualified name. The object path
     should have the structure ``module_path.object_name`` (e.g.,
-    "collections.Counter" or "math.isclose"). If the path is invalid
-    or the object cannot be imported, the function returns ``None``
-    instead of raising an exception.
+    "collections.Counter" or "math.isclose").
 
     Args:
         object_path: The fully qualified path of the object to import.
             Must be a string in the format "module.path.ObjectName".
 
     Returns:
-        The object if the import was successful otherwise ``None``.
+        The imported object.
 
     Raises:
         TypeError: if ``object_path`` is not a string.
@@ -41,23 +38,36 @@ def import_object(object_path: str) -> Any:
     ```pycon
 
     >>> from objectory.utils import import_object
-    >>> obj = import_object("collections.Counter")
-    >>> obj()
+    >>> cls = import_object("collections.Counter")
+    >>> cls()
     Counter()
     >>> fn = import_object("math.isclose")
     >>> fn(1, 1)
     True
+    >>> pi = import_object("math.pi")
+    >>> pi
+    3.141592653589793
+    >>> pkg = import_object("math")
+    >>> pkg
+    <module 'math' (built-in)>
 
     ```
     """
     if not isinstance(object_path, str):
         msg = f"`object_path` is not a string: {object_path}"
         raise TypeError(msg)
+
+    # If there's no dot, treat it as a module/package import.
+    if "." not in object_path:
+        return importlib.import_module(object_path)
+
+    module_name, _, attr = object_path.rpartition(".")
+    module = importlib.import_module(module_name)
     try:
-        return tornado_import_object(object_path)
-    except (ValueError, ImportError):
-        msg = f"Could not import {object_path}"
-        raise ImportError(msg) from None
+        return getattr(module, attr)
+    except AttributeError as err:
+        msg = f"Module {module_name!r} has no attribute {attr!r}"
+        raise ImportError(msg) from err
 
 
 def instantiate_object(

@@ -1,16 +1,13 @@
 from __future__ import annotations
 
+import math
 from abc import ABC, abstractmethod
 from collections import Counter
-from math import isclose
 
 import pytest
 
 from objectory.errors import AbstractClassFactoryError, IncorrectObjectFactoryError
-from objectory.utils import (
-    import_object,
-    instantiate_object,
-)
+from objectory.utils import import_object, instantiate_object
 
 
 class Fake:
@@ -51,12 +48,35 @@ def test_import_object_class() -> None:
 
 
 def test_import_object_function() -> None:
-    assert import_object("math.isclose") == isclose
+    assert import_object("math.isclose") == math.isclose
 
 
-def test_import_object_incorrect() -> None:
-    with pytest.raises(ImportError, match=r"Could not import collections.NotACounter"):
+def test_import_object() -> None:
+    assert import_object("math.pi") == math.pi
+
+
+def test_import_object_package() -> None:
+    assert import_object("math") is math
+
+
+def test_import_object_incorrect_invalid_qualified_name() -> None:
+    with pytest.raises(ImportError, match=r"Module 'collections' has no attribute ''"):
+        import_object("collections.")
+
+
+def test_import_object_incorrect_object_does_not_exist() -> None:
+    with pytest.raises(ImportError, match=r"Module 'collections' has no attribute 'NotACounter'"):
         import_object("collections.NotACounter")
+
+
+def test_import_object_incorrect_package_does_not_exist() -> None:
+    with pytest.raises(ImportError, match=r"No module named 'missing_package_bjbskfs'"):
+        import_object("missing_package_bjbskfs.my_object")
+
+
+def test_import_object_incorrect_invalid_package() -> None:
+    with pytest.raises(ImportError, match=r"No module named 'torch'"):
+        import_object("torch")
 
 
 def test_import_object_incorrect_type() -> None:
