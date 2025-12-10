@@ -32,6 +32,10 @@ def import_object(object_path: str) -> Any:
     Returns:
         The object if the import was successful otherwise ``None``.
 
+    Raises:
+        TypeError: if ``object_path`` is not a string.
+        ImportError: if ``object_path`` cannot be imported.
+
     Example usage:
 
     ```pycon
@@ -47,12 +51,13 @@ def import_object(object_path: str) -> Any:
     ```
     """
     if not isinstance(object_path, str):
-        msg = f"`object_path` has to be a string (received: {object_path})"
+        msg = f"`object_path` is not a string: {object_path}"
         raise TypeError(msg)
     try:
         return tornado_import_object(object_path)
     except (ValueError, ImportError):
-        return None
+        msg = f"Could not import {object_path}"
+        raise ImportError(msg) from None
 
 
 def instantiate_object(
