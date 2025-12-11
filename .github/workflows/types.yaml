@@ -1,3 +1,7 @@
+# Type checking workflow.
+# Validates type annotations using mypy to ensure type safety.
+# Helps catch type-related bugs before runtime.
+
 name: Types
 on:
   workflow_call:
@@ -17,6 +21,7 @@ jobs:
       - name: Setup python environment
         uses: ./.github/actions/setup-env
 
+      # Run mypy to check type annotations
       - name: Check types
         run: |
           inv check-types

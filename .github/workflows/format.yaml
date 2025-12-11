@@ -1,3 +1,7 @@
+# Code formatting and linting workflow.
+# Checks code formatting with black and code quality with ruff.
+# Ensures code follows project style guidelines.
+
 name: Format
 on:
   workflow_call:
@@ -17,10 +21,12 @@ jobs:
       - name: Setup python environment
         uses: ./.github/actions/setup-env
 
+      # Check code formatting with black
       - name: Check format
         run: |
           inv check-format
 
+      # Check code quality with ruff
       - name: Check lint
         run: |
           inv check-lint

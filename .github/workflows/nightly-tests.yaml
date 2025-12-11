@@ -1,13 +1,18 @@
+# Nightly test workflow.
+# Runs the full CI test suite every night to catch issues early.
+# Helps detect problems with dependencies or external changes.
+
 name: Nightly Tests
 on:
   schedule:
-    - cron: '10 9 * * *' # run at 9:10 AM UTC
+    - cron: '10 9 * * *' # Run at 9:10 AM UTC daily
   workflow_dispatch:  # to trigger manually
 
 permissions:
   contents: read
 
 jobs:
+  # Run the same checks as CI on a nightly basis to catch issues early
   build:
     uses: ./.github/workflows/build.yaml
   cyclic-imports:
