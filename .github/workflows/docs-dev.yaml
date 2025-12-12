@@ -24,7 +24,7 @@ jobs:
 
       # Install dependencies including documentation tools
       - name: Setup python environment
-        uses: ./.github/actions/setup-env
+        uses: durandtibo/setup-venv-uv-action@v0.0.1
         with:
           install-args: '--docs-deps'
 
@@ -34,7 +34,7 @@ jobs:
           CI_BOT_EMAIL: ${{secrets.CI_BOT_EMAIL}}
         run: |
           git config --global user.name ci-docs-bot
-          git config --global user.email $CI_BOT_EMAIL
+          git config --global user.email "$CI_BOT_EMAIL"
           git fetch origin gh-pages --depth=1 --tags
 
       # Build and deploy documentation for the development version

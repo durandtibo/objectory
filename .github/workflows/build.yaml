@@ -18,88 +18,16 @@ jobs:
       max-parallel: 8
       fail-fast: false
       matrix:
-        # Test both source distribution (sdist) and wheel packages
-        dist-type: [ sdist, wheel ]
-        # Test with no extras and with all extras
-        extra: [ '', 'all' ]
+        dist-type: [ "sdist", "wheel" ]
+        package-extra: [ "", "all" ]
 
     steps:
       - name: Checkout
         uses: actions/checkout@v6
 
-      # Install uv package manager
-      - name: Install uv
-        uses: astral-sh/setup-uv@v7
+      - name: Verify Build
+        uses: durandtibo/verify-uv-build-action@v0.0.3
         with:
-          python-version: '3.13'
-          activate-environment: true
-
-      # Build the package (creates both sdist and wheel)
-      - name: Build package
-        run: |
-          uv build
-
-      # Determine which distribution file to test based on matrix
-      - name: Locate target distribution
-        id: dist
-        run: |
-          if [ "${{ matrix.dist-type }}" = "wheel" ]; then
-            TARGET=$(ls dist/*.whl | head -n1)
-          else
-            TARGET=$(ls dist/*.tar.gz | head -n1)
-          fi
-          echo "target=$TARGET" >> "$GITHUB_OUTPUT"
-
-      # Verify py.typed marker is included (required for PEP 561 typed packages)
-      - name: Check py.typed in distribution
-        run: |
-          if [ "${{ matrix.dist-type }}" = "wheel" ]; then
-            unzip -l "${{ steps.dist.outputs.target }}" | grep py.typed
-          else
-            tar -tzf "${{ steps.dist.outputs.target }}" | grep py.typed
-          fi
-
-      # Install the built package with optional extras
-      - name: Install built package
-        run: |
-          PKG="${{ steps.dist.outputs.target }}"
-          if [ -n "${{ matrix.extra }}" ]; then
-            PKG="${PKG}[${{ matrix.extra }}]"
-          fi
-          uv pip install "$PKG"
-
-      # Validate package metadata with twine
-      - name: Check build with twine
-        run: |
-          uv pip install twine
-          twine check dist/*
-
-      # Verify package metadata is complete and correct
-      - name: Check package metadata
-        run: |
-          dev/package/check_metadata.sh
-
-      # Verify dependency tree is as expected
-      - name: Check dependency tree
-        run: |
-          dev/package/check_dependency_tree.sh
-
-      # Test basic import to ensure package is installable
-      - name: Import package
-        run: |
-          python -c "import objectory; print(objectory.__version__)"
-
-      # Ensure version is not the placeholder "0.0.0"
-      - name: Check package version
-        run: |
-          python -c "import objectory; assert objectory.__version__ != '0.0.0'"
-
-      # Verify type checkers can recognize the package as typed
-      - name: Check that pyright recognizes the package as typed
-        run: |
-          uv pip install pyright
-          dev/package/check_type.sh
-
-      - name: Run some checks
-        run: |
-          python tests/package_checks.py
+          package-name: objectory
+          package-extra: ${{ matrix.package-extra }}
+          dist-type: ${{ matrix.dist-type }}
