@@ -1,7 +1,3 @@
-# Reusable workflow to retrieve package version configuration.
-# Reads the package version configuration from JSON file.
-# Used by dependency testing workflows to get version matrices.
-
 name: Get Versions
 on:
   workflow_call:
@@ -24,13 +20,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      # Read package version configuration from JSON file
       - name: Read versions
         id: extract
         run: |
-          echo "versions=$(cat dev/config/package_versions.json)" >> $GITHUB_OUTPUT
+          filepath="dev/config/package_versions.json"
+          echo "versions=$(tr '\n' ' ' < "$filepath")" >> "$GITHUB_OUTPUT"
 
-      # Display versions for debugging
       - name: Show versions
         run: |
           echo "versions: ${{ toJson(fromJson(steps.extract.outputs.versions)) }}"
