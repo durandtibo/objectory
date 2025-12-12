@@ -18,8 +18,8 @@
 #   0 - Dependency tree matches expected patterns
 #   1 - Dependency tree has unexpected dependencies or structure
 #
-# Notes:
-#   Update the PATTERNS array if the package's dependencies change.
+# Note:
+#   Update the validation patterns in this script when dependencies change.
 
 set -euo pipefail
 

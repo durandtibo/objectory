@@ -108,7 +108,7 @@ Validates the dependency tree structure.
 - No unexpected dependencies
 - Dependency tree matches expected patterns
 
-**Note:** Update the `PATTERNS` array in the script if dependencies change.
+**Note:** Update validation patterns in the script when dependencies change.
 
 ---
 
@@ -181,4 +181,21 @@ uv pip install -e .
 
 ### check_markdown.sh reports doctest failures
 
-The markdown files contain code examples that are executed. Fix the code examples or update the documentation to match the current API.
+The markdown files contain code examples that are executed as doctests. To debug:
+
+1. Run the script to identify which file failed:
+   ```bash
+   ./dev/check_markdown.sh
+   ```
+
+2. Run doctest on the specific file to see detailed error output:
+   ```bash
+   python -m doctest -v path/to/failing_file.md
+   ```
+
+3. Common causes:
+   - Code example output has changed due to API updates
+   - Import statements are missing or incorrect
+   - Expected output doesn't match actual output
+   
+4. Fix by updating the markdown file to match current behavior or fixing the code example.
