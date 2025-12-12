@@ -28,6 +28,6 @@ jobs:
       - name: Verify Build
         uses: durandtibo/verify-uv-build-action@v0.0.3
         with:
-          package-name: hatchling_autoextras_hook
+          package-name: objectory
           package-extra: ${{ matrix.package-extra }}
           dist-type: ${{ matrix.dist-type }}
