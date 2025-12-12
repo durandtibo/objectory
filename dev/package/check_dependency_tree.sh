@@ -1,5 +1,26 @@
 #!/usr/bin/env bash
 
+# check_dependency_tree.sh - Validate package dependency tree
+#
+# Description:
+#   Verifies that the package dependency tree matches expected patterns. Checks
+#   that the package has no unexpected dependencies and validates the structure
+#   of the dependency tree. This ensures clean packaging without extra dependencies.
+#
+# Usage:
+#   ./check_dependency_tree.sh
+#
+# Requirements:
+#   - uv must be installed and available in PATH
+#   - objectory package must be installed in the current environment
+#
+# Exit Codes:
+#   0 - Dependency tree matches expected patterns
+#   1 - Dependency tree has unexpected dependencies or structure
+#
+# Notes:
+#   Update the PATTERNS array if the package's dependencies change.
+
 set -euo pipefail
 
 OUTPUT=$(uv pip tree --package objectory --show-version-specifiers)
