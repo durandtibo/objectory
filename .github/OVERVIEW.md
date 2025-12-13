@@ -356,6 +356,172 @@ requests:
 - **Feature Request**: `.github/ISSUE_TEMPLATE/feature-request.yml`
 - **Pull Request Template**: `.github/PULL_REQUEST_TEMPLATE.md`
 
+## Troubleshooting Workflow Issues
+
+### Common Issues and Solutions
+
+#### Workflow Fails with "Permission denied"
+
+**Cause**: Insufficient permissions in the workflow configuration.
+
+**Solution**: Verify that the workflow has the necessary permissions. For example, workflows that push changes need `contents: write`.
+
+#### Workflow Hangs or Times Out
+
+**Cause**: A step is taking longer than expected or is waiting for input.
+
+**Solution**:
+- Check the timeout settings in the workflow (default is 10 minutes for most jobs)
+- Review job logs to identify which step is hanging
+- Consider increasing the timeout if the step legitimately needs more time
+
+#### Matrix Job Failures
+
+**Cause**: One configuration in the matrix is failing while others pass.
+
+**Solution**:
+- Check the specific configuration that failed (Python version, OS, etc.)
+- Review the job logs for that specific matrix combination
+- Test locally with the same configuration if possible
+
+#### Secret Not Available
+
+**Cause**: Required secret is not configured in repository settings.
+
+**Solution**:
+- Go to repository Settings > Secrets and variables > Actions
+- Add the required secret (e.g., `CODECOV_TOKEN`, `PYPI_TOKEN`)
+
+#### Dependabot PR Fails
+
+**Cause**: Dependency update breaks tests or compatibility.
+
+**Solution**:
+- Review the Dependabot PR description for breaking changes
+- Check the failing test logs
+- Either fix the compatibility issue or close the PR if the update is not needed
+
+### Manually Triggering Workflows
+
+Most workflows can be manually triggered using `workflow_dispatch`:
+
+1. Go to the "Actions" tab in GitHub
+2. Select the workflow you want to run
+3. Click "Run workflow"
+4. Select the branch and any required inputs
+5. Click "Run workflow" button
+
+### Viewing Workflow Logs
+
+To view detailed logs for a workflow run:
+
+1. Go to the "Actions" tab
+2. Click on the workflow run
+3. Click on a specific job to see its steps
+4. Click on a step to expand its logs
+5. Use the search box to filter log output
+
+### Local Testing
+
+Before pushing changes, you can test workflows locally:
+
+```bash
+# Run tests locally
+inv unit-test --cov
+inv integration-test --cov
+
+# Check code formatting
+inv check-format
+
+# Check types
+inv check-types
+
+# Run pre-commit hooks
+pre-commit run --all-files
+
+# Check markdown documentation
+./dev/check_markdown.sh
+```
+
+## Workflow Usage Examples
+
+### Running Build Validation Locally
+
+To replicate what the build workflow does:
+
+```bash
+# Build source distribution
+uv build --sdist
+
+# Build wheel
+uv build --wheel
+
+# Install from built wheel
+uv pip install dist/objectory-*.whl
+
+# Validate package metadata
+./dev/package/check_metadata.sh
+
+# Check dependency tree
+./dev/package/check_dependency_tree.sh
+
+# Validate type annotations
+./dev/package/check_type.sh
+
+# Run custom checks
+./dev/package/custom_checks.sh
+```
+
+### Testing with Different Python Versions
+
+The test workflow tests multiple Python versions. To test locally with different versions:
+
+```bash
+# Using pyenv to test with Python 3.11
+pyenv install 3.11
+pyenv local 3.11
+python -m venv .venv-3.11
+source .venv-3.11/bin/activate
+uv pip install -e .
+inv unit-test
+
+# Test with minimal dependencies
+uv pip install -e . --no-optional-deps
+inv unit-test
+```
+
+
+## Maintenance Tasks
+
+### Updating Pre-commit Hooks
+
+Happens automatically weekly via `pre-commit-autoupdate.yaml`, but can be done manually:
+
+```bash
+pre-commit autoupdate
+pre-commit run --all-files
+git commit -am "Update pre-commit hooks"
+```
+
+### Updating Dependencies
+
+Happens automatically weekly via `update-deps.yaml`, but can be done manually:
+
+```bash
+inv update
+inv install --docs-deps
+inv unit-test --cov
+```
+
+### Regenerating Package Version Configuration
+
+Happens automatically weekly via `generate-package-versions.yaml`, but can be done manually:
+
+```bash
+python dev/generate_versions.py
+git commit -am "Generate package versions"
+```
+
 ## Contributing
 
 For detailed information about contributing to the project, including how to run tests locally and

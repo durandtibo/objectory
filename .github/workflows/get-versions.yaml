@@ -1,3 +1,7 @@
+# Package version retrieval workflow.
+# Reads package version configuration and exposes as workflow output.
+# Used by other workflows to test multiple dependency versions.
+
 name: Get Versions
 on:
   workflow_call:
