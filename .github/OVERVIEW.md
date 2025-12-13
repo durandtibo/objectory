@@ -370,7 +370,7 @@ requests:
 
 **Cause**: A step is taking longer than expected or is waiting for input.
 
-**Solution**: 
+**Solution**:
 - Check the timeout settings in the workflow (default is 10 minutes for most jobs)
 - Review job logs to identify which step is hanging
 - Consider increasing the timeout if the step legitimately needs more time
@@ -490,18 +490,6 @@ uv pip install -e . --no-optional-deps
 inv unit-test
 ```
 
-### Creating a Release
-
-To publish a new release (typically done automatically on version tags):
-
-```bash
-# Update version in pyproject.toml
-# Commit the change
-git tag -a v1.0.0 -m "Release version 1.0.0"
-git push origin v1.0.0
-
-# The pypi.yaml workflow will automatically build and publish to PyPI
-```
 
 ## Maintenance Tasks
 
