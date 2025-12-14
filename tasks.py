@@ -3,7 +3,6 @@ r"""Define some tasks that are executed with invoke."""
 from __future__ import annotations
 
 import logging
-import sys
 from typing import TYPE_CHECKING
 
 from invoke.tasks import task
@@ -34,17 +33,10 @@ def check_format(c: Context) -> None:
 
     Args:
         c: The invoke context.
-
-    Raises:
-        SystemExit: If formatting issues are found.
     """
     logger.info("🎨 Checking code format with black...")
-    result = c.run("black --check .", pty=True, warn=True)
-    if result.ok:
-        logger.info("✅ Code format check passed")
-    else:
-        logger.error("❌ Code format check failed")
-        sys.exit(1)
+    c.run("black --check .", pty=True)
+    logger.info("✅ Code format check passed")
 
 
 @task
@@ -56,17 +48,10 @@ def check_lint(c: Context) -> None:
 
     Args:
         c: The invoke context.
-
-    Raises:
-        SystemExit: If linting issues are found.
     """
     logger.info("🔍 Checking code linting with ruff...")
-    result = c.run("ruff check --output-format=github .", pty=True, warn=True)
-    if result.ok:
-        logger.info("✅ Linting check passed")
-    else:
-        logger.error("❌ Linting check failed")
-        sys.exit(1)
+    c.run("ruff check --output-format=github .", pty=True)
+    logger.info("✅ Linting check passed")
 
 
 @task
@@ -78,17 +63,10 @@ def check_types(c: Context) -> None:
 
     Args:
         c: The invoke context.
-
-    Raises:
-        SystemExit: If type checking errors are found.
     """
     logger.info("🔬 Checking type hints with pyright...")
-    result = c.run(f"pyright {SOURCE}", pty=True, warn=True)
-    if result.ok:
-        logger.info("✅ Type check passed")
-    else:
-        logger.error("❌ Type check failed")
-        sys.exit(1)
+    c.run(f"pyright {SOURCE}", pty=True)
+    logger.info("✅ Type check passed")
 
 
 @task
@@ -168,21 +146,12 @@ def format_shell(c: Context) -> None:
         SystemExit: If shellcheck or shfmt fails.
     """
     logger.info("🐚 Running shellcheck on shell scripts...")
-    result = c.run("shellcheck -- **/*.sh", warn=True, pty=True)
-    if result.ok:
-        logger.info("✅ Shellcheck passed")
-    else:
-        logger.error("❌ Shellcheck failed")
-        sys.exit(1)
-    logger.info("")
+    c.run("shellcheck -- **/*.sh", pty=True)
+    logger.info("✅ Shellcheck passed\n")
 
     logger.info("🔧 Running shfmt to format shell scripts...")
-    result = c.run("shfmt -l -w -- **/*.sh", warn=True, pty=True)
-    if result.ok:
-        logger.info("✅ Shell formatting complete")
-    else:
-        logger.error("❌ Shell formatting failed")
-        sys.exit(1)
+    c.run("shfmt -l -w -- **/*.sh", pty=True)
+    logger.info("✅ Shell formatting complete")
 
 
 @task
@@ -327,7 +296,7 @@ def integration_test(c: Context, cov: bool = False) -> None:
     cmd = ["python -m pytest --xdoctest --timeout 60"]
     if cov:
         cmd.append(
-            f"--cov-report html --cov-report xml --cov-report term  --cov-append --cov={NAME}"
+            f"--cov-report html --cov-report xml --cov-report term --cov-append --cov={NAME}"
         )
         logger.info("📊 Coverage reports will be generated (appending)")
     cmd.append(f"{INTEGRATION_TESTS}")
