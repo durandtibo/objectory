@@ -21,7 +21,7 @@ uv pip install git+https://github.com/durandtibo/objectory.git
 To install a specific version:
 
 ```shell
-uv pip install objectory==0.2.2
+uv pip install objectory==0.3.0
 ```
 
 ## Installing with `pip`
@@ -41,7 +41,7 @@ pip install git+https://github.com/durandtibo/objectory.git
 To install a specific version:
 
 ```shell
-pip install objectory==0.2.2
+pip install objectory==0.3.0
 ```
 
 ## Verifying Installation
