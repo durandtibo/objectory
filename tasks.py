@@ -2,12 +2,18 @@ r"""Define some tasks that are executed with invoke."""
 
 from __future__ import annotations
 
+import logging
+import sys
 from typing import TYPE_CHECKING
 
 from invoke.tasks import task
 
 if TYPE_CHECKING:
     from invoke.context import Context
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format="%(message)s")
+logger = logging.getLogger(__name__)
 
 NAME = "objectory"
 SOURCE = f"src/{NAME}"
@@ -83,6 +89,31 @@ def docformat(c: Context) -> None:
         c: The invoke context.
     """
     c.run(f"docformatter --config ./pyproject.toml --in-place {SOURCE}", pty=True)
+
+
+@task
+def format_shell(c: Context) -> None:
+    r"""Format the shell scripts.
+
+    Args:
+        c: The invoke context.
+    """
+    logger.info("🐚 Running shellcheck on shell scripts...")
+    result = c.run("shellcheck -- **/*.sh", warn=True, pty=True)
+    if result.ok:
+        logger.info("✅ Shellcheck passed")
+    else:
+        logger.error("❌ Shellcheck failed")
+        sys.exit(1)
+    logger.info("")
+
+    logger.info("🔧 Running shfmt to format shell scripts...")
+    result = c.run("shfmt -l -w -- **/*.sh", warn=True, pty=True)
+    if result.ok:
+        logger.info("✅ Shell formatting complete")
+    else:
+        logger.error("❌ Shell formatting failed")
+        sys.exit(1)
 
 
 @task
