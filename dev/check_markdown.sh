@@ -1,5 +1,23 @@
 #!/usr/bin/env bash
 
+# check_markdown.sh - Validate code examples in markdown files
+#
+# Description:
+#   Finds and tests all markdown files in the repository using Python's doctest
+#   module. This ensures that code examples in documentation are correct and
+#   up-to-date. Excludes virtual environments and cache directories.
+#
+# Usage:
+#   ./check_markdown.sh
+#
+# Requirements:
+#   - Python must be available
+#   - Markdown files should contain testable Python code blocks
+#
+# Exit Codes:
+#   0 - All markdown files passed doctest validation
+#   1 - One or more markdown files failed doctest validation
+
 set -euo pipefail
 
 # List of folders to exclude
