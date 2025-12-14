@@ -171,7 +171,7 @@ Please be patient - maintainers review PRs as time permits.
 - Focus on the code, not the person
 - Assume good intentions
 
-We follow the [Code of Conduct](../CODE_OF_CONDUCT.md).
+We follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## Release Process
 
@@ -184,7 +184,7 @@ Releases are handled by maintainers:
 
 ## Getting Help
 
-- Check the [FAQ](../docs/docs/user/faq.md)
+- Check the [FAQ](docs/docs/user/faq.md)
 - Browse [existing issues](https://github.com/durandtibo/objectory/issues)
 - Open a [discussion](https://github.com/durandtibo/objectory/discussions)
 
