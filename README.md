@@ -155,7 +155,7 @@ The following is the corresponding `objectory` versions and supported dependenci
 
 ## Contributing
 
-Please check the instructions in [CONTRIBUTING.md](.github/CONTRIBUTING.md).
+Please check the instructions in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## API stability
 
