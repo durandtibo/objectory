@@ -27,4 +27,4 @@ jobs:
 
       # Verify workflow files are valid and follow best practices
       - name: Verify GitHub Workflows
-        uses: durandtibo/verify-github-workflow-action@v0.0.2
+        uses: durandtibo/verify-github-workflow-action@v0.0.3
