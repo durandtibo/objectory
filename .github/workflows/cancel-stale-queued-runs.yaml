@@ -16,6 +16,7 @@ permissions:
 jobs:
   cancel-stale-runs:
     runs-on: ubuntu-24.04
+    timeout-minutes: 10
 
     steps:
       # Cancel queued workflow runs that are waiting to save CI resources
