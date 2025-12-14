@@ -6,7 +6,7 @@ name: Get Versions
 # Usage:
 #   jobs:
 #     get-versions:
-#       uses: ./.github/workflows/get-versions.yml
+#       uses: ./.github/workflows/get-versions.yaml
 #
 #     use-versions:
 #       needs: get-versions
@@ -25,7 +25,7 @@ on:
   workflow_dispatch:  # Allows manual triggering for testing purposes
 
 permissions:
-  contents: read  # Only read access needed
+  contents: read
 
 jobs:
   get-versions:
