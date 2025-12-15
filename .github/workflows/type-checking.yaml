@@ -1,3 +1,7 @@
+# Type checking workflow.
+# Validates type annotations using pyright to ensure type safety.
+# Helps catch type-related bugs before runtime.
+
 name: Type Checking
 on:
   workflow_call:
