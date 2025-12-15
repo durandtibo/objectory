@@ -46,7 +46,7 @@ jobs:
           inv unit-test --cov
 
       # Create a pull request with the dependency updates
-      - uses: peter-evans/create-pull-request@v7
+      - uses: peter-evans/create-pull-request@v8
         if: always()
         with:
           token: ${{ secrets.GITHUB_TOKEN }}

@@ -31,7 +31,7 @@ jobs:
           python dev/generate_versions.py
 
       # Create a pull request with updated version configuration
-      - uses: peter-evans/create-pull-request@v7
+      - uses: peter-evans/create-pull-request@v8
         if: always()
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
