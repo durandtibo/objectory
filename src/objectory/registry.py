@@ -24,7 +24,7 @@ from objectory.utils import (
     resolve_name,
 )
 
-logger = logging.getLogger(__name__)
+logger: logging.Logger = logging.getLogger(__name__)
 
 T = TypeVar("T")
 Registerable = TypeVar("Registerable", type, Callable[..., Any])

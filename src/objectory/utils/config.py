@@ -11,13 +11,13 @@ __all__ = ["is_object_config"]
 
 import inspect
 from types import UnionType
-from typing import Union, get_args, get_origin, get_type_hints
+from typing import Any, Union, get_args, get_origin, get_type_hints
 
 from objectory.constants import OBJECT_TARGET
 from objectory.utils.instantiation import import_object
 
 
-def is_object_config(config: dict, cls: type) -> bool:
+def is_object_config(config: dict[str, Any], cls: type) -> bool:
     r"""Indicate if the input configuration is a configuration for a
     given class.
 

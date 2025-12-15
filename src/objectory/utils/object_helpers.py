@@ -6,7 +6,7 @@ __all__ = ["all_child_classes"]
 
 import logging
 
-logger = logging.getLogger(__name__)
+logger: logging.Logger = logging.getLogger(__name__)
 
 
 def all_child_classes(cls: type) -> set[type]:
