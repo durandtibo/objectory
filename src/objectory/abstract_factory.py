@@ -31,7 +31,7 @@ from objectory.utils import (
 if TYPE_CHECKING:
     from collections.abc import Callable
 
-logger = logging.getLogger(__name__)
+logger: logging.Logger = logging.getLogger(__name__)
 
 
 class AbstractFactory(ABCMeta):
@@ -74,7 +74,7 @@ class AbstractFactory(ABCMeta):
     ```
     """
 
-    def __init__(cls, name: str, bases: tuple, dct: dict) -> None:
+    def __init__(cls, name: str, bases: tuple[type, ...], dct: dict[str, Any]) -> None:
         if not hasattr(cls, "_abstractfactory_inheritors"):
             cls._abstractfactory_inheritors = {}
         cls.register_object(cls)

@@ -40,7 +40,7 @@ jobs:
 
   # Check type annotations with mypy
   types:
-    uses: ./.github/workflows/types.yaml
+    uses: ./.github/workflows/type-checking.yaml
 
   # Run pre-commit hooks for code quality
   pre-commit:
