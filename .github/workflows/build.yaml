@@ -93,8 +93,11 @@ jobs:
           echo "=== 3 ==="
           tar -tzf dist/objectory-0.3.1a0.tar.gz 2>/dev/null | grep py.typed
           
+          echo "=== 3 ==="
+          tar -tzf dist/objectory-0.3.1a0.tar.gz | grep py.typed
+          
           echo "=== 4 ==="
-          tar -tzf dist/objectory-0.3.1a0.tar.gz 2>/dev/null | grep -q py.typed
+          tar -tzf dist/objectory-0.3.1a0.tar.gz | grep -q py.typed
 
           echo "=== 5 ==="
           if tar -tzf dist/objectory-0.3.1a0.tar.gz 2>/dev/null | grep -q py.typed; then
