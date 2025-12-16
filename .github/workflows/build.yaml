@@ -102,7 +102,7 @@ jobs:
           $COMMAND
           echo "=== END COMMAND ==="
 
-          COMMAND="tar -tzf dist/objectory-0.3.1a0.tar.gz 2>/dev/null | grep -q py.typed"
+          COMMAND="tar -tzf dist/objectory-0.3.1a0.tar.gz 2>/dev/null \| grep -q py.typed"
           echo "$COMMAND"
           $COMMAND
           echo "=== END COMMAND ==="
