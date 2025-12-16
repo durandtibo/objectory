@@ -93,8 +93,17 @@ jobs:
           echo "=== 3 ==="
           tar -tzf dist/objectory-0.3.1a0.tar.gz 2>/dev/null | grep py.typed
           
-          echo "=== 3 ==="
+          echo "=== 3a ==="
           tar -tzf dist/objectory-0.3.1a0.tar.gz | grep py.typed
+          
+          echo "=== 3b ==="
+          output=$(tar -tzf dist/objectory-0.3.1a0.tar.gz 2>&1)
+          if echo "$output" | grep -q py.typed; then
+            echo "✅ py.typed marker found"
+          else
+            echo "❌ Error: py.typed marker not found"
+            exit 1
+          fi
           
           echo "=== 4 ==="
           tar -tzf dist/objectory-0.3.1a0.tar.gz | grep -q py.typed
