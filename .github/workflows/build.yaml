@@ -40,3 +40,59 @@ jobs:
           echo "🔍 Running package checks..."
           python tests/package_checks.py
           echo "✅ Package checks passed"
+
+  build2:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    strategy:
+      max-parallel: 8
+      fail-fast: false
+      matrix:
+        dist-type: [ "sdist", "wheel" ]
+        package-extra: [ "", "all" ]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      # Step 2: Install uv package manager
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          python-version: ${{ inputs.python-version }}
+          activate-environment: true
+
+      # Step 3: Build the package
+      - name: Build package
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "📦 Building package..."
+          uv build
+          echo "✅ Build completed"
+
+      - name: Show artifacts
+        shell: bash
+        if: always()
+        run: |
+          set -euo pipefail
+          echo "🔍 Show wheel content"
+          unzip -l $(ls dist/*.whl | head -n1)
+          echo ""
+          echo "🔍 Show sdist content"
+          tar -tzf $(ls dist/*.tar.gz | head -n1)
+
+      # Step 5: Verify py.typed marker exists
+      - name: Check py.typed in distribution
+        shell: bash
+        run: |
+          set -euo pipefail
+          COMMAND="tar -tzf $(ls dist/*.tar.gz | head -n1)"
+          echo "$COMMAND"
+
+          if $COMMAND | grep -q py.typed; then
+            echo "✅ py.typed marker found"
+          else
+            echo "❌ Error: py.typed marker not found"
+            exit 1
+          fi
