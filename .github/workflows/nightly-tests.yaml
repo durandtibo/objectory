@@ -12,7 +12,6 @@ permissions:
   contents: read
 
 jobs:
-  # Run the same checks as CI on a nightly basis to catch issues early
   build:
     uses: ./.github/workflows/build.yaml
   cyclic-imports:
