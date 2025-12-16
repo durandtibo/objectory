@@ -5,7 +5,7 @@ from collections import Counter
 
 import objectory
 
-logger = logging.getLogger(__name__)
+logger: logging.Logger = logging.getLogger(__name__)
 
 
 def check_abstract_factory() -> None:
