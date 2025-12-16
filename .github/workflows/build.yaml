@@ -92,6 +92,11 @@ jobs:
           $COMMAND
           echo "=== END COMMAND ==="
 
+          COMMAND="tar -tzf $(ls dist/*.tar.gz | head -n1) 2>/dev/null"
+          echo "$COMMAND"
+          $COMMAND
+          echo "=== END COMMAND ==="
+
           if $COMMAND | grep -q py.typed; then
             echo "✅ py.typed marker found"
           else
