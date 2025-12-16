@@ -97,7 +97,7 @@ jobs:
           tar -tzf dist/objectory-0.3.1a0.tar.gz | grep py.typed
           
           echo "=== 3b ==="
-          output=$(tar -tzf dist/objectory-0.3.1a0.tar.gz 2>&1)
+          output=$(tar -tzf dist/objectory-0.3.1a0.tar.gz)
           if echo "$output" | grep -q py.typed; then
             echo "✅ py.typed marker found"
           else
