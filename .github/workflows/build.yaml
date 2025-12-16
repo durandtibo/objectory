@@ -82,6 +82,16 @@ jobs:
           echo "🔍 Show sdist content"
           tar -tzf $(ls dist/*.tar.gz | head -n1)
 
+      - name: Check for py.typed
+        run: |
+          set -euo pipefail
+          if tar -tzf dist/objectory-0.3.1a0.tar.gz 2>/dev/null | grep -q py.typed; then
+            echo "✅ py.typed marker found"
+          else
+            echo "❌ Error: py.typed marker not found"
+            exit 1
+          fi
+
       # Step 5: Verify py.typed marker exists
       - name: Check py.typed in distribution
         shell: bash
