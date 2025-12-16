@@ -38,8 +38,8 @@ jobs:
   format:
     uses: ./.github/workflows/format.yaml
 
-  # Check type annotations with mypy
-  types:
+  # Check type annotations with pyright
+  type-checking:
     uses: ./.github/workflows/type-checking.yaml
 
   # Run pre-commit hooks for code quality
