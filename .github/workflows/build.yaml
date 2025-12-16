@@ -26,7 +26,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Verify Build
-        uses: durandtibo/verify-uv-build-action@v0.0.4
+        uses: durandtibo/verify-uv-build-action@v0.0.5a0
         with:
           package-name: objectory
           package-extra: ${{ matrix.package-extra }}
