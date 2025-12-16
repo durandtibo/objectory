@@ -89,6 +89,8 @@ jobs:
           set -euo pipefail
           COMMAND="tar -tzf $(ls dist/*.tar.gz | head -n1)"
           echo "$COMMAND"
+          $COMMAND
+          echo "=== END COMMAND ==="
 
           if $COMMAND | grep -q py.typed; then
             echo "✅ py.typed marker found"
