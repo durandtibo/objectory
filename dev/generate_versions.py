@@ -8,7 +8,7 @@ from pathlib import Path
 
 from feu.utils.io import save_json
 
-logger = logging.getLogger(__name__)
+logger: logging.Logger = logging.getLogger(__name__)
 
 
 def get_package_versions() -> dict[str, list[str]]:

@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
-logger = logging.getLogger(__name__)
+logger: logging.Logger = logging.getLogger(__name__)
 
 
 NAME = "objectory"
