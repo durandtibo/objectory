@@ -771,7 +771,7 @@ wheels = [
 
 [[package]]
 name = "objectory"
-version = "0.3.1a0"
+version = "0.3.2a0"
 source = { editable = "." }
 
 [package.dev-dependencies]
