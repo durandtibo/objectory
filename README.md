@@ -135,6 +135,7 @@ The following is the corresponding `objectory` versions and supported dependenci
 | `objectory` | `tornado`    | `python`       |
 |-------------|--------------|----------------|
 | `main`      |              | `>=3.10`       |
+| `0.3.1`     |              | `>=3.10`       |
 | `0.3.0`     |              | `>=3.10`       |
 | `0.2.2`     | `>=6.0,<7.0` | `>=3.10,<3.15` |
 | `0.2.1`     | `>=6.0,<7.0` | `>=3.10,<3.15` |
