@@ -8,7 +8,7 @@
 #   up-to-date. Excludes virtual environments and cache directories.
 #
 # Usage:
-#   ./check_markdown.sh
+#   dev/check_markdown.sh
 #
 # Requirements:
 #   - Python must be available
