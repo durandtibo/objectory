@@ -3,8 +3,7 @@ r"""Define some constants used in the package.
 These constants can be used outside the package to be robust to
 naming change.
 
-Example usage:
-
+Example:
 ```pycon
 
 >>> from objectory import factory, OBJECT_TARGET

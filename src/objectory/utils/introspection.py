@@ -30,23 +30,21 @@ def get_fully_qualified_name(obj: Any) -> str:
     Returns:
         The fully qualified name.
 
-    Example usage:
+    Example:
+        ```pycon
+        >>> from objectory.utils import get_fully_qualified_name
+        >>> import collections
+        >>> get_fully_qualified_name(collections.Counter)
+        'collections.Counter'
+        >>> class MyClass:
+        ...     pass
+        ...
+        >>> get_fully_qualified_name(MyClass)
+        '....MyClass'
+        >>> get_fully_qualified_name(map)
+        'builtins.map'
 
-    ```pycon
-
-    >>> from objectory.utils import get_fully_qualified_name
-    >>> import collections
-    >>> get_fully_qualified_name(collections.Counter)
-    'collections.Counter'
-    >>> class MyClass:
-    ...     pass
-    ...
-    >>> get_fully_qualified_name(MyClass)
-    '....MyClass'
-    >>> get_fully_qualified_name(map)
-    'builtins.map'
-
-    ```
+        ```
     """
     module = getattr(obj, "__module__", None)
     qualname = getattr(obj, "__qualname__", None)
@@ -78,22 +76,20 @@ def is_lambda_function(obj: Any) -> bool:
         ``True`` if the input is a lambda function,
             otherwise ``False``
 
-    Example usage:
+    Example:
+        ```pycon
+        >>> from objectory.utils import is_lambda_function
+        >>> is_lambda_function(lambda value: value + 1)
+        True
+        >>> def my_function(value: int) -> int:
+        ...     return value + 1
+        ...
+        >>> is_lambda_function(my_function)
+        False
+        >>> is_lambda_function(1)
+        False
 
-    ```pycon
-
-    >>> from objectory.utils import is_lambda_function
-    >>> is_lambda_function(lambda value: value + 1)
-    True
-    >>> def my_function(value: int) -> int:
-    ...     return value + 1
-    ...
-    >>> is_lambda_function(my_function)
-    False
-    >>> is_lambda_function(1)
-    False
-
-    ```
+        ```
     """
     if not inspect.isfunction(obj):
         return False
