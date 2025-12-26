@@ -36,19 +36,17 @@ def resolve_name(name: str, object_names: set[str], allow_import: bool = True) -
         The resolved name if the resolution was successful,
             otherwise ``None``
 
-    Example usage:
+    Example:
+        ```pycon
+        >>> from objectory.utils import resolve_name
+        >>> resolve_name("OrderedDict", {"collections.OrderedDict", "collections.Counter"})
+        collections.OrderedDict
+        >>> resolve_name("objectory.utils.resolve_name", {"math.isclose"})
+        'objectory.utils.name_resolution.resolve_name'
+        >>> resolve_name("OrderedDict", {"collections.Counter", "math.isclose"})
+        None
 
-    ```pycon
-
-    >>> from objectory.utils import resolve_name
-    >>> resolve_name("OrderedDict", {"collections.OrderedDict", "collections.Counter"})
-    collections.OrderedDict
-    >>> resolve_name("objectory.utils.resolve_name", {"math.isclose"})
-    'objectory.utils.name_resolution.resolve_name'
-    >>> resolve_name("OrderedDict", {"collections.Counter", "math.isclose"})
-    None
-
-    ```
+        ```
     """
     if name in object_names:
         return name
@@ -84,23 +82,21 @@ def find_matches(query: str, object_names: set[str]) -> set[str]:
     Returns:
         The set of names that match with the query.
 
-    Example usage:
+    Example:
+        ```pycon
+        >>> from objectory.utils.name_resolution import find_matches
+        >>> find_matches("OrderedDict", {"collections.Counter", "math.isclose"})
+        set()
+        >>> find_matches(
+        ...     "OrderedDict", {"collections.OrderedDict", "collections.Counter", "math.isclose"}
+        ... )
+        {'collections.OrderedDict'}
+        >>> find_matches(
+        ...     "OrderedDict", {"collections.OrderedDict", "typing.OrderedDict", "math.isclose"}
+        ... )
+        {...}
 
-    ```pycon
-
-    >>> from objectory.utils.name_resolution import find_matches
-    >>> find_matches("OrderedDict", {"collections.Counter", "math.isclose"})
-    set()
-    >>> find_matches(
-    ...     "OrderedDict", {"collections.OrderedDict", "collections.Counter", "math.isclose"}
-    ... )
-    {'collections.OrderedDict'}
-    >>> find_matches(
-    ...     "OrderedDict", {"collections.OrderedDict", "typing.OrderedDict", "math.isclose"}
-    ... )
-    {...}
-
-    ```
+        ```
     """
     if not query.isidentifier():
         return set()

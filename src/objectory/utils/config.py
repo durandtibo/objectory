@@ -34,16 +34,14 @@ def is_object_config(config: dict[str, Any], cls: type) -> bool:
         ``True`` if the input configuration is a configuration
             for the given class.
 
-    Example usage:
+    Example:
+        ```pycon
+        >>> from objectory.utils import is_object_config
+        >>> from collections import Counter
+        >>> is_object_config({"_target_": "collections.Counter", "iterable": [1, 2, 1, 3]}, Counter)
+        True
 
-    ```pycon
-
-    >>> from objectory.utils import is_object_config
-    >>> from collections import Counter
-    >>> is_object_config({"_target_": "collections.Counter", "iterable": [1, 2, 1, 3]}, Counter)
-    True
-
-    ```
+        ```
     """
     target = config.get(OBJECT_TARGET)
     if target is None:

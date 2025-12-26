@@ -33,25 +33,23 @@ def import_object(object_path: str) -> Any:
         TypeError: if ``object_path`` is not a string.
         ImportError: if ``object_path`` cannot be imported.
 
-    Example usage:
+    Example:
+        ```pycon
+        >>> from objectory.utils import import_object
+        >>> cls = import_object("collections.Counter")
+        >>> cls()
+        Counter()
+        >>> fn = import_object("math.isclose")
+        >>> fn(1, 1)
+        True
+        >>> pi = import_object("math.pi")
+        >>> pi
+        3.141592653589793
+        >>> pkg = import_object("math")
+        >>> pkg
+        <module 'math' (built-in)>
 
-    ```pycon
-
-    >>> from objectory.utils import import_object
-    >>> cls = import_object("collections.Counter")
-    >>> cls()
-    Counter()
-    >>> fn = import_object("math.isclose")
-    >>> fn(1, 1)
-    True
-    >>> pi = import_object("math.pi")
-    >>> pi
-    3.141592653589793
-    >>> pkg = import_object("math")
-    >>> pkg
-    <module 'math' (built-in)>
-
-    ```
+        ```
     """
     if not isinstance(object_path, str):
         msg = f"`object_path` is not a string: {object_path}"
@@ -100,18 +98,16 @@ def instantiate_object(
     Raises:
         TypeError: if ``obj`` is not a class or a function.
 
-    Example usage:
+    Example:
+        ```pycon
+        >>> from collections import Counter
+        >>> from objectory.utils import instantiate_object
+        >>> instantiate_object(Counter, [1, 2, 1])
+        Counter({1: 2, 2: 1})
+        >>> instantiate_object(list, [1, 2, 1])
+        [1, 2, 1]
 
-    ```pycon
-
-    >>> from collections import Counter
-    >>> from objectory.utils import instantiate_object
-    >>> instantiate_object(Counter, [1, 2, 1])
-    Counter({1: 2, 2: 1})
-    >>> instantiate_object(list, [1, 2, 1])
-    [1, 2, 1]
-
-    ```
+        ```
     """
     if inspect.isfunction(obj):
         return obj(*args, **kwargs)

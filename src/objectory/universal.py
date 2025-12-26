@@ -36,15 +36,13 @@ def factory(_target_: str, *args: Any, _init_: str = "__init__", **kwargs: Any) 
     Raises:
         RuntimeError: if the target cannot be found.
 
-    Example usage:
+    Example:
+        ```pycon
+        >>> from objectory import factory
+        >>> factory("collections.Counter", [1, 2, 1, 3])
+        Counter({1: 2, 2: 1, 3: 1})
 
-    ```pycon
-
-    >>> from objectory import factory
-    >>> factory("collections.Counter", [1, 2, 1, 3])
-    Counter({1: 2, 2: 1, 3: 1})
-
-    ```
+        ```
     """
     try:
         target = import_object(_target_)

@@ -56,22 +56,20 @@ class AbstractFactory(ABCMeta):
             class body. This becomes the ``__dict__`` attribute of the
             class.
 
-    Example usage:
+    Example:
+        ```pycon
+        >>> from objectory import AbstractFactory
+        >>> class BaseClass(metaclass=AbstractFactory):
+        ...     pass
+        ...
+        >>> class MyClass(BaseClass):
+        ...     pass
+        ...
+        >>> obj = BaseClass.factory("MyClass")
+        >>> obj
+        <....MyClass object at 0x...>
 
-    ```pycon
-
-    >>> from objectory import AbstractFactory
-    >>> class BaseClass(metaclass=AbstractFactory):
-    ...     pass
-    ...
-    >>> class MyClass(BaseClass):
-    ...     pass
-    ...
-    >>> obj = BaseClass.factory("MyClass")
-    >>> obj
-    <....MyClass object at 0x...>
-
-    ```
+        ```
     """
 
     def __init__(cls, name: str, bases: tuple[type, ...], dct: dict[str, Any]) -> None:
@@ -87,21 +85,19 @@ class AbstractFactory(ABCMeta):
         Returns:
             The inheritors.
 
-        Example usage:
+        Example:
+            ```pycon
+            >>> from objectory import AbstractFactory
+            >>> class BaseClass(metaclass=AbstractFactory):
+            ...     pass
+            ...
+            >>> class MyClass(BaseClass):
+            ...     pass
+            ...
+            >>> BaseClass.inheritors
+            {'....BaseClass': <class '....BaseClass'>, '....MyClass': <class '....MyClass'>}
 
-        ```pycon
-
-        >>> from objectory import AbstractFactory
-        >>> class BaseClass(metaclass=AbstractFactory):
-        ...     pass
-        ...
-        >>> class MyClass(BaseClass):
-        ...     pass
-        ...
-        >>> BaseClass.inheritors
-        {'....BaseClass': <class '....BaseClass'>, '....MyClass': <class '....MyClass'>}
-
-        ```
+            ```
         """
         return cls._abstractfactory_inheritors
 
@@ -137,22 +133,20 @@ class AbstractFactory(ABCMeta):
             UnregisteredClassAbstractFactoryError: when the target
                 is not found.
 
-        Example usage:
+        Example:
+            ```pycon
+            >>> from objectory import AbstractFactory
+            >>> class BaseClass(metaclass=AbstractFactory):
+            ...     pass
+            ...
+            >>> class MyClass(BaseClass):
+            ...     pass
+            ...
+            >>> obj = BaseClass.factory("MyClass")
+            >>> obj
+            <....MyClass object at 0x...>
 
-        ```pycon
-
-        >>> from objectory import AbstractFactory
-        >>> class BaseClass(metaclass=AbstractFactory):
-        ...     pass
-        ...
-        >>> class MyClass(BaseClass):
-        ...     pass
-        ...
-        >>> obj = BaseClass.factory("MyClass")
-        >>> obj
-        <....MyClass object at 0x...>
-
-        ```
+            ```
         """
         return instantiate_object(
             cls._abstractfactory_get_target_from_name(_target_), *args, _init_=_init_, **kwargs
@@ -178,22 +172,21 @@ class AbstractFactory(ABCMeta):
             IncorrectObjectAbstractFactoryError: if the object is not
                 a class or function, or if it is a lambda function.
 
-        Example usage:
+        Example:
+            ```pycon
 
-        ```pycon
+            >>> from objectory import AbstractFactory
+            >>> class BaseClass(metaclass=AbstractFactory):
+            ...     pass
+            ...
+            >>> class MyClass:
+            ...     pass
+            ...
+            >>> BaseClass.register_object(MyClass)
+            >>> BaseClass.inheritors
+            {...}
 
-        >>> from objectory import AbstractFactory
-        >>> class BaseClass(metaclass=AbstractFactory):
-        ...     pass
-        ...
-        >>> class MyClass:
-        ...     pass
-        ...
-        >>> BaseClass.register_object(MyClass)
-        >>> BaseClass.inheritors
-        {...}
-
-        ```
+            ```
         """
         cls._abstractfactory_check_object(obj)
         name = get_fully_qualified_name(obj)
@@ -220,23 +213,22 @@ class AbstractFactory(ABCMeta):
                 the name resolution mechanism to find the full name if
                 only the short name is given.
 
-        Example usage:
+        Example:
+            ```pycon
 
-        ```pycon
+            >>> from objectory import AbstractFactory
+            >>> class BaseClass(metaclass=AbstractFactory):
+            ...     pass
+            ...
+            >>> class MyClass:
+            ...     pass
+            ...
+            >>> BaseClass.register_object(MyClass)
+            >>> BaseClass.unregister("MyClass")
+            >>> BaseClass.inheritors
+            {'....BaseClass': <class '....BaseClass'>}
 
-        >>> from objectory import AbstractFactory
-        >>> class BaseClass(metaclass=AbstractFactory):
-        ...     pass
-        ...
-        >>> class MyClass:
-        ...     pass
-        ...
-        >>> BaseClass.register_object(MyClass)
-        >>> BaseClass.unregister("MyClass")
-        >>> BaseClass.inheritors
-        {'....BaseClass': <class '....BaseClass'>}
-
-        ```
+            ```
         """
         resolved_name = cls._abstractfactory_resolve_name(name)
         if resolved_name is None or not cls._abstractfactory_is_name_registered(resolved_name):
@@ -339,22 +331,20 @@ def register(cls: AbstractFactory) -> Callable:
     Returns:
         The decorated function.
 
-    Example usage:
+    Example:
+        ```pycon
+        >>> from objectory.abstract_factory import AbstractFactory, register
+        >>> class BaseClass(metaclass=AbstractFactory):
+        ...     pass
+        ...
+        >>> @register(BaseClass)
+        ... def function_to_register(value: int) -> int:
+        ...     return value + 2
+        ...
+        >>> BaseClass.factory("function_to_register", 40)
+        42
 
-    ```pycon
-
-    >>> from objectory.abstract_factory import AbstractFactory, register
-    >>> class BaseClass(metaclass=AbstractFactory):
-    ...     pass
-    ...
-    >>> @register(BaseClass)
-    ... def function_to_register(value: int) -> int:
-    ...     return value + 2
-    ...
-    >>> BaseClass.factory("function_to_register", 40)
-    42
-
-    ```
+        ```
     """
 
     def wrapped(func: Callable) -> Callable:
@@ -384,17 +374,15 @@ def register_child_classes(
         AbstractFactoryTypeError: if the factory class does not
             implement the ``AbstractFactory`` metaclass.
 
-    Example usage:
+    Example:
+        ```pycon
+        >>> from objectory.abstract_factory import AbstractFactory, register_child_classes
+        >>> class BaseClass(metaclass=AbstractFactory):
+        ...     pass
+        ...
+        >>> register_child_classes(BaseClass, dict)
 
-    ```pycon
-
-    >>> from objectory.abstract_factory import AbstractFactory, register_child_classes
-    >>> class BaseClass(metaclass=AbstractFactory):
-    ...     pass
-    ...
-    >>> register_child_classes(BaseClass, dict)
-
-    ```
+        ```
     """
     if not is_abstract_factory(factory_cls):
         msg = (
@@ -419,19 +407,17 @@ def is_abstract_factory(cls: Any) -> bool:
         ``True`` if the class implements the ``AbstractFactory``
             metaclass, otherwise ``False``.
 
-    Example usage:
+    Example:
+        ```pycon
+        >>> from objectory.abstract_factory import AbstractFactory, is_abstract_factory
+        >>> class BaseClass(metaclass=AbstractFactory):
+        ...     pass
+        ...
+        >>> is_abstract_factory(BaseClass)
+        True
+        >>> is_abstract_factory(int)
+        False
 
-    ```pycon
-
-    >>> from objectory.abstract_factory import AbstractFactory, is_abstract_factory
-    >>> class BaseClass(metaclass=AbstractFactory):
-    ...     pass
-    ...
-    >>> is_abstract_factory(BaseClass)
-    True
-    >>> is_abstract_factory(int)
-    False
-
-    ```
+        ```
     """
     return isinstance(cls, AbstractFactory)

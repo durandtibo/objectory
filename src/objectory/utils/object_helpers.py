@@ -20,23 +20,21 @@ def all_child_classes(cls: type) -> set[type]:
     Returns:
         The set of all the child classes of the given class.
 
-    Example usage:
+    Example:
+        ```pycon
+        >>> from objectory.utils import all_child_classes
+        >>> class Foo:
+        ...     pass
+        ...
+        >>> all_child_classes(Foo)
+        set()
+        >>> class Bar(Foo):
+        ...     pass
+        ...
+        >>> all_child_classes(Foo)
+        {<class '....Bar'>}
 
-    ```pycon
-
-    >>> from objectory.utils import all_child_classes
-    >>> class Foo:
-    ...     pass
-    ...
-    >>> all_child_classes(Foo)
-    set()
-    >>> class Bar(Foo):
-    ...     pass
-    ...
-    >>> all_child_classes(Foo)
-    {<class '....Bar'>}
-
-    ```
+        ```
     """
     return set(cls.__subclasses__()).union(
         [s for c in cls.__subclasses__() for s in all_child_classes(c)]
