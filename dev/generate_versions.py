@@ -11,7 +11,7 @@ from feu.utils.io import save_json
 logger: logging.Logger = logging.getLogger(__name__)
 
 
-def get_package_versions() -> dict[str, list[str]]:
+def fetch_package_versions() -> dict[str, list[str]]:
     r"""Get the versions for each package.
 
     Returns:
@@ -22,7 +22,7 @@ def get_package_versions() -> dict[str, list[str]]:
 
 def main() -> None:
     r"""Generate the package versions and save them in a JSON file."""
-    versions = get_package_versions()
+    versions = fetch_package_versions()
     logger.info(f"{versions=}")
     path = Path(__file__).parent.parent.joinpath("dev/config").joinpath("package_versions.json")
     logger.info(f"Saving package versions to {path}")
