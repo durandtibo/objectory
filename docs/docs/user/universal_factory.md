@@ -24,7 +24,7 @@ print(path)  # /tmp/data
 
 <!-- blacken-docs:off -->
 
-```python
+```python notest
 def factory(
         _target_: str,
         *args: Any,
@@ -121,7 +121,7 @@ obj3 = factory("__main__.MyClass", _init_="default")
 
 ## Comparison with Other Approaches
 
-### Universal Factory vs AbstractFactory
+### Universal Factory vs Abstract Factory
 
 **Universal Factory:**
 
@@ -131,7 +131,7 @@ obj3 = factory("__main__.MyClass", _init_="default")
 - ❌ No inheritance-based organization
 - ❌ No automatic discovery
 
-**AbstractFactory:**
+**Abstract Factory:**
 
 - ✅ Automatic registration through inheritance
 - ✅ Organized object families
@@ -167,53 +167,17 @@ Use the universal factory when:
 - You don't need object organization or validation
 - You have fully qualified names available
 
-## Configuration File Integration
-
-The universal factory works great with YAML/JSON configuration files:
-
-**config.yaml:**
-
-```yaml
-database:
-  _target_: collections.OrderedDict
-  host: localhost
-  port: 5432
-  database: myapp
-
-cache:
-  _target_: collections.defaultdict
-  default_factory: int
-```
-
-**Loading configuration:**
-
-```python
-import yaml
-from objectory import factory
-
-with open("config.yaml") as f:
-    config = yaml.safe_load(f)
-
-# Create database config
-db = factory(**config["database"])
-print(db)  # OrderedDict([('host', 'localhost'), ('port', 5432), ...])
-
-# Create cache
-cache = factory(**config["cache"])
-print(type(cache))  # <class 'collections.defaultdict'>
-```
-
 ## Best Practices
 
 ### 1. Use Full Qualified Names
 
 Always use the full module path to avoid ambiguity:
 
-```python
+```python notest
 # Good
 factory("collections.Counter")
 
-# Avoid (may not work)
+# Avoid (unlikely to work)
 factory("Counter")
 ```
 
@@ -221,7 +185,7 @@ factory("Counter")
 
 Never use untrusted user input directly with the factory:
 
-```python
+```python notest
 # BAD - Security risk!
 user_input = request.get("class")
 obj = factory(user_input)
@@ -245,22 +209,6 @@ try:
     obj = factory("non.existent.Module")
 except RuntimeError as e:
     print(f"Failed to create object: {e}")
-```
-
-### 4. Document Configuration Schema
-
-When using with configuration files, document the expected structure:
-
-```python
-"""
-Configuration schema:
-
-database:
-  _target_: str          # Fully qualified class name
-  host: str              # Database host
-  port: int              # Database port
-  database: str          # Database name
-"""
 ```
 
 ## Advanced Usage

@@ -24,7 +24,6 @@ nav:
       - user/abstract_factory.md
       - user/registry.md
       - user/name_resolution.md
-      - user/faq.md
   - Dev Guide:
       - Contributing: dev/contributing.md
       - Security: dev/security.md
