@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from objectory.utils.name_resolution import find_matches, resolve_name
 
-########################
-#     resolve_name     #
-########################
+####################################
+#     Tests for resolve_name       #
+####################################
 
 
 def test_resolve_name_no_match() -> None:
@@ -56,9 +56,9 @@ def test_resolve_name_allow_import_false_missing() -> None:
     )
 
 
-########################
-#     find_matches     #
-########################
+####################################
+#     Tests for find_matches       #
+####################################
 
 
 def test_find_matches_empty() -> None:

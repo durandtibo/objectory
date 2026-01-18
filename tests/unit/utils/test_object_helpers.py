@@ -4,9 +4,9 @@ from abc import ABC, abstractmethod
 
 from objectory.utils import all_child_classes
 
-#############################
-#     all_child_classes     #
-#############################
+####################################
+#     Tests for all_child_classes  #
+####################################
 
 
 def test_all_child_classes() -> None:

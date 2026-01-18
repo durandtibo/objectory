@@ -142,9 +142,9 @@ def test_inheritors() -> None:
     }
 
 
-###################
-#     factory     #
-###################
+####################################
+#     Tests for factory            #
+####################################
 
 
 @pytest.mark.parametrize("target", ["BaseClass", "tests.unit.test_abstract_factory.BaseClass"])
@@ -271,9 +271,9 @@ def test_factory_function_target(target: str) -> None:
     assert obj.arg3 == 11
 
 
-####################
-#     register     #
-####################
+####################################
+#     Tests for register           #
+####################################
 
 
 def test_register_object_class() -> None:
@@ -448,9 +448,9 @@ def test_multiple_register() -> None:
     )
 
 
-#################################
-#     register_child_classes    #
-#################################
+####################################
+#     Tests for register_child_classes #
+####################################
 
 
 def test_register_child_classes_ignore_abstract_foo() -> None:
@@ -499,9 +499,9 @@ def test_register_child_classes_incorrect_factory_class() -> None:
         register_child_classes(ClassToRegister, ClassToRegister)
 
 
-######################
-#     unregister     #
-######################
+####################################
+#     Tests for unregister         #
+####################################
 
 
 def test_unregister_exact_name() -> None:
@@ -528,9 +528,9 @@ def test_unregister_missing_object() -> None:
         Class1.unregister("Class4")
 
 
-###############################
-#     is_abstract_factory     #
-###############################
+####################################
+#     Tests for is_abstract_factory #
+####################################
 
 
 def test_is_abstract_factory_true() -> None:

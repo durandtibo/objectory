@@ -45,9 +45,9 @@ def fake_function(arg1: int, arg2: str = "function_default") -> FakeClass:
     return FakeClass(arg1=arg1, arg2=arg2)
 
 
-#############################
-#     Tests for factory     #
-#############################
+####################################
+#     Tests for factory            #
+####################################
 
 
 def test_factory_valid_object() -> None:

@@ -29,9 +29,9 @@ def create_list_union2() -> list | tuple:
     return [1, 2, 3, 4]
 
 
-######################################
-#     Tests for is_object_config     #
-######################################
+####################################
+#     Tests for is_object_config   #
+####################################
 
 
 @pytest.mark.parametrize(

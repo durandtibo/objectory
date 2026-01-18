@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from objectory.constants import OBJECT_INIT, OBJECT_TARGET
 
-################################
-#     Tests for Constants      #
-################################
+####################################
+#     Tests for Constants          #
+####################################
 
 
 def test_object_target_constant_value() -> None:
