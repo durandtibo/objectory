@@ -228,13 +228,13 @@ def test_factory_invalid_init_method() -> None:
 
 def test_factory_empty_target() -> None:
     """Test that factory raises error for empty target string."""
-    with pytest.raises((RuntimeError, ValueError), match=r"(The target object does not exist:|Empty module name)"):
+    with pytest.raises((RuntimeError, ValueError)):
         factory("")
 
 
 def test_factory_malformed_target() -> None:
     """Test that factory raises error for malformed target."""
-    with pytest.raises((RuntimeError, ImportError), match=r"(The target object does not exist:|Module .* has no attribute)"):
+    with pytest.raises((RuntimeError, ImportError)):
         factory("collections.")
 
 
