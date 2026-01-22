@@ -12,9 +12,9 @@ from objectory.errors import (
     UnregisteredObjectFactoryError,
 )
 
-####################################
-#     Tests for Errors             #
-####################################
+############################
+#     Tests for Errors     #
+############################
 
 
 def test_factory_error_is_exception() -> None:
