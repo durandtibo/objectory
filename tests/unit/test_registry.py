@@ -66,9 +66,9 @@ def func_decor() -> Callable:
     return inner
 
 
-####################
-#     register     #
-####################
+####################################
+#     Tests for register           #
+####################################
 
 
 def test_register_object_class() -> None:
@@ -321,9 +321,9 @@ def test_register_child_classes_with_abstract_bing() -> None:
     assert registry.registered_names() == {"tests.unit.test_registry.Bing"}
 
 
-###################
-#     factory     #
-###################
+####################################
+#     Tests for factory            #
+####################################
 
 
 @pytest.mark.parametrize("target", ["ClassToRegister", "tests.unit.test_registry.ClassToRegister"])
@@ -457,9 +457,9 @@ def test_factory_function_target(target: str) -> None:
     assert obj.arg2 == "abc"
 
 
-######################
-#     unregister     #
-######################
+####################################
+#     Tests for unregister         #
+####################################
 
 
 def test_clear() -> None:
@@ -519,9 +519,9 @@ def test_unregister_missing_object() -> None:
         registry.unregister("tests.unit.test_registry.ClassToRegister")
 
 
-##################
-#     filter     #
-##################
+####################################
+#     Tests for filter             #
+####################################
 
 
 @pytest.mark.parametrize("cls", [ClassToRegister, OrderedDict])
@@ -611,9 +611,9 @@ def test_clear_filters_nested_true() -> None:
     assert len(registry_other2._filters) == 0
 
 
-#################
-#     other     #
-#################
+####################################
+#     Tests for other              #
+####################################
 
 
 def test_registry_len_0() -> None:

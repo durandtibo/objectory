@@ -38,9 +38,9 @@ def fake_func(arg1: int, arg2: str = "abc") -> Fake:
     return Fake(arg1=arg1, arg2=arg2)
 
 
-#########################
-#     import_object     #
-#########################
+####################################
+#     Tests for import_object      #
+####################################
 
 
 def test_import_object_class() -> None:
@@ -84,9 +84,9 @@ def test_import_object_incorrect_type() -> None:
         import_object(1)
 
 
-##############################
-#     instantiate_object     #
-##############################
+########################################
+#     Tests for instantiate_object     #
+########################################
 
 
 @pytest.mark.parametrize("arg1", [-1, 1])
