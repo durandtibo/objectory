@@ -84,9 +84,9 @@ def test_import_object_incorrect_type() -> None:
         import_object(1)
 
 
-####################################
-#     Tests for instantiate_object #
-####################################
+########################################
+#     Tests for instantiate_object     #
+########################################
 
 
 @pytest.mark.parametrize("arg1", [-1, 1])
