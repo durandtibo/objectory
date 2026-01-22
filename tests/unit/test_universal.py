@@ -45,9 +45,9 @@ def fake_function(arg1: int, arg2: str = "function_default") -> FakeClass:
     return FakeClass(arg1=arg1, arg2=arg2)
 
 
-####################################
-#     Tests for factory            #
-####################################
+#############################
+#     Tests for factory     #
+#############################
 
 
 def test_factory_valid_object() -> None:
@@ -74,6 +74,7 @@ def test_factory_with_kwargs() -> None:
 def test_factory_with_args_and_kwargs() -> None:
     """Test factory with both positional and keyword arguments."""
     obj = factory("tests.unit.test_universal.FakeClass", 10, arg2="mixed")
+    assert isinstance(obj, FakeClass)
     assert obj.arg1 == 10
     assert obj.arg2 == "mixed"
 
@@ -81,6 +82,7 @@ def test_factory_with_args_and_kwargs() -> None:
 def test_factory_with_only_kwargs() -> None:
     """Test factory with only keyword arguments."""
     obj = factory("tests.unit.test_universal.FakeClass", arg1=20, arg2="kwargs_only")
+    assert isinstance(obj, FakeClass)
     assert obj.arg1 == 20
     assert obj.arg2 == "kwargs_only"
 
@@ -88,6 +90,7 @@ def test_factory_with_only_kwargs() -> None:
 def test_factory_with_default_parameter() -> None:
     """Test factory where default parameter is used."""
     obj = factory("tests.unit.test_universal.FakeClass", 30)
+    assert isinstance(obj, FakeClass)
     assert obj.arg1 == 30
     assert obj.arg2 == "default"
 
@@ -95,6 +98,7 @@ def test_factory_with_default_parameter() -> None:
 def test_factory_with_classmethod_init() -> None:
     """Test factory with custom class method as initializer."""
     obj = factory("tests.unit.test_universal.FakeClass", _init_="create_with_defaults")
+    assert isinstance(obj, FakeClass)
     assert obj.arg1 == 42
     assert obj.arg2 == "factory_method"
 
@@ -104,6 +108,7 @@ def test_factory_with_classmethod_init_and_args() -> None:
     obj = factory(
         "tests.unit.test_universal.FakeClass", "custom_value", _init_="create_with_custom_arg2"
     )
+    assert isinstance(obj, FakeClass)
     assert obj.arg1 == 100
     assert obj.arg2 == "custom_value"
 
@@ -113,6 +118,7 @@ def test_factory_with_classmethod_init_and_kwargs() -> None:
     obj = factory(
         "tests.unit.test_universal.FakeClass", _init_="create_with_custom_arg2", arg2="kwarg_value"
     )
+    assert isinstance(obj, FakeClass)
     assert obj.arg1 == 100
     assert obj.arg2 == "kwarg_value"
 
@@ -120,6 +126,7 @@ def test_factory_with_classmethod_init_and_kwargs() -> None:
 def test_factory_with_static_method_init() -> None:
     """Test factory with static method as initializer."""
     obj = factory("tests.unit.test_universal.FakeClass", _init_="static_create")
+    assert isinstance(obj, FakeClass)
     assert obj.arg1 == 999
     assert obj.arg2 == "static"
 
