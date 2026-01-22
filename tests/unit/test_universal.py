@@ -73,22 +73,14 @@ def test_factory_with_kwargs() -> None:
 
 def test_factory_with_args_and_kwargs() -> None:
     """Test factory with both positional and keyword arguments."""
-    obj = factory(
-        "tests.unit.test_universal.FakeClass",
-        10,
-        arg2="mixed"
-    )
+    obj = factory("tests.unit.test_universal.FakeClass", 10, arg2="mixed")
     assert obj.arg1 == 10
     assert obj.arg2 == "mixed"
 
 
 def test_factory_with_only_kwargs() -> None:
     """Test factory with only keyword arguments."""
-    obj = factory(
-        "tests.unit.test_universal.FakeClass",
-        arg1=20,
-        arg2="kwargs_only"
-    )
+    obj = factory("tests.unit.test_universal.FakeClass", arg1=20, arg2="kwargs_only")
     assert obj.arg1 == 20
     assert obj.arg2 == "kwargs_only"
 
@@ -102,10 +94,7 @@ def test_factory_with_default_parameter() -> None:
 
 def test_factory_with_classmethod_init() -> None:
     """Test factory with custom class method as initializer."""
-    obj = factory(
-        "tests.unit.test_universal.FakeClass",
-        _init_="create_with_defaults"
-    )
+    obj = factory("tests.unit.test_universal.FakeClass", _init_="create_with_defaults")
     assert obj.arg1 == 42
     assert obj.arg2 == "factory_method"
 
@@ -113,9 +102,7 @@ def test_factory_with_classmethod_init() -> None:
 def test_factory_with_classmethod_init_and_args() -> None:
     """Test factory with custom class method and arguments."""
     obj = factory(
-        "tests.unit.test_universal.FakeClass",
-        "custom_value",
-        _init_="create_with_custom_arg2"
+        "tests.unit.test_universal.FakeClass", "custom_value", _init_="create_with_custom_arg2"
     )
     assert obj.arg1 == 100
     assert obj.arg2 == "custom_value"
@@ -124,9 +111,7 @@ def test_factory_with_classmethod_init_and_args() -> None:
 def test_factory_with_classmethod_init_and_kwargs() -> None:
     """Test factory with custom class method and keyword arguments."""
     obj = factory(
-        "tests.unit.test_universal.FakeClass",
-        _init_="create_with_custom_arg2",
-        arg2="kwarg_value"
+        "tests.unit.test_universal.FakeClass", _init_="create_with_custom_arg2", arg2="kwarg_value"
     )
     assert obj.arg1 == 100
     assert obj.arg2 == "kwarg_value"
@@ -134,10 +119,7 @@ def test_factory_with_classmethod_init_and_kwargs() -> None:
 
 def test_factory_with_static_method_init() -> None:
     """Test factory with static method as initializer."""
-    obj = factory(
-        "tests.unit.test_universal.FakeClass",
-        _init_="static_create"
-    )
+    obj = factory("tests.unit.test_universal.FakeClass", _init_="static_create")
     assert obj.arg1 == 999
     assert obj.arg2 == "static"
 
@@ -158,11 +140,7 @@ def test_factory_function_target() -> None:
 
 def test_factory_function_with_kwargs() -> None:
     """Test factory with a function and keyword arguments."""
-    obj = factory(
-        "tests.unit.test_universal.fake_function",
-        arg1=70,
-        arg2="function_kwargs"
-    )
+    obj = factory("tests.unit.test_universal.fake_function", arg1=70, arg2="function_kwargs")
     assert obj.arg1 == 70
     assert obj.arg2 == "function_kwargs"
 
@@ -181,20 +159,17 @@ def test_factory_builtin_list() -> None:
     assert isinstance(obj, list)
 
 
-@pytest.mark.parametrize("arg1,arg2", [(1, "a"), (10, "z"), (-5, "test")])
+@pytest.mark.parametrize(("arg1", "arg2"), [(1, "a"), (10, "z"), (-5, "test")])
 def test_factory_parametrized(arg1: int, arg2: str) -> None:
     """Test factory with parametrized inputs."""
-    obj = factory(
-        "tests.unit.test_universal.FakeClass",
-        arg1=arg1,
-        arg2=arg2
-    )
+    obj = factory("tests.unit.test_universal.FakeClass", arg1=arg1, arg2=arg2)
     assert obj.arg1 == arg1
     assert obj.arg2 == arg2
 
 
 def test_factory_abstract_object() -> None:
-    """Test that factory raises error when trying to instantiate abstract class."""
+    """Test that factory raises error when trying to instantiate
+    abstract class."""
     with pytest.raises(
         AbstractClassFactoryError,
         match=r"Cannot instantiate the class .* because it is an abstract class.",
@@ -217,13 +192,9 @@ def test_factory_non_existing_module() -> None:
 def test_factory_invalid_init_method() -> None:
     """Test that factory raises error for invalid _init_ method."""
     with pytest.raises(
-        IncorrectObjectFactoryError,
-        match=r"does not have `invalid_method` attribute"
+        IncorrectObjectFactoryError, match=r"does not have `invalid_method` attribute"
     ):
-        factory(
-            "tests.unit.test_universal.FakeClass",
-            _init_="invalid_method"
-        )
+        factory("tests.unit.test_universal.FakeClass", _init_="invalid_method")
 
 
 def test_factory_empty_target() -> None:
@@ -240,11 +211,7 @@ def test_factory_malformed_target() -> None:
 
 def test_factory_with_custom_class() -> None:
     """Test factory with custom test class."""
-    obj = factory(
-        "tests.unit.test_universal.FakeClass",
-        arg1=123,
-        arg2="test"
-    )
+    obj = factory("tests.unit.test_universal.FakeClass", arg1=123, arg2="test")
     assert obj.arg1 == 123
     assert obj.arg2 == "test"
 

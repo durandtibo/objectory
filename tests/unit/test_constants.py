@@ -33,10 +33,12 @@ def test_constants_are_different() -> None:
 
 
 def test_object_target_starts_with_underscore() -> None:
-    """Test that OBJECT_TARGET starts with underscore (private convention)."""
+    """Test that OBJECT_TARGET starts with underscore (private
+    convention)."""
     assert OBJECT_TARGET.startswith("_")
 
 
 def test_object_init_starts_with_underscore() -> None:
-    """Test that OBJECT_INIT starts with underscore (private convention)."""
+    """Test that OBJECT_INIT starts with underscore (private
+    convention)."""
     assert OBJECT_INIT.startswith("_")

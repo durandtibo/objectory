@@ -67,7 +67,8 @@ def test_is_object_config_true_child_class() -> None:
 
 
 def test_is_object_config_false_missing_target() -> None:
-    """Test is_object_config returns False when _target_ key is missing."""
+    """Test is_object_config returns False when _target_ key is
+    missing."""
     assert not is_object_config({}, int)
 
 
@@ -77,7 +78,8 @@ def test_is_object_config_false_incorrect_class() -> None:
 
 
 def test_is_object_config_false_function_without_type_hint() -> None:
-    """Test is_object_config returns False for functions without type hints."""
+    """Test is_object_config returns False for functions without type
+    hints."""
     assert not is_object_config(
         {OBJECT_TARGET: "tests.unit.utils.test_config.create_list_without_type_hint"}, float
     )
@@ -100,7 +102,7 @@ def test_is_object_config_with_extra_keys() -> None:
     config = {
         OBJECT_TARGET: "collections.Counter",
         "iterable": [1, 2, 3],
-        "extra_key": "extra_value"
+        "extra_key": "extra_value",
     }
     assert is_object_config(config, Counter)
 
@@ -132,7 +134,8 @@ def test_is_object_config_with_object_class() -> None:
 
 
 def test_is_object_config_counter_not_list() -> None:
-    """Test is_object_config correctly identifies Counter is not a list."""
+    """Test is_object_config correctly identifies Counter is not a
+    list."""
     assert not is_object_config({OBJECT_TARGET: "collections.Counter"}, list)
 
 
@@ -142,7 +145,8 @@ def test_is_object_config_int_not_str() -> None:
 
 
 def test_is_object_config_with_invalid_target() -> None:
-    """Test is_object_config with non-existent target raises ImportError."""
+    """Test is_object_config with non-existent target raises
+    ImportError."""
     with pytest.raises(ImportError):
         is_object_config({OBJECT_TARGET: "non_existent_module.NonExistentClass"}, object)
 
@@ -155,13 +159,10 @@ def test_is_object_config_with_malformed_target() -> None:
 
 def test_is_object_config_function_return_list() -> None:
     """Test is_object_config with function returning list."""
-    assert is_object_config(
-        {OBJECT_TARGET: "tests.unit.utils.test_config.create_list"}, list
-    )
+    assert is_object_config({OBJECT_TARGET: "tests.unit.utils.test_config.create_list"}, list)
 
 
 def test_is_object_config_function_not_matching_return_type() -> None:
-    """Test is_object_config with function where return type doesn't match."""
-    assert not is_object_config(
-        {OBJECT_TARGET: "tests.unit.utils.test_config.create_list"}, dict
-    )
+    """Test is_object_config with function where return type doesn't
+    match."""
+    assert not is_object_config({OBJECT_TARGET: "tests.unit.utils.test_config.create_list"}, dict)

@@ -24,8 +24,9 @@ def test_factory_error_is_exception() -> None:
 
 def test_factory_error_can_be_raised() -> None:
     """Test that FactoryError can be instantiated and raised."""
-    with pytest.raises(FactoryError):
-        raise FactoryError("Test error message")
+    msg = "Test error message"
+    with pytest.raises(FactoryError, match=msg):
+        raise FactoryError(msg)
 
 
 def test_factory_error_message() -> None:
@@ -36,54 +37,66 @@ def test_factory_error_message() -> None:
 
 
 def test_unregistered_object_factory_error_inherits_from_factory_error() -> None:
-    """Test that UnregisteredObjectFactoryError inherits from FactoryError."""
+    """Test that UnregisteredObjectFactoryError inherits from
+    FactoryError."""
     assert issubclass(UnregisteredObjectFactoryError, FactoryError)
 
 
 def test_unregistered_object_factory_error_can_be_raised() -> None:
     """Test that UnregisteredObjectFactoryError can be raised."""
-    with pytest.raises(UnregisteredObjectFactoryError):
-        raise UnregisteredObjectFactoryError("Object not registered")
+    msg = "Object not registered"
+    with pytest.raises(UnregisteredObjectFactoryError, match=msg):
+        raise UnregisteredObjectFactoryError(msg)
 
 
 def test_unregistered_object_factory_error_can_be_caught_as_factory_error() -> None:
-    """Test that UnregisteredObjectFactoryError can be caught as FactoryError."""
-    with pytest.raises(FactoryError):
-        raise UnregisteredObjectFactoryError("Object not registered")
+    """Test that UnregisteredObjectFactoryError can be caught as
+    FactoryError."""
+    msg = "Object not registered"
+    with pytest.raises(FactoryError, match=msg):
+        raise UnregisteredObjectFactoryError(msg)
 
 
 def test_incorrect_object_factory_error_inherits_from_factory_error() -> None:
-    """Test that IncorrectObjectFactoryError inherits from FactoryError."""
+    """Test that IncorrectObjectFactoryError inherits from
+    FactoryError."""
     assert issubclass(IncorrectObjectFactoryError, FactoryError)
 
 
 def test_incorrect_object_factory_error_can_be_raised() -> None:
     """Test that IncorrectObjectFactoryError can be raised."""
-    with pytest.raises(IncorrectObjectFactoryError):
-        raise IncorrectObjectFactoryError("Invalid object type")
+    msg = "Invalid object type"
+    with pytest.raises(IncorrectObjectFactoryError, match=msg):
+        raise IncorrectObjectFactoryError(msg)
 
 
 def test_incorrect_object_factory_error_can_be_caught_as_factory_error() -> None:
-    """Test that IncorrectObjectFactoryError can be caught as FactoryError."""
-    with pytest.raises(FactoryError):
-        raise IncorrectObjectFactoryError("Invalid object type")
+    """Test that IncorrectObjectFactoryError can be caught as
+    FactoryError."""
+    msg = "Invalid object type"
+    with pytest.raises(FactoryError, match=msg):
+        raise IncorrectObjectFactoryError(msg)
 
 
 def test_abstract_class_factory_error_inherits_from_factory_error() -> None:
-    """Test that AbstractClassFactoryError inherits from FactoryError."""
+    """Test that AbstractClassFactoryError inherits from
+    FactoryError."""
     assert issubclass(AbstractClassFactoryError, FactoryError)
 
 
 def test_abstract_class_factory_error_can_be_raised() -> None:
     """Test that AbstractClassFactoryError can be raised."""
-    with pytest.raises(AbstractClassFactoryError):
-        raise AbstractClassFactoryError("Cannot instantiate abstract class")
+    msg = "Cannot instantiate abstract class"
+    with pytest.raises(AbstractClassFactoryError, match=msg):
+        raise AbstractClassFactoryError(msg)
 
 
 def test_abstract_class_factory_error_can_be_caught_as_factory_error() -> None:
-    """Test that AbstractClassFactoryError can be caught as FactoryError."""
-    with pytest.raises(FactoryError):
-        raise AbstractClassFactoryError("Cannot instantiate abstract class")
+    """Test that AbstractClassFactoryError can be caught as
+    FactoryError."""
+    msg = "Cannot instantiate abstract class"
+    with pytest.raises(FactoryError, match=msg):
+        raise AbstractClassFactoryError(msg)
 
 
 def test_invalid_name_factory_error_inherits_from_factory_error() -> None:
@@ -93,14 +106,17 @@ def test_invalid_name_factory_error_inherits_from_factory_error() -> None:
 
 def test_invalid_name_factory_error_can_be_raised() -> None:
     """Test that InvalidNameFactoryError can be raised."""
-    with pytest.raises(InvalidNameFactoryError):
-        raise InvalidNameFactoryError("Invalid name provided")
+    msg = "Invalid name provided"
+    with pytest.raises(InvalidNameFactoryError, match=msg):
+        raise InvalidNameFactoryError(msg)
 
 
 def test_invalid_name_factory_error_can_be_caught_as_factory_error() -> None:
-    """Test that InvalidNameFactoryError can be caught as FactoryError."""
-    with pytest.raises(FactoryError):
-        raise InvalidNameFactoryError("Invalid name provided")
+    """Test that InvalidNameFactoryError can be caught as
+    FactoryError."""
+    msg = "Invalid name provided"
+    with pytest.raises(FactoryError, match=msg):
+        raise InvalidNameFactoryError(msg)
 
 
 def test_abstract_factory_type_error_inherits_from_factory_error() -> None:
@@ -110,35 +126,43 @@ def test_abstract_factory_type_error_inherits_from_factory_error() -> None:
 
 def test_abstract_factory_type_error_can_be_raised() -> None:
     """Test that AbstractFactoryTypeError can be raised."""
+    msg = "Object is not AbstractFactory type"
     with pytest.raises(AbstractFactoryTypeError):
-        raise AbstractFactoryTypeError("Object is not AbstractFactory type")
+        raise AbstractFactoryTypeError(msg)
 
 
 def test_abstract_factory_type_error_can_be_caught_as_factory_error() -> None:
-    """Test that AbstractFactoryTypeError can be caught as FactoryError."""
-    with pytest.raises(FactoryError):
-        raise AbstractFactoryTypeError("Object is not AbstractFactory type")
+    """Test that AbstractFactoryTypeError can be caught as
+    FactoryError."""
+    msg = "Object is not AbstractFactory type"
+    with pytest.raises(FactoryError, match=msg):
+        raise AbstractFactoryTypeError(msg)
 
 
 def test_invalid_attribute_registry_error_inherits_from_factory_error() -> None:
-    """Test that InvalidAttributeRegistryError inherits from FactoryError."""
+    """Test that InvalidAttributeRegistryError inherits from
+    FactoryError."""
     assert issubclass(InvalidAttributeRegistryError, FactoryError)
 
 
 def test_invalid_attribute_registry_error_can_be_raised() -> None:
     """Test that InvalidAttributeRegistryError can be raised."""
+    msg = "Invalid attribute access"
     with pytest.raises(InvalidAttributeRegistryError):
-        raise InvalidAttributeRegistryError("Invalid attribute access")
+        raise InvalidAttributeRegistryError(msg)
 
 
 def test_invalid_attribute_registry_error_can_be_caught_as_factory_error() -> None:
-    """Test that InvalidAttributeRegistryError can be caught as FactoryError."""
-    with pytest.raises(FactoryError):
-        raise InvalidAttributeRegistryError("Invalid attribute access")
+    """Test that InvalidAttributeRegistryError can be caught as
+    FactoryError."""
+    msg = "Invalid attribute access"
+    with pytest.raises(FactoryError, match=msg):
+        raise InvalidAttributeRegistryError(msg)
 
 
 def test_all_factory_errors_inherit_from_factory_error() -> None:
-    """Test that all specific factory errors inherit from FactoryError."""
+    """Test that all specific factory errors inherit from
+    FactoryError."""
     error_types = [
         UnregisteredObjectFactoryError,
         IncorrectObjectFactoryError,

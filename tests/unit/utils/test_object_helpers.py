@@ -11,6 +11,7 @@ from objectory.utils import all_child_classes
 
 def test_all_child_classes() -> None:
     """Test all_child_classes with a simple hierarchy."""
+
     class Foo: ...
 
     assert all_child_classes(Foo) == set()
@@ -30,6 +31,7 @@ def test_all_child_classes() -> None:
 
 def test_all_child_classes_empty_hierarchy() -> None:
     """Test all_child_classes with a class that has no children."""
+
     class Standalone: ...
 
     assert all_child_classes(Standalone) == set()
@@ -37,6 +39,7 @@ def test_all_child_classes_empty_hierarchy() -> None:
 
 def test_all_child_classes_single_child() -> None:
     """Test all_child_classes with a single child class."""
+
     class Parent: ...
 
     class Child(Parent): ...
@@ -48,6 +51,7 @@ def test_all_child_classes_single_child() -> None:
 
 def test_all_child_classes_multiple_levels() -> None:
     """Test all_child_classes with multiple inheritance levels."""
+
     class Level0: ...
 
     class Level1A(Level0): ...
@@ -66,7 +70,9 @@ def test_all_child_classes_multiple_levels() -> None:
 
 
 def test_all_child_classes_multiple_inheritance() -> None:
-    """Test all_child_classes with multiple inheritance (diamond pattern)."""
+    """Test all_child_classes with multiple inheritance (diamond
+    pattern)."""
+
     class Base: ...
 
     class Left(Base): ...
@@ -81,6 +87,7 @@ def test_all_child_classes_multiple_inheritance() -> None:
 
 def test_all_child_classes_with_abstract_base_class() -> None:
     """Test all_child_classes with abstract base classes."""
+
     class AbstractBase(ABC):
         @abstractmethod
         def method(self) -> None:
@@ -96,6 +103,7 @@ def test_all_child_classes_with_abstract_base_class() -> None:
 
 def test_all_child_classes_returns_set_type() -> None:
     """Test that all_child_classes always returns a set."""
+
     class Parent: ...
 
     class Child(Parent): ...
@@ -106,6 +114,7 @@ def test_all_child_classes_returns_set_type() -> None:
 
 def test_all_child_classes_deep_hierarchy() -> None:
     """Test all_child_classes with a deep inheritance hierarchy."""
+
     class Level0: ...
 
     class Level1(Level0): ...
@@ -122,6 +131,7 @@ def test_all_child_classes_deep_hierarchy() -> None:
 
 def test_all_child_classes_siblings() -> None:
     """Test all_child_classes with sibling classes."""
+
     class Parent: ...
 
     class Sibling1(Parent): ...
@@ -136,6 +146,7 @@ def test_all_child_classes_siblings() -> None:
 
 def test_all_child_classes_grandchildren_only() -> None:
     """Test that grandchildren are included in results."""
+
     class GrandParent: ...
 
     class Parent(GrandParent): ...
@@ -148,7 +159,9 @@ def test_all_child_classes_grandchildren_only() -> None:
 
 
 def test_all_child_classes_mixed_inheritance() -> None:
-    """Test all_child_classes with mixed single and multiple inheritance."""
+    """Test all_child_classes with mixed single and multiple
+    inheritance."""
+
     class Base: ...
 
     class Mixin: ...
@@ -163,7 +176,9 @@ def test_all_child_classes_mixed_inheritance() -> None:
 
 
 def test_all_child_classes_no_duplicate_classes() -> None:
-    """Test that all_child_classes returns unique classes (no duplicates)."""
+    """Test that all_child_classes returns unique classes (no
+    duplicates)."""
+
     class Parent: ...
 
     class Child(Parent): ...
