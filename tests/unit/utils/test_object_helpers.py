@@ -44,9 +44,7 @@ def test_all_child_classes_single_child() -> None:
 
     class Child(Parent): ...
 
-    result = all_child_classes(Parent)
-    assert result == {Child}
-    assert len(result) == 1
+    assert all_child_classes(Parent) == {Child}
 
 
 def test_all_child_classes_multiple_levels() -> None:
@@ -64,9 +62,7 @@ def test_all_child_classes_multiple_levels() -> None:
 
     class Level2C(Level1B): ...
 
-    result = all_child_classes(Level0)
-    expected = {Level1A, Level1B, Level2A, Level2B, Level2C}
-    assert result == expected
+    assert all_child_classes(Level0) == {Level1A, Level1B, Level2A, Level2B, Level2C}
 
 
 def test_all_child_classes_multiple_inheritance() -> None:
@@ -81,8 +77,7 @@ def test_all_child_classes_multiple_inheritance() -> None:
 
     class Diamond(Left, Right): ...
 
-    result = all_child_classes(Base)
-    assert result == {Left, Right, Diamond}
+    assert all_child_classes(Base) == {Left, Right, Diamond}
 
 
 def test_all_child_classes_with_abstract_base_class() -> None:
@@ -97,19 +92,7 @@ def test_all_child_classes_with_abstract_base_class() -> None:
         def method(self) -> None:
             pass
 
-    result = all_child_classes(AbstractBase)
-    assert result == {ConcreteChild}
-
-
-def test_all_child_classes_returns_set_type() -> None:
-    """Test that all_child_classes always returns a set."""
-
-    class Parent: ...
-
-    class Child(Parent): ...
-
-    result = all_child_classes(Parent)
-    assert isinstance(result, set)
+    assert all_child_classes(AbstractBase) == {ConcreteChild}
 
 
 def test_all_child_classes_deep_hierarchy() -> None:
@@ -125,8 +108,7 @@ def test_all_child_classes_deep_hierarchy() -> None:
 
     class Level4(Level3): ...
 
-    result = all_child_classes(Level0)
-    assert result == {Level1, Level2, Level3, Level4}
+    assert all_child_classes(Level0) == {Level1, Level2, Level3, Level4}
 
 
 def test_all_child_classes_siblings() -> None:
@@ -140,22 +122,7 @@ def test_all_child_classes_siblings() -> None:
 
     class Sibling3(Parent): ...
 
-    result = all_child_classes(Parent)
-    assert result == {Sibling1, Sibling2, Sibling3}
-
-
-def test_all_child_classes_grandchildren_only() -> None:
-    """Test that grandchildren are included in results."""
-
-    class GrandParent: ...
-
-    class Parent(GrandParent): ...
-
-    class Child(Parent): ...
-
-    result = all_child_classes(GrandParent)
-    assert Child in result
-    assert Parent in result
+    assert all_child_classes(Parent) == {Sibling1, Sibling2, Sibling3}
 
 
 def test_all_child_classes_mixed_inheritance() -> None:
@@ -171,19 +138,4 @@ def test_all_child_classes_mixed_inheritance() -> None:
     class Child2(Base, Mixin): ...
 
     # Child2 should be a child of Base even though it has multiple parents
-    result = all_child_classes(Base)
-    assert result == {Child1, Child2}
-
-
-def test_all_child_classes_no_duplicate_classes() -> None:
-    """Test that all_child_classes returns unique classes (no
-    duplicates)."""
-
-    class Parent: ...
-
-    class Child(Parent): ...
-
-    result = all_child_classes(Parent)
-    # Sets naturally don't have duplicates, but verify the count
-    assert len(result) == len(set(result))
-    assert len(result) == 1
+    assert all_child_classes(Base) == {Child1, Child2}
