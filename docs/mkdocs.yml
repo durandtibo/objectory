@@ -32,6 +32,7 @@ nav:
       - refs/index.md
       - refs/abstract_factory.md
       - refs/registry.md
+      - refs/resolve.md
       - refs/utils.md
   - GitHub: https://github.com/durandtibo/objectory
 

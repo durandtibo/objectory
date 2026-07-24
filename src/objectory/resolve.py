@@ -8,6 +8,8 @@ __all__ = ["resolve_object"]
 import logging
 from typing import Any, TypeVar
 
+from objectory.constants import OBJECT_TARGET
+from objectory.errors import IncorrectTypeFactoryError
 from objectory.universal import factory
 
 logger: logging.Logger = logging.getLogger(__name__)
@@ -24,6 +26,14 @@ def resolve_object(obj: T | dict[str, Any], cls: type[T] = object) -> T:
     ``objectory`` factory configuration and instantiated via
     :func:`objectory.factory`.
 
+    Note:
+        Any :class:`dict` (including instances of ``dict``
+        subclasses, e.g. ``Counter`` or ``OrderedDict``) is always
+        treated as a factory configuration, even when it is already
+        a valid instance of ``cls``. Do not use this function to
+        resolve objects whose expected type is itself a ``dict``
+        subclass.
+
     Args:
         obj: Either a fully configured instance of ``cls``, or a
             :class:`dict` containing an ``objectory`` factory
@@ -38,8 +48,9 @@ def resolve_object(obj: T | dict[str, Any], cls: type[T] = object) -> T:
         A configured instance of ``cls``.
 
     Raises:
-        TypeError: If the resolved object is not an instance of
-            ``cls``.
+        IncorrectTypeFactoryError: If ``obj`` is a :class:`dict`
+            missing the ``"_target_"`` key, or if the resolved
+            object is not an instance of ``cls``.
 
     Example:
         ```pycon
@@ -54,10 +65,17 @@ def resolve_object(obj: T | dict[str, Any], cls: type[T] = object) -> T:
 
         ```
     """
+    cls_name = getattr(cls, "__qualname__", str(cls))
     if isinstance(obj, dict):
-        logger.info("Initializing a %s instance from its configuration...", cls.__qualname__)
+        if OBJECT_TARGET not in obj:
+            msg = (
+                f"Cannot resolve a {cls_name} instance from the configuration because it is "
+                f"missing the `{OBJECT_TARGET}` key (received: {obj})"
+            )
+            raise IncorrectTypeFactoryError(msg)
+        logger.info("Initializing a %s instance from its configuration...", cls_name)
         obj = factory(**obj)
     if not isinstance(obj, cls):
-        msg = f"Received object is not a {cls.__name__} instance (received: {type(obj)})"
-        raise TypeError(msg)
+        msg = f"Received object is not a {cls_name} instance (received: {type(obj)})"
+        raise IncorrectTypeFactoryError(msg)
     return obj

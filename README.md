@@ -108,6 +108,21 @@ The current implementation contains both abstract factory and registry approache
 
 ```
 
+**resolve_object**
+
+```pycon
+
+>>> from objectory import resolve_object
+>>> from datetime import date
+>>> # From an existing instance:
+>>> obj = resolve_object(date(2020, 1, 1), cls=date)
+>>> # From a configuration dictionary:
+>>> obj = resolve_object(
+...     {"_target_": "datetime.date", "year": 2020, "month": 1, "day": 1}, cls=date
+... )
+
+```
+
 Please read the [documentation](https://durandtibo.github.io/objectory/) to learn more about these
 approaches.
 
