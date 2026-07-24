@@ -50,7 +50,7 @@ The instantiated object with the given parameters.
 
 ### Raises
 
-- **RuntimeError**: If the target cannot be found or imported
+- **UnregisteredObjectFactoryError**: If the target cannot be found or imported
 
 ## Examples
 
@@ -200,14 +200,15 @@ obj = factory(user_input)
 
 ### 3. Handle Errors Gracefully
 
-The factory raises `RuntimeError` if the target cannot be found:
+The factory raises `UnregisteredObjectFactoryError` (a `FactoryError`) if the target cannot be found:
 
 ```python
 from objectory import factory
+from objectory.errors import UnregisteredObjectFactoryError
 
 try:
     obj = factory("non.existent.Module")
-except RuntimeError as e:
+except UnregisteredObjectFactoryError as e:
     print(f"Failed to create object: {e}")
 ```
 
