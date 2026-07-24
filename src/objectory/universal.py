@@ -35,6 +35,7 @@ def factory(_target_: str, *args: Any, _init_: str = "__init__", **kwargs: Any) 
 
     Raises:
         RuntimeError: if the target cannot be found.
+        TypeError: if ``_target_`` is not a string.
 
     Example:
         ```pycon

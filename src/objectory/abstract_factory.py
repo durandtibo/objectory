@@ -128,10 +128,10 @@ class AbstractFactory(ABCMeta):
             The instantiated object with the given parameters.
 
         Raises:
-            AbstractClassAbstractFactoryError: when an abstract
-                class is instantiated.
-            UnregisteredClassAbstractFactoryError: when the target
-                is not found.
+            AbstractClassFactoryError: when an abstract class is
+                instantiated.
+            UnregisteredObjectFactoryError: when the target is not
+                found.
 
         Example:
             ```pycon
