@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from collections import OrderedDict
+
 import pytest
 
 from objectory import resolve_object
@@ -92,3 +94,14 @@ def test_resolve_object_invalid_type_can_be_caught_as_factory_error() -> None:
 def test_resolve_object_from_dict_missing_target_raises_incorrect_type_error() -> None:
     with pytest.raises(IncorrectTypeFactoryError, match=r"missing the `_target_` key"):
         resolve_object({"name": "Rex"}, cls=Dog)
+
+
+# --- Dict subclasses are always treated as configuration ---
+
+
+def test_resolve_object_dict_subclass_instance_is_treated_as_config() -> None:
+    # Even though `od` is already a valid `OrderedDict` instance, it is a `dict`
+    # subclass, so it is always treated as a factory configuration.
+    od = OrderedDict(a=1)
+    with pytest.raises(IncorrectTypeFactoryError, match=r"missing the `_target_` key"):
+        resolve_object(od, cls=OrderedDict)
