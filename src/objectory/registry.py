@@ -187,10 +187,10 @@ class Registry:
             The instantiated object with the given parameters.
 
         Raises:
-            AbstractClassAbstractFactoryError: when an abstract
-                class is instantiated.
-            UnregisteredClassAbstractFactoryError: if the target
-                name is not found.
+            AbstractClassFactoryError: when an abstract class is
+                instantiated.
+            UnregisteredObjectFactoryError: if the target name is
+                not found.
 
         Example:
             ```pycon
@@ -479,7 +479,7 @@ class Registry:
         if resolved_name is None:
             msg = (
                 f"Unable to create the object `{name}` because it is not registered. "
-                f"Registered objects of {self.__name__} are "
+                f"Registered objects of {type(self).__qualname__} are "
                 f"{self.registered_names(include_registry=False)}."
             )
             raise UnregisteredObjectFactoryError(msg)
