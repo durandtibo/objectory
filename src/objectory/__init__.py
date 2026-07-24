@@ -2,13 +2,22 @@ r"""Contain the main features of the ``objectory`` package."""
 
 from __future__ import annotations
 
-__all__ = ["OBJECT_INIT", "OBJECT_TARGET", "AbstractFactory", "Registry", "__version__", "factory"]
+__all__ = [
+    "OBJECT_INIT",
+    "OBJECT_TARGET",
+    "AbstractFactory",
+    "Registry",
+    "__version__",
+    "factory",
+    "resolve_object",
+]
 
 from importlib.metadata import PackageNotFoundError, version
 
 from objectory.abstract_factory import AbstractFactory
 from objectory.constants import OBJECT_INIT, OBJECT_TARGET
 from objectory.registry import Registry
+from objectory.resolve import resolve_object
 from objectory.universal import factory
 
 try:
