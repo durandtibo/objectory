@@ -50,7 +50,7 @@ trainer2 = Trainer({"_target_": "__main__.SGD", "lr": 0.1})
 
 ## Function Signature
 
-```python notest
+```text
 def resolve_object(obj: T | dict[str, Any], cls: type[T] = object) -> T
 ```
 
