@@ -170,6 +170,30 @@ class MyBear:
     pass
 ```
 
+:warning: Accessing an unknown attribute (e.g. `registry.other`) is not a read-only
+operation: it implicitly creates and stores a new sub-registry under that name, even for a
+typo or a plain `hasattr` check. If you want to create a sub-registry without relying on this
+side effect, use `get_or_create` instead:
+
+```python
+from objectory import Registry
+
+registry = Registry()
+registry.get_or_create("other").register_object(...)
+```
+
+If you would rather disable auto-creation entirely, construct the registry with
+`strict=True`. Accessing an unknown attribute then raises `AttributeError` instead of
+creating a sub-registry; `get_or_create` remains the way to add sub-registries explicitly:
+
+```python
+from objectory import Registry
+
+registry = Registry(strict=True)
+registry.get_or_create("other").register_object(...)
+registry.unknown  # raises AttributeError
+```
+
 ### Register all the child classes
 
 In some cases, you may want to register a class and all its child classes.

@@ -46,13 +46,22 @@ class Registry:
         Counter()
 
         ```
+
+    Note:
+        Accessing an unknown attribute (e.g. ``registry.other``) is not a
+        read-only operation by default: it implicitly creates and stores a
+        new sub-registry under that name, even for a typo or a mere
+        ``hasattr`` check. Use :meth:`get_or_create` to make this creation
+        explicit, or pass ``strict=True`` to disable auto-creation and
+        raise ``AttributeError`` for unknown attributes instead.
     """
 
     _CLASS_FILTER = "class_filter"
 
-    def __init__(self) -> None:
+    def __init__(self, strict: bool = False) -> None:
         self._state = {}
         self._filters = {}
+        self._strict = strict
 
     def __getattr__(self, key: str) -> Registry | type:
         r"""Get the registry associated to a key.
@@ -64,6 +73,8 @@ class Registry:
             The registry associated to the key.
 
         Raises:
+            AttributeError: if the registry was created with
+                ``strict=True`` and ``key`` does not already exist.
             InvalidAttributeRegistryError: if the associated attribute
                 is not a registry.
 
@@ -75,8 +86,43 @@ class Registry:
 
             ```
         """
+        if key not in self._state and self._strict:
+            msg = (
+                f"'{type(self).__qualname__}' object has no attribute '{key}'. "
+                "This registry was created with `strict=True` so unknown attributes "
+                "are not auto-created; use `get_or_create` to create a sub-registry "
+                "explicitly."
+            )
+            raise AttributeError(msg)
+        return self.get_or_create(key)
+
+    def get_or_create(self, key: str) -> Registry:
+        r"""Get the sub-registry associated to a key, creating it first
+        if needed.
+
+        Unlike attribute access, this method makes the auto-creation of
+        sub-registries explicit, regardless of the ``strict`` setting.
+
+        Args:
+            key: The key.
+
+        Returns:
+            The sub-registry associated to the key.
+
+        Raises:
+            InvalidAttributeRegistryError: if the associated attribute
+                is not a registry.
+
+        Example:
+            ```pycon
+            >>> from collections import Counter
+            >>> registry = Registry()
+            >>> registry.get_or_create("other").register_object(Counter)
+
+            ```
+        """
         if key not in self._state:
-            self._state[key] = Registry()
+            self._state[key] = Registry(strict=self._strict)
         if self._is_registry(key):
             return self._state[key]
         msg = (
