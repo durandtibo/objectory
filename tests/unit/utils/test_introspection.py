@@ -4,7 +4,12 @@ from typing import Any
 
 import pytest
 
-from objectory.utils import get_fully_qualified_name, is_lambda_function
+from objectory.errors import IncorrectObjectFactoryError
+from objectory.utils import (
+    check_not_lambda_function,
+    get_fully_qualified_name,
+    is_lambda_function,
+)
 
 
 class Fake:
@@ -137,3 +142,22 @@ def test_is_lambda_function_regular_function() -> None:
 @pytest.mark.parametrize("obj", [-1, "abc", Fake])
 def test_is_lambda_function_non_function(obj: Any) -> None:
     assert not is_lambda_function(obj)
+
+
+##############################################
+#     Tests for check_not_lambda_function     #
+##############################################
+
+
+def test_check_not_lambda_function_lambda_raises_error() -> None:
+    with pytest.raises(IncorrectObjectFactoryError, match=r"lambda function"):
+        check_not_lambda_function(lambda x: x)
+
+
+def test_check_not_lambda_function_regular_function_does_not_raise() -> None:
+    check_not_lambda_function(fake_func)
+
+
+@pytest.mark.parametrize("obj", [-1, "abc", Fake])
+def test_check_not_lambda_function_non_function_does_not_raise(obj: Any) -> None:
+    check_not_lambda_function(obj)
