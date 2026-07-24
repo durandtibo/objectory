@@ -32,6 +32,10 @@ class Fake:
     def class_method_with_arg(cls, arg2: str) -> Fake:
         return cls(arg1=333, arg2=arg2)
 
+    @classmethod
+    def class_method_wrong_type(cls) -> str:
+        return "not a Fake instance"
+
 
 def fake_func(arg1: int, arg2: str = "abc") -> Fake:
     """Fake function to tests some functions."""
@@ -159,6 +163,15 @@ def test_instantiate_object_init_regular_method() -> None:
     with pytest.raises(TypeError, match=r"missing 1 required positional argument: 'self'"):
         # Should fail because self is not defined.
         instantiate_object(Fake, _init_="method")
+
+
+def test_instantiate_object_init_wrong_return_type() -> None:
+    with pytest.raises(
+        IncorrectObjectFactoryError,
+        match=r"`class_method_wrong_type` of .* did not return an instance of .*",
+    ):
+        # Should fail because the classmethod does not return a Fake instance.
+        instantiate_object(Fake, _init_="class_method_wrong_type")
 
 
 def test_instantiate_object_init_not_method() -> None:

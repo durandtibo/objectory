@@ -6,7 +6,11 @@ from collections import Counter, OrderedDict
 import pytest
 
 from objectory import factory
-from objectory.errors import AbstractClassFactoryError, IncorrectObjectFactoryError
+from objectory.errors import (
+    AbstractClassFactoryError,
+    IncorrectObjectFactoryError,
+    UnregisteredObjectFactoryError,
+)
 
 
 class BaseFakeClass(ABC):
@@ -186,13 +190,13 @@ def test_factory_abstract_object() -> None:
 
 def test_factory_non_existing_object() -> None:
     """Test that factory raises error for non-existing target."""
-    with pytest.raises(RuntimeError, match=r"The target object does not exist:"):
+    with pytest.raises(UnregisteredObjectFactoryError, match=r"The target object does not exist:"):
         factory("collections.NotACounter")
 
 
 def test_factory_non_existing_module() -> None:
     """Test that factory raises error for non-existing module."""
-    with pytest.raises(RuntimeError, match=r"The target object does not exist:"):
+    with pytest.raises(UnregisteredObjectFactoryError, match=r"The target object does not exist:"):
         factory("non_existing_module.SomeClass")
 
 
@@ -206,13 +210,13 @@ def test_factory_invalid_init_method() -> None:
 
 def test_factory_empty_target() -> None:
     """Test that factory raises error for empty target string."""
-    with pytest.raises((RuntimeError, ValueError)):
+    with pytest.raises((UnregisteredObjectFactoryError, ValueError)):
         factory("")
 
 
 def test_factory_malformed_target() -> None:
     """Test that factory raises error for malformed target."""
-    with pytest.raises((RuntimeError, ImportError)):
+    with pytest.raises((UnregisteredObjectFactoryError, ImportError)):
         factory("collections.")
 
 

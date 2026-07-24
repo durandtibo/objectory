@@ -6,6 +6,7 @@ __all__ = ["factory"]
 
 from typing import Any
 
+from objectory.errors import UnregisteredObjectFactoryError
 from objectory.utils import import_object, instantiate_object
 
 
@@ -34,7 +35,7 @@ def factory(_target_: str, *args: Any, _init_: str = "__init__", **kwargs: Any) 
         The instantiated object with the given parameters.
 
     Raises:
-        RuntimeError: if the target cannot be found.
+        UnregisteredObjectFactoryError: if the target cannot be found.
         TypeError: if ``_target_`` is not a string.
 
     Example:
@@ -49,5 +50,5 @@ def factory(_target_: str, *args: Any, _init_: str = "__init__", **kwargs: Any) 
         target = import_object(_target_)
     except ImportError as e:
         msg = f"The target object does not exist: {_target_}"
-        raise RuntimeError(msg) from e
+        raise UnregisteredObjectFactoryError(msg) from e
     return instantiate_object(target, *args, _init_=_init_, **kwargs)
