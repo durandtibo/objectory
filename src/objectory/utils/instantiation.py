@@ -139,7 +139,8 @@ def _instantiate_class_object(
     Raises:
         AbstractClassFactoryError: if it is an abstract class.
         IncorrectObjectFactoryError: if it is not possible to
-            instantiate the object.
+            instantiate the object, or if the object returned by
+            ``_init_`` is not an instance of ``cls``.
     """
     if inspect.isabstract(cls):
         msg = f"Cannot instantiate the class {cls} because it is an abstract class."
@@ -155,6 +156,11 @@ def _instantiate_class_object(
     if not callable(init_fn):
         msg = f"`{_init_}` attribute of {cls} is not callable"
         raise IncorrectObjectFactoryError(msg)
-    if _init_ == "__new__":
-        return init_fn(cls, *args, **kwargs)
-    return init_fn(*args, **kwargs)
+    obj = init_fn(cls, *args, **kwargs) if _init_ == "__new__" else init_fn(*args, **kwargs)
+    if not isinstance(obj, cls):
+        msg = (
+            f"`{_init_}` of {cls} did not return an instance of {cls} "
+            f"(received: {obj!r} of type {type(obj)})"
+        )
+        raise IncorrectObjectFactoryError(msg)
+    return obj
