@@ -51,6 +51,7 @@ dev = [
     "docformatter[tomli] >=1.7,<2.0",
     "feu[all] >=0.6.2,<1.0",
     "invoke>=2.2.0,<4.0",
+    "mutmut >=3.4,<4.0",
     "pre-commit >=4.5,<5.0",
     "pygments >=2.19,<3.0",
     "pyright >=1.1.407,<2.0",
@@ -75,6 +76,11 @@ documentation = "https://durandtibo.github.io/objectory/"
 
 [tool.uv.pip]
 torch-backend = "auto"
+
+[tool.mutmut]
+source_paths = ["src/objectory/"]
+pytest_add_cli_args_test_selection = ["tests/unit/"]
+pytest_add_cli_args = ["-x", "-q"]
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
