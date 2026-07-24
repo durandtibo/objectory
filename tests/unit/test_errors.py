@@ -7,6 +7,7 @@ from objectory.errors import (
     AbstractFactoryTypeError,
     FactoryError,
     IncorrectObjectFactoryError,
+    IncorrectTypeFactoryError,
     InvalidAttributeRegistryError,
     InvalidNameFactoryError,
     UnregisteredObjectFactoryError,
@@ -160,12 +161,34 @@ def test_invalid_attribute_registry_error_can_be_caught_as_factory_error() -> No
         raise InvalidAttributeRegistryError(msg)
 
 
+def test_incorrect_type_factory_error_inherits_from_factory_error() -> None:
+    """Test that IncorrectTypeFactoryError inherits from
+    FactoryError."""
+    assert issubclass(IncorrectTypeFactoryError, FactoryError)
+
+
+def test_incorrect_type_factory_error_can_be_raised() -> None:
+    """Test that IncorrectTypeFactoryError can be raised."""
+    msg = "Incorrect type"
+    with pytest.raises(IncorrectTypeFactoryError, match=msg):
+        raise IncorrectTypeFactoryError(msg)
+
+
+def test_incorrect_type_factory_error_can_be_caught_as_factory_error() -> None:
+    """Test that IncorrectTypeFactoryError can be caught as
+    FactoryError."""
+    msg = "Incorrect type"
+    with pytest.raises(FactoryError, match=msg):
+        raise IncorrectTypeFactoryError(msg)
+
+
 def test_all_factory_errors_inherit_from_factory_error() -> None:
     """Test that all specific factory errors inherit from
     FactoryError."""
     error_types = [
         UnregisteredObjectFactoryError,
         IncorrectObjectFactoryError,
+        IncorrectTypeFactoryError,
         AbstractClassFactoryError,
         InvalidNameFactoryError,
         AbstractFactoryTypeError,

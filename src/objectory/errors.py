@@ -7,6 +7,7 @@ __all__ = [
     "AbstractFactoryTypeError",
     "FactoryError",
     "IncorrectObjectFactoryError",
+    "IncorrectTypeFactoryError",
     "InvalidAttributeRegistryError",
     "InvalidNameFactoryError",
     "UnregisteredObjectFactoryError",
@@ -53,6 +54,16 @@ class InvalidNameFactoryError(FactoryError):
 
     This exception is raised when you try to use an invalid name to
     register an object to a factory.
+    """
+
+
+class IncorrectTypeFactoryError(FactoryError):
+    r"""Define an exception that is raised when a resolved object does
+    not have the expected type.
+
+    This exception is raised when an object, whether provided directly
+    or instantiated from a configuration, is not an instance of the
+    expected class.
     """
 
 

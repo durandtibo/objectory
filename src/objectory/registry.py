@@ -17,10 +17,10 @@ from objectory.errors import (
 )
 from objectory.utils import (
     all_child_classes,
+    check_not_lambda_function,
     get_fully_qualified_name,
     import_object,
     instantiate_object,
-    is_lambda_function,
     resolve_name,
 )
 
@@ -401,6 +401,9 @@ class Registry:
 
         If you set this filter, you cannot register functions.
         To unset this filter, you can use ``set_class_filter(None)``.
+        The filter is only enforced at registration time: it does
+        not retroactively validate objects that were already
+        registered before the filter was set.
 
         Args:
             cls: The class to use as filter. Only the child
@@ -444,12 +447,7 @@ class Registry:
             IncorrectObjectFactoryError: if it is an invalid
                 object for this factory.
         """
-        if is_lambda_function(obj):
-            msg = (
-                "It is not possible to register a lambda function. "
-                "Please use a regular function instead"
-            )
-            raise IncorrectObjectFactoryError(msg)
+        check_not_lambda_function(obj)
 
         filter_class = self._filters.get(self._CLASS_FILTER, None)
         if filter_class is not None:

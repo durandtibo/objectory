@@ -8,10 +8,12 @@ are lambda functions.
 
 from __future__ import annotations
 
-__all__ = ["get_fully_qualified_name", "is_lambda_function"]
+__all__ = ["check_not_lambda_function", "get_fully_qualified_name", "is_lambda_function"]
 
 import inspect
 from typing import Any
+
+from objectory.errors import IncorrectObjectFactoryError
 
 
 def get_fully_qualified_name(obj: Any) -> str:
@@ -94,3 +96,31 @@ def is_lambda_function(obj: Any) -> bool:
     if not inspect.isfunction(obj):
         return False
     return obj.__name__ == "<lambda>"
+
+
+def check_not_lambda_function(obj: Any) -> None:
+    r"""Raise an exception if the object is a lambda function.
+
+    Lambda functions cannot be registered because they cannot be
+    reliably serialized or referenced by name.
+
+    Args:
+        obj: The object to check. Can be any Python object.
+
+    Raises:
+        IncorrectObjectFactoryError: if the object is a lambda
+            function.
+
+    Example:
+        ```pycon
+        >>> from objectory.utils import check_not_lambda_function
+        >>> check_not_lambda_function(1)
+
+        ```
+    """
+    if is_lambda_function(obj):
+        msg = (
+            "It is not possible to register a lambda function. "
+            "Please use a regular function instead"
+        )
+        raise IncorrectObjectFactoryError(msg)

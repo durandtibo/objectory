@@ -21,10 +21,10 @@ from objectory.errors import (
 )
 from objectory.utils import (
     all_child_classes,
+    check_not_lambda_function,
     get_fully_qualified_name,
     import_object,
     instantiate_object,
-    is_lambda_function,
     resolve_name,
 )
 
@@ -310,12 +310,7 @@ class AbstractFactory(ABCMeta):
         if not (inspect.isclass(obj) or inspect.isfunction(obj)):
             msg = f"It is possible to register only a class or a function (received: {obj})"
             raise IncorrectObjectFactoryError(msg)
-        if is_lambda_function(obj):
-            msg = (
-                "It is not possible to register a lambda function. "
-                "Please use a regular function instead"
-            )
-            raise IncorrectObjectFactoryError(msg)
+        check_not_lambda_function(obj)
 
 
 def register(cls: AbstractFactory) -> Callable:
