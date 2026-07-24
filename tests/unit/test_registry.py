@@ -274,6 +274,60 @@ def test_get_attribute_invalid_subregistry() -> None:
         registry.other.register_object(ClassToRegister)
 
 
+def test_get_or_create_new() -> None:
+    registry = Registry()
+    sub_registry = registry.get_or_create("other")
+    assert isinstance(sub_registry, Registry)
+    assert registry._state == {"other": sub_registry}
+
+
+def test_get_or_create_existing() -> None:
+    registry = Registry()
+    registry.other.register_object(ClassToRegister)
+    assert registry.get_or_create("other") is registry.other
+
+
+def test_get_or_create_invalid_subregistry() -> None:
+    registry = Registry()
+    registry.register_object(ClassToRegister, name="other")
+    with pytest.raises(
+        InvalidAttributeRegistryError,
+        match=(
+            r"The attribute `other` is not a registry. You can use this function "
+            "only to access a Registry object."
+        ),
+    ):
+        registry.get_or_create("other")
+
+
+def test_getattr_strict_unknown_attribute() -> None:
+    registry = Registry(strict=True)
+    with pytest.raises(AttributeError, match=r"has no attribute 'other'"):
+        registry.other  # noqa: B018
+    assert registry._state == {}
+
+
+def test_getattr_strict_known_attribute() -> None:
+    registry = Registry(strict=True)
+    registry.get_or_create("other").register_object(ClassToRegister)
+    assert registry.other.registered_names() == {"tests.unit.test_registry.ClassToRegister"}
+
+
+def test_getattr_strict_propagates_to_sub_registries() -> None:
+    registry = Registry(strict=True)
+    sub_registry = registry.get_or_create("other")
+    assert sub_registry._strict is True
+    with pytest.raises(AttributeError):
+        sub_registry.unknown  # noqa: B018
+
+
+def test_getattr_non_strict_creates_sub_registry() -> None:
+    registry = Registry()
+    assert "other" not in registry._state
+    registry.other  # noqa: B018
+    assert "other" in registry._state
+
+
 def test_register_child_classes_ignore_abstract_foo() -> None:
     registry = Registry()
     registry.register_child_classes(Foo)
