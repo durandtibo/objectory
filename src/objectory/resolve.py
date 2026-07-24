@@ -65,7 +65,7 @@ def resolve_object(obj: T | dict[str, Any], cls: type[T] = object) -> T:
 
         ```
     """
-    cls_name = getattr(cls, "__qualname__", str(cls))
+    cls_name = cls.__qualname__
     if isinstance(obj, dict):
         if OBJECT_TARGET not in obj:
             msg = (
