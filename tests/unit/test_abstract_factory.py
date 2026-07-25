@@ -545,3 +545,38 @@ def test_is_abstract_factory_false() -> None:
 
 def test_is_abstract_factory_false_function() -> None:
     assert not is_abstract_factory(function_to_register)
+
+
+##########################################
+#     Tests for thread safety           #
+##########################################
+
+
+def test_register_object_thread_safety() -> None:
+    import threading
+
+    class BaseClassForThreadSafety(metaclass=AbstractFactory):
+        pass
+
+    n_threads = 16
+    n_objects_per_thread = 25
+
+    def make_class(i: int) -> type:
+        return type(f"GeneratedThreadSafeClass{i}", (), {})
+
+    classes = [make_class(i) for i in range(n_threads * n_objects_per_thread)]
+
+    def worker(start: int) -> None:
+        for cls in classes[start : start + n_objects_per_thread]:
+            BaseClassForThreadSafety.register_object(cls)
+
+    threads = [
+        threading.Thread(target=worker, args=(i * n_objects_per_thread,)) for i in range(n_threads)
+    ]
+    for thread in threads:
+        thread.start()
+    for thread in threads:
+        thread.join()
+
+    # +1 for BaseClassForThreadSafety itself, which is auto-registered.
+    assert len(BaseClassForThreadSafety.inheritors) == n_threads * n_objects_per_thread + 1

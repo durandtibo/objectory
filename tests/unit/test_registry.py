@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import warnings
 from abc import ABC, abstractmethod
 from collections import OrderedDict
 from typing import TYPE_CHECKING, TypeVar
@@ -324,8 +325,17 @@ def test_getattr_strict_propagates_to_sub_registries() -> None:
 def test_getattr_non_strict_creates_sub_registry() -> None:
     registry = Registry()
     assert "other" not in registry._state
-    registry.other  # noqa: B018
+    with pytest.warns(FutureWarning, match=r"implicitly creates a new sub-registry"):
+        registry.other  # noqa: B018
     assert "other" in registry._state
+
+
+def test_getattr_non_strict_known_attribute_no_warning() -> None:
+    registry = Registry()
+    registry.get_or_create("other")
+    with warnings.catch_warnings():
+        warnings.simplefilter("error")
+        registry.other  # noqa: B018
 
 
 def test_register_child_classes_ignore_abstract_foo() -> None:
@@ -685,6 +695,33 @@ def test_registry_len_2() -> None:
     registry.register_object(ClassToRegister)
     registry.other.register_object(ClassToRegister)
     assert len(registry) == 2
+
+
+def test_registry_register_object_thread_safety() -> None:
+    import threading
+
+    registry = Registry()
+    n_threads = 16
+    n_objects_per_thread = 25
+
+    def make_class(i: int) -> type:
+        return type(f"GeneratedClass{i}", (), {})
+
+    classes = [make_class(i) for i in range(n_threads * n_objects_per_thread)]
+
+    def worker(start: int) -> None:
+        for cls in classes[start : start + n_objects_per_thread]:
+            registry.register_object(cls, name=cls.__name__)
+
+    threads = [
+        threading.Thread(target=worker, args=(i * n_objects_per_thread,)) for i in range(n_threads)
+    ]
+    for thread in threads:
+        thread.start()
+    for thread in threads:
+        thread.join()
+
+    assert len(registry) == n_threads * n_objects_per_thread
 
 
 def test_registered_names() -> None:

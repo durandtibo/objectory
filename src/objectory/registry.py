@@ -6,6 +6,8 @@ __all__ = ["Registry"]
 
 import inspect
 import logging
+import threading
+import warnings
 from collections.abc import Callable
 from typing import Any, TypeVar
 
@@ -51,9 +53,16 @@ class Registry:
         Accessing an unknown attribute (e.g. ``registry.other``) is not a
         read-only operation by default: it implicitly creates and stores a
         new sub-registry under that name, even for a typo or a mere
-        ``hasattr`` check. Use :meth:`get_or_create` to make this creation
+        ``hasattr`` check. This behavior is deprecated and emits a
+        ``FutureWarning``. Use :meth:`get_or_create` to make this creation
         explicit, or pass ``strict=True`` to disable auto-creation and
-        raise ``AttributeError`` for unknown attributes instead.
+        raise ``AttributeError`` for unknown attributes instead (this will
+        become the default behavior in a future release).
+
+    Note:
+        Mutating operations (e.g. ``register_object``, ``unregister``,
+        ``clear``) are synchronized with an internal lock, so a single
+        ``Registry`` instance can safely be shared across threads.
     """
 
     _CLASS_FILTER = "class_filter"
@@ -62,6 +71,7 @@ class Registry:
         self._state = {}
         self._filters = {}
         self._strict = strict
+        self._lock = threading.RLock()
 
     def __getattr__(self, key: str) -> Registry | type:
         r"""Get the registry associated to a key.
@@ -86,14 +96,24 @@ class Registry:
 
             ```
         """
-        if key not in self._state and self._strict:
-            msg = (
-                f"'{type(self).__qualname__}' object has no attribute '{key}'. "
-                "This registry was created with `strict=True` so unknown attributes "
-                "are not auto-created; use `get_or_create` to create a sub-registry "
-                "explicitly."
+        if key not in self._state:
+            if self._strict:
+                msg = (
+                    f"'{type(self).__qualname__}' object has no attribute '{key}'. "
+                    "This registry was created with `strict=True` so unknown attributes "
+                    "are not auto-created; use `get_or_create` to create a sub-registry "
+                    "explicitly."
+                )
+                raise AttributeError(msg)
+            warnings.warn(
+                f"Accessing the unknown attribute '{key}' implicitly creates a new "
+                "sub-registry. This is deprecated and will raise an `AttributeError` "
+                "in a future release. Use `get_or_create` to create a sub-registry "
+                "explicitly, or pass `strict=True` to the registry constructor to "
+                "opt into the future behavior now.",
+                FutureWarning,
+                stacklevel=2,
             )
-            raise AttributeError(msg)
         return self.get_or_create(key)
 
     def get_or_create(self, key: str) -> Registry:
@@ -121,10 +141,11 @@ class Registry:
 
             ```
         """
-        if key not in self._state:
-            self._state[key] = Registry(strict=self._strict)
-        if self._is_registry(key):
-            return self._state[key]
+        with self._lock:
+            if key not in self._state:
+                self._state[key] = Registry(strict=self._strict)
+            if self._is_registry(key):
+                return self._state[key]
         msg = (
             f"The attribute `{key}` is not a registry. You can use this function only to access "
             "a Registry object."
@@ -173,11 +194,12 @@ class Registry:
 
             ```
         """
-        if nested:  # If True, clear all the sub-registries.
-            for value in self._state.values():
-                if isinstance(value, Registry):
-                    value.clear(nested)
-        self._state.clear()
+        with self._lock:
+            if nested:  # If True, clear all the sub-registries.
+                for value in self._state.values():
+                    if isinstance(value, Registry):
+                        value.clear(nested)
+            self._state.clear()
 
     def clear_filters(self, nested: bool = False) -> None:
         r"""Clear all the filters of the registry.
@@ -200,11 +222,12 @@ class Registry:
 
             ```
         """
-        if nested:  # If True, clear all the sub-registries.
-            for value in self._state.values():
-                if isinstance(value, Registry):
-                    value.clear_filters(nested)
-        self._filters.clear()
+        with self._lock:
+            if nested:  # If True, clear all the sub-registries.
+                for value in self._state.values():
+                    if isinstance(value, Registry):
+                        value.clear_filters(nested)
+            self._filters.clear()
 
     def factory(self, _target_: str, *args: Any, _init_: str = "__init__", **kwargs: Any) -> Any:
         r"""Instantiate dynamically an object given its configuration.
@@ -365,16 +388,17 @@ class Registry:
             msg = f"The name has to be a string (received: {name})"
             raise TypeError(msg)
 
-        if name in self._state:
-            if self._is_registry(name):
-                msg = f"The name `{name}` is already used by a sub-registry"
-                raise InvalidNameFactoryError(msg)
-            if self._state[name] != obj:
-                logger.warning(
-                    f"The name `{name}` already exists and its value will be replaced by {obj}"
-                )
+        with self._lock:
+            if name in self._state:
+                if self._is_registry(name):
+                    msg = f"The name `{name}` is already used by a sub-registry"
+                    raise InvalidNameFactoryError(msg)
+                if self._state[name] != obj:
+                    logger.warning(
+                        f"The name `{name}` already exists and its value will be replaced by {obj}"
+                    )
 
-        self._state[name] = obj
+            self._state[name] = obj
 
     def registered_names(self, include_registry: bool = True) -> set[str]:
         r"""Get the names of all the registered objects.
@@ -433,13 +457,15 @@ class Registry:
 
             ```
         """
-        resolved_name = self._resolve_name(name)
-        if resolved_name is None or not self._is_name_registered(resolved_name):
-            msg = (
-                f"It is not possible to remove an object which is not registered (received: {name})"
-            )
-            raise UnregisteredObjectFactoryError(msg)
-        self._state.pop(resolved_name)
+        with self._lock:
+            resolved_name = self._resolve_name(name)
+            if resolved_name is None or not self._is_name_registered(resolved_name):
+                msg = (
+                    "It is not possible to remove an object which is not registered "
+                    f"(received: {name})"
+                )
+                raise UnregisteredObjectFactoryError(msg)
+            self._state.pop(resolved_name)
 
     def set_class_filter(self, cls: type | None) -> None:
         r"""Set the class filter so only the child classes of this class
@@ -470,14 +496,15 @@ class Registry:
 
             ```
         """
-        if cls is None:
-            self._filters.pop(self._CLASS_FILTER, None)
-            return
+        with self._lock:
+            if cls is None:
+                self._filters.pop(self._CLASS_FILTER, None)
+                return
 
-        if not inspect.isclass(cls):
-            msg = f"The class filter has to be a class (received: {cls})"
-            raise TypeError(msg)
-        self._filters[self._CLASS_FILTER] = cls
+            if not inspect.isclass(cls):
+                msg = f"The class filter has to be a class (received: {cls})"
+                raise TypeError(msg)
+            self._filters[self._CLASS_FILTER] = cls
 
     def _check_object(self, obj: type | Callable) -> None:
         r"""Check if the object is valid for this registry before
@@ -519,17 +546,18 @@ class Registry:
             UnregisteredObjectFactoryError: if it is not possible
                 to find the target.
         """
-        resolved_name = self._resolve_name(name)
-        if resolved_name is None:
-            msg = (
-                f"Unable to create the object `{name}` because it is not registered. "
-                f"Registered objects of {type(self).__qualname__} are "
-                f"{self.registered_names(include_registry=False)}."
-            )
-            raise UnregisteredObjectFactoryError(msg)
-        if not self._is_name_registered(resolved_name):
-            self.register_object(import_object(resolved_name))
-        return self._state[resolved_name]
+        with self._lock:
+            resolved_name = self._resolve_name(name)
+            if resolved_name is None:
+                msg = (
+                    f"Unable to create the object `{name}` because it is not registered. "
+                    f"Registered objects of {type(self).__qualname__} are "
+                    f"{self.registered_names(include_registry=False)}."
+                )
+                raise UnregisteredObjectFactoryError(msg)
+            if not self._is_name_registered(resolved_name):
+                self.register_object(import_object(resolved_name))
+            return self._state[resolved_name]
 
     def _is_name_registered(self, name: str) -> bool:
         r"""Indicate if the name exists or not in the registry.

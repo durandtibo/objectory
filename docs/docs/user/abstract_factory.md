@@ -525,6 +525,31 @@ Keep in mind that each class has to be loaded at least once to be registered.
 The error `AbstractClassAbstractFactoryError` will be raised if you try to instantiate an abstract
 class because an abstract class cannot be instantiated.
 
+## Thread safety
+
+Classes that use the `AbstractFactory` metaclass can safely be registered and instantiated
+from multiple threads. All the mutating operations (`register_object`, `unregister`, and the
+implicit registration done by `factory`) are synchronized with an internal lock shared by the
+base factory class and all its child classes.
+
+```python
+from concurrent.futures import ThreadPoolExecutor
+
+from objectory import AbstractFactory
+
+
+class BaseClass(metaclass=AbstractFactory):
+    pass
+
+
+def create_child_class(i: int) -> type:
+    return type(f"ChildClass{i}", (BaseClass,), {})
+
+
+with ThreadPoolExecutor(max_workers=8) as executor:
+    child_classes = list(executor.map(create_child_class, range(100)))
+```
+
 ## Limitations
 
 The  `AbstractFactory` metaclass adds some attributes and methods to the classes.

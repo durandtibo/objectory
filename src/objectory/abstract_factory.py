@@ -11,6 +11,7 @@ __all__ = ["AbstractFactory", "is_abstract_factory", "register", "register_child
 
 import inspect
 import logging
+import threading
 from abc import ABCMeta
 from typing import TYPE_CHECKING, Any
 
@@ -56,6 +57,12 @@ class AbstractFactory(ABCMeta):
             class body. This becomes the ``__dict__`` attribute of the
             class.
 
+    Note:
+        Mutating operations (e.g. ``register_object``, ``unregister``)
+        are synchronized with an internal lock shared by a factory
+        hierarchy, so classes using this metaclass can safely be
+        registered from multiple threads.
+
     Example:
         ```pycon
         >>> from objectory import AbstractFactory
@@ -75,6 +82,7 @@ class AbstractFactory(ABCMeta):
     def __init__(cls, name: str, bases: tuple[type, ...], dct: dict[str, Any]) -> None:
         if not hasattr(cls, "_abstractfactory_inheritors"):
             cls._abstractfactory_inheritors = {}
+            cls._abstractfactory_lock = threading.RLock()
         cls.register_object(cls)
         super().__init__(name, bases, dct)
 
@@ -190,13 +198,16 @@ class AbstractFactory(ABCMeta):
         """
         cls._abstractfactory_check_object(obj)
         name = get_fully_qualified_name(obj)
-        if (
-            cls._abstractfactory_is_name_registered(name)
-            and cls._abstractfactory_inheritors[name] != obj
-        ):
-            logger.warning(f"The class {name} already exists. The new class replaces the old one")
+        with cls._abstractfactory_lock:
+            if (
+                cls._abstractfactory_is_name_registered(name)
+                and cls._abstractfactory_inheritors[name] != obj
+            ):
+                logger.warning(
+                    f"The class {name} already exists. The new class replaces the old one"
+                )
 
-        cls._abstractfactory_inheritors[name] = obj
+            cls._abstractfactory_inheritors[name] = obj
 
     def unregister(cls, name: str) -> None:
         r"""Remove a registered object from the factory.
@@ -230,13 +241,15 @@ class AbstractFactory(ABCMeta):
 
             ```
         """
-        resolved_name = cls._abstractfactory_resolve_name(name)
-        if resolved_name is None or not cls._abstractfactory_is_name_registered(resolved_name):
-            msg = (
-                f"It is not possible to remove an object which is not registered (received: {name})"
-            )
-            raise UnregisteredObjectFactoryError(msg)
-        cls._abstractfactory_inheritors.pop(resolved_name)
+        with cls._abstractfactory_lock:
+            resolved_name = cls._abstractfactory_resolve_name(name)
+            if resolved_name is None or not cls._abstractfactory_is_name_registered(resolved_name):
+                msg = (
+                    "It is not possible to remove an object which is not registered "
+                    f"(received: {name})"
+                )
+                raise UnregisteredObjectFactoryError(msg)
+            cls._abstractfactory_inheritors.pop(resolved_name)
 
     def _abstractfactory_get_target_from_name(cls, name: str) -> type | Callable:
         """Get the class or function to use given its name.
@@ -251,17 +264,18 @@ class AbstractFactory(ABCMeta):
             UnregisteredObjectFactoryError: if it is not possible
                 to find the target.
         """
-        resolved_name = cls._abstractfactory_resolve_name(name)
-        if resolved_name is None:
-            msg = (
-                f"Unable to create the object `{name}` because it is not registered. "
-                f"Registered objects of {cls.__qualname__} "
-                f"are {set(cls._abstractfactory_inheritors.keys())}"
-            )
-            raise UnregisteredObjectFactoryError(msg)
-        if not cls._abstractfactory_is_name_registered(resolved_name):
-            cls.register_object(import_object(resolved_name))
-        return cls._abstractfactory_inheritors[resolved_name]
+        with cls._abstractfactory_lock:
+            resolved_name = cls._abstractfactory_resolve_name(name)
+            if resolved_name is None:
+                msg = (
+                    f"Unable to create the object `{name}` because it is not registered. "
+                    f"Registered objects of {cls.__qualname__} "
+                    f"are {set(cls._abstractfactory_inheritors.keys())}"
+                )
+                raise UnregisteredObjectFactoryError(msg)
+            if not cls._abstractfactory_is_name_registered(resolved_name):
+                cls.register_object(import_object(resolved_name))
+            return cls._abstractfactory_inheritors[resolved_name]
 
     def _abstractfactory_resolve_name(cls, name: str) -> str | None:
         r"""Try to resolve the name.

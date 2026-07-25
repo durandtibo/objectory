@@ -172,8 +172,9 @@ class MyBear:
 
 :warning: Accessing an unknown attribute (e.g. `registry.other`) is not a read-only
 operation: it implicitly creates and stores a new sub-registry under that name, even for a
-typo or a plain `hasattr` check. If you want to create a sub-registry without relying on this
-side effect, use `get_or_create` instead:
+typo or a plain `hasattr` check. This behavior is deprecated and emits a `FutureWarning`;
+it will raise an `AttributeError` instead in a future release. If you want to create a
+sub-registry without relying on this side effect, use `get_or_create` instead:
 
 ```python
 from objectory import Registry
@@ -574,4 +575,28 @@ from objectory import Registry
 
 registry = Registry()
 registry.clear_filters(nested=True)
+```
+
+## Thread safety
+
+A `Registry` instance can safely be shared and mutated from multiple threads.
+All the mutating operations (`register_object`, `unregister`, `clear`, `clear_filters`,
+`set_class_filter`, `get_or_create`, and the implicit registration done by `factory`) are
+synchronized with an internal lock, so concurrent calls will not corrupt the internal state.
+
+```python
+from concurrent.futures import ThreadPoolExecutor
+
+from objectory import Registry
+
+registry = Registry()
+
+
+class ClassToRegister:
+    pass
+
+
+with ThreadPoolExecutor(max_workers=8) as executor:
+    for _ in range(100):
+        executor.submit(registry.register_object, ClassToRegister)
 ```
