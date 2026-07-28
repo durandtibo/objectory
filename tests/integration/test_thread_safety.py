@@ -52,8 +52,8 @@ def test_registry_concurrent_register_and_factory() -> None:
 
 def test_registry_concurrent_get_or_create_sub_registries() -> None:
     r"""Concurrently create the same sub-registries from multiple
-    threads and check that a single sub-registry instance is created
-    per key."""
+    threads and check that a single sub-registry instance is created per
+    key."""
     registry = Registry()
     n_keys = 20
     n_workers_per_key = 25
